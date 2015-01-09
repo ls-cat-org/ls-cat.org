@@ -1,0 +1,211 @@
+<!--#include virtual="header.html" -->
+<span class="navie">
+  <table width="1024" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>
+        <p><a href="index.html">Home</a> > <a href="using.html">Using
+        LS-CAT</a> > <a href="dataCollection.html">Data Collection</a>
+        ></p>
+      </td>
+    </tr>
+  </table>
+</span>
+
+
+<table width="1024" cellpadding="0" cellspacing="0"><tr>
+
+<td colspan="2">
+<div class="talkyText">
+<h3>Collecting Data at LS-CAT</h3>
+
+<b>Preliminaries</b>
+<p>Your ability to collect data relies on an accurate ESAF.  In
+addition to entering accurate information about the samples and
+chemicals being brought to LS-CAT, you must be sure the email address
+and badge number are correct for everyone listed.  Directories and
+account names are automatically generated based on the email address
+and badge number for those listed on the ESAF.  The home directories
+and accounts are not generated if the email address and/or badge number
+are incorrect.  <b>In particular, if the Principle Investigator's
+email address is not legal then it will not be possible to collect
+data at LS-CAT.</b>  Likewise, it will not be possible to use any
+remote LS-CAT services without an accurate badge number and email
+address.</p>
+
+<b>Pins, Caps, and Vials</b>
+<p>We support 18mm pins (22mm overall length) as described <a href="pinsCapsVials.html">here.</a>
+
+<tr>
+<td>
+
+<h4>Starting at the Beamline</h4>
+<p>Currently LS-CAT users need to use 2 computers to collect data.  We
+call one the MD2 computer and the other the Mar computer.</p>
+
+<ul>
+  <li>The MD2 computer</li>
+  <ul>
+    <li>If needed, log in with the user name "lscat".  The staff will tell you the password.</li>
+    <li>Start up the MD2 program by double clicking the "StartMe" icon.</li>
+    <li>There are no user accounts on this computer and your data is not accessible here.</li>
+  </ul>
+  <li>The Mar computer</li>
+  <ul>
+    <li>If someone is already logged in, log them out first
+    (alt-control-backspace can be used if needed)</li>
+
+    <li>Log in: your account name is the letter "e" followed by your
+    APS ESAF experiment number.  The staff will tell you your
+    password.</li>
+
+    <li>Use the system preferences to turn off the screen saver.  When
+    the Mar computer goes into screen saver mode it will add an
+    additional 5 seconds per frame to collect data.</li>
+
+    <li>In the first workspace open a terminal session (right-click
+    somewhere on the desktop for a menu that includes opening a
+    terminal session)</li>
+
+    <li>Type "<tt>marccd</tt>".  The marccd program should start up.
+    The program will take two exposures to use as the background
+    within about 10 seconds of starting.</li>
+
+    <li>Check that the detector cooler is on, contact the staff if
+    it's not.</li>
+
+    <li>In the second workspace open a new terminal session and
+    type <tt>21D</tt> on the 21-ID-D station, <tt>21F</tt> on the
+    21-ID-D station, and <tt>21G</tt> on the 21-ID-G station.  Please
+    use the correct station letter as you'll likely ruin someone elses
+    experiment otherwise.</li>
+  </ul>
+
+</ul>
+</td>
+<td width="400">
+
+<table cellpadding="0" border="1">
+<tr><td colspan="2" align="center">
+  <p>Screen shots of the MD2 phases: Sample Transfer, Centering, Data
+  Collection, and Beam Location.  Click on a screen shot to see a brief
+  explanation and a link to a full scale version of the screen
+  shot</p>
+</td></tr>
+
+<tr>
+  <td>
+    <span onclick="TagToTip('sampleTransfer', STICKY, true, OFFSETY, -200, OFFSETX, -900, OPACITY, 95, CLOSEBTN, true)"  class="ss"> 
+      <!-- <a target="imgs" href="sampleTransfer.png"> -->
+        <img src="sampleTransfer-200.png"/>
+      <!-- </a> -->
+      <p>Sample Transfer Phase</p>
+    </span>
+  </td>
+<!--
+</tr>
+<tr>
+-->
+  <td>
+    <span onclick="TagToTip('centering0', STICKY, true, OFFSETY, -200, OFFSETX, -900, OPACITY, 95, CLOSEBTN, true)"      class="ss">
+      <!-- <a target="imgs" href="centering0.png"> -->
+        <img src="centering0-200.png"/>
+      <!-- </a> -->
+      <p>Centering Phase</p>
+    </span>
+  </td>
+</tr>
+<tr>
+  <td>
+    <span onclick="TagToTip('dataCollection2', STICKY, true, OFFSETY, -200, OFFSETX, -900, OPACITY, 95, CLOSEBTN, true)" class="ss">
+      <!-- <a target="imgs" href="dataCollection2.png"> -->
+        <img src="dataCollection2-200.png"/>
+      <!-- </a> -->
+      <p>Data Colleciton Phase</p>
+    </span>
+  </td>
+<!--
+</tr>
+<tr>
+-->
+  <td>
+    <span onclick="TagToTip('beamLocation', STICKY, true, OFFSETY, -200, OFFSETX, -900, OPACITY, 95, CLOSEBTN, true)"    class="ss">
+      <!-- <a target="imgs" href="beamLocation.png"> -->
+        <img src="beamLocation200.png"/>
+      <!-- </a> -->
+      <p>Beam Location Phase</p>
+    </span>
+  </td>
+</tr>
+</table>
+
+
+</td></tr>
+<tr><td colspan="2">
+
+<p>Here are some useful files:</p>
+<ul>
+  <li><a href="marLimits.pdf">Resolution limits for our MarMosaic 225 and MarMosaic 300 detectors</a></li>
+  <li><a href="http://docs.google.com/Doc?id=d9fk6c2_5019cvsvgv">21-ID-D Site File (MarMosaic 300)</a></li>
+  <li><a href="http://docs.google.com/Doc?id=d9fk6c2_502c8z4s8d9">21-ID-F Site File (MarMosaic 225)</a></li>
+  <li><a href="http://docs.google.com/Doc?id=d9fk6c2_503f4zbp7hq">21-ID-G Site File (MarMosaic 300)</a></li>
+  <li><a href="https://docs.google.com/document/d/1in4cWSzhZ-YPmhUlvY04a2AiPZkg-d3Nl402_BSjhAg/edit?usp=sharing">LS-CAT XDS.INP</a></li>
+<!--
+  <li><a href="mar300-IDD_def.site">Site file for 21-ID-D with the MarMosaic 300</a></li>
+  <li><a href="mar225-IDF_def.site">Site file for 21-ID-F with the MarMosaic 225</a></li>
+  <li><a href="mar300-IDG_def.site">Site file for 21-ID-G with the MarMosaic 300</a></li>
+-->
+
+</ul>
+</td></tr>
+</table>
+
+</div>
+
+<span class="toolTip" id="sampleTransfer">
+<table width="600"><tr><td>
+<h3>Sample Transfer Phase</h3>
+<p>If using Kapa Assisted manual mounting then the mini kappa will move into position.</p>
+<b>Always wait for all the MD2 motors to stop moving before approaching the instrument.</b>
+<p><a href="sampleTransfer.png">Full Size</a></p>
+</td></tr><tr><td>
+<img src="sampleTransfer-600.png"/>
+</td></tr>
+</table>
+</span>
+
+<span class="toolTip" id="centering0">
+<table width="600"><tr><td>
+<h3>Centering Phase</h3>
+<p>Use the "3 Clicks Centering" button to center your sample.  If needed you may rotate or translate your sample between clicks.
+</p>
+<p><a href="centering0.png">Full Size</a></p>
+</td></tr><tr><td>
+<img src="centering0-600.png"/>
+</td></tr>
+</table>
+</span>
+
+<span class="toolTip" id="dataCollection2">
+<table width="600"><tr><td>
+<h3>Data Collection Phase</h3>
+<p>Enter your ESAF experiment number to enable the data collection phase.  Ask a staff member for your password.</p>
+<p><a href="dataCollection2.png">Full Size</a></p>
+</td></tr><tr><td>
+<img src="dataCollection2-600.png"/>
+</td></tr>
+</table>
+</span>
+
+<span class="toolTip" id="beamLocation">
+<table width="600"><tr><td>
+<h3>Beam Loation Phase</h3>
+<p>This phase is used to align the aperture, colimator, and beam stop as well as to fine tune the beamline optics.</p>
+<p><a href="beamLocation.png">Full Size</a></p>
+</td></tr><tr><td>
+<img src="beamLocation600.png"/>
+</td></tr>
+</table>
+</span>
+
+
+<!--#include virtual="tailer.html" -->

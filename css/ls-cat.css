@@ -1,0 +1,51 @@
+      body {
+        font: 14px "Futura Medium", "Myriad Pro", "Gill Sans", Helvetica, Verdana, Arial, sans-serif;
+        margin: 10px;
+	background-color: #eeeeee;
+      }
+      .navie p		{ margin: 0; text-decoration: none; color: brown; background-color: #cccccc; }
+      .navie a:link	{ margin: 0; text-decoration: none; color: brown; }
+      .navie a:visited	{ margin: 0; text-decoration: none; color: brown; }
+
+      div.lhs a:link    { text-decoration: none; color: blue;   }
+      div.lhs a:visited { text-decoration: none; color: purple; }
+      div.lhs ul        { padding-left: 1em; margin-left: 0.5em;}
+      div.rhs a:link    { text-decoration: none; color: blue;   }
+      div.rhs a:visited { text-decoration: none; color: purple; }
+
+      div.talkyText a:link    { text-decoration: none; color: blue;   }
+      div.talkyText a:visited { text-decoration: none; color: purple; }
+
+
+
+      div.lhsHeader     { font-size: small; text-align: center; font-weight: bolder; background-color: #cccccc; }
+      div.lsHeader h1   { font-size: 40px;  }
+      div.lsHeader a:link { text-decoration: none; color: black;}
+      div.lsHeader a:visited { text-decoration: none; color: black;}
+
+      div.lhs td        { font-size: small; }
+      div.lhs li        { padding-bottom: 5px; }
+      div.rhs li        { padding-bottom: 5px; }
+      div.rhs td        { font-size: small; }
+      div.footer        { font-size: x-small; }
+      div.footer span   { padding-left: 1em; padding-right: 1em;}
+      div.rapidTable table { width: 490px; }
+      div.rapidTable h3 { font-size: small;}
+      div.rapidTable th { font-size: small;}
+      div.rapidTable td { text-align: center;}
+      div.rapidTable tr.slot:hover { background-color: #ffffcc; }
+      div.rapidTable tr.slot:active { background-color: #ccccff; }
+      span.toolTip      { display: none; }
+
+      div.links a:link    { text-decoration: none; color: blue;   }
+      div.links a:visited { text-decoration: none; color: purple; }
+      div.links a:hover  { background-color: #ccccff; }
+      div.links ul        { width: 1024px; }
+      div.raa             { background-color: #eeeeff; }
+      *.xsmall            { font-size: x-small; }
+
+      *.contactName        { font-size: large; }
+
+      a.logolink img    { border: 0; }
+      span.ss img       { border: 0; }
+

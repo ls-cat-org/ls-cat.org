@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="acmApp.xsl"?>
+<acmApp id="0" dateStamp="">
+  <givenName/>
+  <familyName/>
+  <institution/>
+  <address1/>
+  <address2/>
+  <city/>
+  <state/>
+  <postalCode/>
+  <country/>
+  <voice/>
+  <fax/>
+  <email/>
+  <usage/>
+  <purpose/>
+  <need/>
+  <password1/>
+  <password2/>
+</acmApp>

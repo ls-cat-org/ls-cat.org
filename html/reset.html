@@ -1,0 +1,405 @@
+<!--#include virtual="header.html" -->
+
+<style type="text/css">
+<!--
+   #overall td {
+     vertical-align: top;
+   }
+
+   #sui td {
+     text-align: right;
+   }
+
+   #sui table {
+      border: 4px solid #b7babc;
+      background-color: #eeeeee;
+      -moz-border-radius: 10px;
+      padding: 10px;
+      width: 350px;
+    }
+
+   #loginError p {
+     background-color: #ff0000;
+     width: 1024px;
+   }
+
+   #loginProgress p {
+     background-color: #eeeeee;
+     width: 1024px;
+   }
+
+   #loginSuccess p {
+     background-color: #00cc00;
+     width: 1024px;
+   }
+
+   #info table {
+      border: 4px solid #b7babc;
+      background-color: #eeeeee;
+      -moz-border-radius: 10px;
+      padding: 10px;
+      width: 670px;
+      vertical-align: text-top;
+    }
+
+-->
+</style>
+
+
+<div class="talkyText">&nbsp;
+<h2>Password Reset and Username Selection</h2>
+<span id="overall"/>
+<span id="loginError"></span>
+<span id="loginProgress"></span>
+<span id="loginSuccess"></span>
+<table><tr><td>
+  <span id="sui">
+    <form name="suiForm" action="javascript: loginservice();">
+      <table>
+	<tr><td colspan="2">
+	    <label>APS Badge Number: <input size="25" type="text" name="badge" autofocus="autofocus" autocomplete="on" required="required" placeholder="Badge Number" onkeyup="checkDisabled()"/></label>
+	</td></tr>
+
+	<tr><td colspan="2">
+	    <label>Email Address: <input size="25" type="email" name="email" autocomplete="on" required="required" placeholder="Email Address" onkeyup="checkDisabled()"/></label>
+	</td></tr>
+
+	<tr><td colspan="2">
+	    <label>Password: <input size="25" type="password" name="pwdold" autocomplete="on" required="required" placeholder="Password" onkeyup="checkDisabled()" onkeydown="maybelogin(event)"/></label>
+	</td></tr>
+
+	<tr><td style="text-align: left;">
+	    <input type="button" id="subbieReset" name="subbieReset" disabled="disabled" value="Reset Password" onclick="resetservice()"/>
+	    </td><td><input type="button" name="subbieLogin" value="&#x25b6;" disabled="disabled" onclick="loginservice()" />
+	</td></tr>
+
+      </table>
+      <div>&nbsp;</div>
+	<table>
+	  <tr><td>
+	      <label>Current Username: <input name="oldLdapUid" type="text" readonly="readonly"/></label>
+	  </td></tr>
+	  <tr><td>
+	      <label>New Username: <input name="ldapUid" type="text" disabled="disabled" onkeydown="maybeNewUid( event)"/></label>
+	  </td></tr>
+	  <tr><td>
+	      <input name="subbieNewUid" type="button" value="&#x25b6;" disabled="disabled" onclick="newuidservice()"/>
+	  </td></tr>
+	</table>
+      <div>&nbsp;</div>
+	<table>
+	  <tr><td>
+	      <label>New Password: <input name="pwd1" type="password" disabled="disabled"/></label>
+	  </td></tr>
+	  <tr><td>
+	      <label>New Password (again): <input name="pwd2" type="password" disabled="disabled" onkeydown="maybeNewPassword( event)"/></label>
+	  </td></tr>
+	  <tr><td>
+	      <input name="subbieNewPWD" type="button" value="&#x25b6;" disabled="disabled" onclick="changepwdservice()"/>
+	  </td></tr>
+	</table>
+    </form>
+  </span>
+</td>
+<td>
+<span id="info">
+  <table><tr><td>
+	<h3>New User Instructions</h3>
+	<ol>
+	  <li name="infoBadge"> Enter your APS badge number (numeric part only)</li>
+	  <li name="infoEmail"> Enter the email address used on a recent ESAF. </li>
+	  <li> Press the "Reset Password" button. </li>
+	  <li> A new password will be assigned to you and sent to the supplied email address.</li>
+	  <li> Retrieve your new password and log in here.</li>
+	  <li> Choose a new user name. </li>
+	  <li> Optional: select a new password.</li>
+	</ol>
+
+	<p>The username and password you select here is what you'll
+	use to log into the LS-CAT Remote Access Client.  If you
+	forget your password or username, just revisit this page and
+	start over by entering your badge number and email
+	address.</p>
+
+	<p><b>Note: </b>The email address entered here must be exactly
+	as entered into a recently approved APS ESAF and be associated
+	with your APS badge number.  You cannot access the LS-CAT
+	remote system without being named on an ESAF.</p>
+
+  </td></tr>
+  </table>
+</span>
+</td></tr>
+</table>
+</span>
+</div>
+
+<script type="text/javascript">
+
+  function validateEmail(email) { 
+    // From http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+    //
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  } 
+
+  function checkDisabled() {
+      if( checkbn(true) && checkem(true)) {
+        document.suiForm.subbieReset.disabled=false;
+        if( document.suiForm.pwdold.value != "") {
+          document.suiForm.subbieLogin.disabled=false;
+        } else {
+          document.suiForm.subbieLogin.disabled=true;
+        }
+      } else {
+        document.suiForm.subbieReset.disabled=true;
+        document.suiForm.subbieLogin.disabled=true;
+      }
+  }
+
+  function checkbn(quiet) {
+    var bn;
+    
+    bn = parseInt(document.suiForm.badge.value);
+    if( isNaN(bn)) {
+      if( typeof quiet == "undefined" || !quiet)
+        alert( "Use only the numeric portion of the badge number.");
+      return false;
+    }
+    return true;
+  }
+
+  function checkem(quiet) {
+    var em;
+
+    em=document.suiForm.email.value;
+    if( !validateEmail(em)) {
+      if( typeof quiet == "undefined" || !quiet)
+        alert( "The email address entered appears incorrect");
+      return false;
+    }
+    return true;
+  }
+
+
+  function enableLoggedinStuff() {
+    document.suiForm.ldapUid.disabled=false;
+    document.suiForm.subbieNewUid.disabled=false;
+    document.suiForm.pwd1.disabled=false;
+    document.suiForm.pwd2.disabled=false;
+    document.suiForm.subbieNewPWD.disabled=false;
+  }
+
+  function disableLoggedinStuff() {
+    document.suiForm.ldapUid.disabled=true;
+    document.suiForm.ldapUid.value = "";
+    document.suiForm.oldLdapUid.value = "";
+    document.suiForm.subbieNewUid.disabled=true;
+    document.suiForm.pwd1.disabled=true;
+    document.suiForm.pwd1.value = "";
+    document.suiForm.pwd2.disabled=true;
+    document.suiForm.pwd2.value = "";
+    document.suiForm.subbieNewPWD.disabled=true;
+  }
+
+  function jax( sobj, url, fsuccess, ffailure) {
+    //
+    // Set up ajax call
+    //
+    var xmlhttp;
+    if( window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+    } else {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    //
+    // response function
+    //
+    xmlhttp.onreadystatechange=function() {
+      var x;
+      var m;
+      var s;
+
+      if( xmlhttp.readyState==4 && xmlhttp.status==200) {
+        x = xmlhttp.responseXML.documentElement;
+        s = x.attributes.getNamedItem("success");
+        if( s && s.value == "true") {
+          fsuccess(x);
+        } else {
+          ffailure(x);
+        }
+      }
+    }
+    //
+    // Send out the request
+    //
+    xmlhttp.open( "POST", url, true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(sobj);
+  }
+
+  function autologinsuccess( x) {}    // called regardless of success or failure
+  function autologinfailure( x) {}    // never called
+
+  function autologinservice() {
+    var sobj;
+    var f;
+
+    f = document.suiForm;
+    sobj =  "u="+encodeURIComponent( f.oldLdapUid.value);
+    sobj += "&p="+encodeURIComponent( f.pwdold.value);
+
+    jax( sobj, "checkxml", autologinsuccess, autologinfailure);
+
+  }
+
+  function loginsuccess( x) {
+    document.suiForm.oldLdapUid.value = x.attributes.getNamedItem("userid").value;
+    document.getElementById("loginError").innerHTML="";
+    document.getElementById("loginSuccess").innerHTML='<a href="https://ls-cat.org/lsrmt.html">Go to remote access client &#x25b6;</a>';
+    enableLoggedinStuff();
+    autologinservice();
+  }
+
+  function loginfailure( x) {
+    var m;
+
+    disableLoggedinStuff();
+    m = x.attributes.getNamedItem("message").value;
+    document.getElementById("loginError").innerHTML="<p>&nbsp;"+m+"</p >";
+    document.getElementById("loginSuccess").innerHTML="";
+  }
+
+  function loginservice() {
+    var sobj;
+    var f;
+
+    f = document.suiForm;
+    sobj = "badge="+encodeURIComponent(f.badge.value)+"&email="+encodeURIComponent(f.email.value)+"&pwdold="+encodeURIComponent(f.pwdold.value);
+
+    jax( sobj, "ui.php", loginsuccess, loginfailure);
+  }
+
+  function maybelogin( e) {
+    document.getElementById("loginError").innerHTML="";
+    if( e.keyIdentifier == "Enter") {
+      loginservice();
+    }
+  }
+
+  function maybeNewUid( e) {
+    document.getElementById("loginError").innerHTML="";
+    if( e.keyIdentifier == "Enter") {
+      newuidservice();
+    }
+  }
+
+  function maybeNewPassword( e) {
+    document.getElementById("loginError").innerHTML="";
+    if( e.keyIdentifier == "Enter") {
+      changepwdservice();
+    }
+  }
+
+  function resetsuccess( x) {
+    var m;
+    m = x.attributes.getNamedItem("message").value;
+
+    document.getElementById("loginError").innerHTML="&nbsp;";
+    document.getElementById("loginSuccess").innerHTML="<p>&nbsp;"+m+"</p >";
+    document.getElementById("loginProgress").innerHTML="&nbsp;";
+    disableLoggedinStuff();
+  }
+  
+  function resetfailure( x) {
+    var m;
+    m = x.attributes.getNamedItem("message").value;
+
+    document.getElementById("loginError").innerHTML="<p>&nbsp;"+m+"</p >";
+    document.getElementById("loginSuccess").innerHTML="&nbsp;";
+    document.getElementById("loginProgress").innerHTML="&nbsp;";
+    disableLoggedinStuff();
+  }
+
+  function resetservice() {
+    var sobj;
+    var f;
+
+    f = document.suiForm;
+    sobj = "badge="+encodeURIComponent(f.badge.value)+"&email="+encodeURIComponent(f.email.value)+"&subbieReset=true";
+
+    document.getElementById("loginProgress").innerHTML='<progress max="100"/>';
+
+    jax( sobj, "ui.php", resetsuccess, resetfailure);
+  }
+
+  function newuidsuccess( x) {
+    document.getElementById("loginError").innerHTML="&nbsp;";
+    document.getElementById("loginSuccess").innerHTML="<p>&nbsp;Success!</p >";
+    document.suiForm.oldLdapUid.value = x.attributes.getNamedItem("userid").value;
+    document.suiForm.ldapUid.value = "";
+  }
+
+  function newuidfailure( x) {
+    m = x.attributes.getNamedItem("message").value;
+    document.getElementById("loginError").innerHTML="<p>&nbsp;"+m+"</p >";
+    document.getElementById("loginSuccess").innerHTML="&nbsp;";
+  }
+
+  function newuidservice() {
+    var sobj;
+    var f;
+
+    f = document.suiForm;
+    sobj = "badge="+encodeURIComponent(f.badge.value)+"&email="+encodeURIComponent(f.email.value)+"&pwdold="+encodeURIComponent(f.pwdold.value)+"&ldapUid="+encodeURIComponent(f.ldapUid.value)+"&subbieNewUid=true";
+
+    jax( sobj, "ui.php", newuidsuccess, newuidfailure);
+  }
+
+  function changepwdsuccess( x) {
+    document.getElementById("loginError").innerHTML="&nbsp;";
+    document.getElementById("loginSuccess").innerHTML="<p>&nbsp;Password changed.</p >";
+    document.suiForm.pwdold.value = document.suiForm.pwd1.value;
+    document.suiForm.pwd1.value = "";
+    document.suiForm.pwd2.value = "";
+  }
+
+  function changepwdfailure( x) {
+    m = x.attributes.getNamedItem("message").value;
+    document.getElementById("loginError").innerHTML="<p>&nbsp;"+m+"</p >";
+    document.getElementById("loginSuccess").innerHTML="&nbsp;";
+    document.suiForm.pwd1.value = "";
+    document.suiForm.pwd2.value = "";  }
+
+  function changepwdservice() {
+    var sobj;
+    var f;
+
+    f = document.suiForm;
+
+    if( f.pwd1.value != f.pwd2.value) {
+      alert( "The two passwords do not match.")
+      return;
+    }
+
+    if( f.pwd1.value.length < 8) {
+      alert( "Your new password must be at least 8 characters long");
+      return;
+    }
+
+
+    sobj  = "pwdold="+encodeURIComponent(f.pwdold.value);
+    sobj += "&pwd1="+encodeURIComponent(f.pwd1.value);
+    sobj += "&pwd2="+encodeURIComponent(f.pwd2.value);
+    sobj += "&badge="+encodeURIComponent(f.badge.value);
+    sobj += "&email="+encodeURIComponent(f.email.value);
+    sobj += "&subbieChangePassword=true";
+
+    jax( sobj, "ui.php", changepwdsuccess, changepwdfailure);
+  }
+
+  disableLoggedinStuff();
+
+</script>
+<!--#include virtual="tailer.html" -->

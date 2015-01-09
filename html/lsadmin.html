@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Demo: Progammatic Layout</title>
+  <link rel="stylesheet" href="lsd.css" media="screen">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dijit/themes/claro/claro.css" media="screen">
+</head>
+<body class="claro">
+  <div id="appLayout" class="demoLayout"></div>
+  <!-- load dojo and provide config via data attribute -->
+  <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
+    <script>
+
+    require(["dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dojo/ready"],
+	    function(BorderContainer, TabContainer,ContentPane, ready){
+		ready(function(){
+		    // create the BorderContainer and attach it to our appLayout div
+		    var appLayout = new BorderContainer({
+			design: "headline"
+		    }, "appLayout");
+    
+		    
+		    // create the TabContainer
+		    var contentTabs = new TabContainer({
+			region: "center",
+			id: "contentTabs",
+			tabPosition: "bottom",
+			"class": "centerPanel"
+		    });
+		    
+		    // add the TabContainer as a child of the BorderContainer
+		    appLayout.addChild( contentTabs );
+		    
+		    var topPanel = new ContentPane({
+			region: "top",
+			"class": "edgePanel",
+			content: "<h3>There you are</h3>"
+		    });
+		    
+		    // create and add the BorderContainer edge regions
+		    appLayout.addChild( topPanel );
+		    
+		    appLayout.addChild(
+			new ContentPane({
+			    region: "left",
+			    id: "leftCol", "class": "edgePanel",
+			    content: "Sidebar content (left)",
+			    splitter: true
+			})
+		    );
+		    
+		    // Add initial content to the TabContainer
+		    contentTabs.addChild(
+			new ContentPane({
+			    title: "Group 1",
+			    content: "<form><button/></form>"
+			})
+		    );
+		    
+		    // start up and do layout
+		    appLayout.startup();
+		});
+	    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!--#include virtual="header.html" -->
+<span class="navie"><table border="0" cellpadding="0" cellspacing="0" width="1024"><tr><td><p><a href="index.html">Home ></a></p></td></tr></table></span>
+
+
+<div class="talkyText">
+
+<table width="1024">
+<tr><td>
+<h3>Using rsync with the LS-CAT Remote Access Client</h3>
+
+<p>
+The LS-CAT Remote Access Client allows you to start rsync processes to
+download data.  This is an advanced feature: if you are unfamiliar
+with <a href="http://en.wikipedia.org/wiki/Rsync">rsync</a>, <a href="http://en.wikipedia.org/wiki/Secure_Shell">ssh</a>,
+or <a href="http://en.wikipedia.org/wiki/Public-key_cryptography">ssh
+public key authentication</a> then your best bet is to find someone in
+your lab who is familiar with these things to help you out.</p>
+
+<p>Rsync copies only the data to your computer that needs copying.
+You can run the same rsync command many times without transfering the
+same files multiple times, only the new files or changed files are
+copied.</p>
+
+<b>Instructions</b>
+<ol>
+<li> Copy the SSH Public Key from the LS-CAT Remote Access Client to
+your <tt>~/.ssh/authorized_keys</tt> file.  If this files does not
+exist then you can create one.<br/>&nbsp;</li>
+
+<li> Your LS-CAT public key should only be on one, albeit long, line.
+Sometimes the copy and paste will produce extra lines, just delete
+the extra "new line" characters.<br/>&nbsp;</li>
+
+<li> Make sure your <tt>authorized_keys</tt> file is only writable by
+the owner.  (<tt>chmod 644
+~/.ssh/authorized_keys</tt>)<br/>&nbsp;</li>
+
+<li> Note that every person listed on the APS Safety Assessment Form
+(ESAF) has their own individual key and can only start rsync processes
+to computers using their key.<br/>&nbsp;</li>
+
+<li> The APS restricts both incoming and outgoing ports.  For this
+reason we only support downloads using ssh port 22.  If you cannot
+open port 22 on your side then this method will not work for
+you.<br/>&nbsp;</li>
+
+<li> LS-CAT will connect to your computer from the 164.54.252.0/23
+(164.54.252.0 – 164.54.253.254) network and the suggested entry to
+your <tt>authorized_keys</tt> file enforces this.  There are simple
+methods to further restrict the use of this key.  See, for example,
+the
+instructions <a href="http://troy.jdmz.net/rsync/index.html">here.</a><br/>&nbsp;</li>
+
+</ol>
+
+
+<b>FAQS</b>
+<ul>
+<li><i>What is a public key?  What is a private key?</i> <br/> <br/>
+The public and private keys take the place of passwords for connecting
+two machines.  LS-CAT generates this pair and sends you the public
+part.  Only the holder of the corresponding private key can connect to
+your computer.<br/>&nbsp;</li>
+
+<li><i>Where do I put in my password?</i> <br/> <br/> A password is
+not used or needed.  Only someone that has access to the corresponding
+private key can connect to your computer using the supplied public
+key.  LS-CAT does not disseminate the private key.<br/>&nbsp;</li>
+
+<li><i>How do I turn off access when I'm done?</i> <br/> <br/> Simply
+remove the public key from your <tt>authorized_keys</tt>
+file.<br/>&nbsp;</li>
+
+<li><i>There is already something in my authorized_keys file.  Do I
+have to delete it?</i> <br/> <br/> No, just add your LS-CAT authorized
+key on a new line.<br/>&nbsp;</li>
+
+<li><i>It's not working.  How do I fix it?</i> <br/> <br/> Using rsync
+at LS-CAT is an advanced feature.  Please have someone from your lab
+who is familiar with rsync, ssh, and/or public key authentication help
+you.  Problems are usually either simple for you to solve (Extra lines
+in the public key?  File permissions correct?  Firewall allows tcp
+port 22 from 164.54.252.0/23) or impossible (VPN access required by your
+IT department).  Try using the tarball download feature of the LS-CAT
+remote access client instead.<br/>&nbsp;</li>
+
+<li><i>Can't I just ftp or ssh into your server?</i> <br/> <br/> We
+currently only support connections initiated at LS-CAT such as the
+rsync sessions started using the LS-CAT Remote Access
+Client.<br/>&nbsp;</li>
+
+<li><i>My institution does not allow incoming connections.  What do I
+do?</i> <br/> <br/> Use the "download tarball" feature of the LS-CAT
+Remote Access Client.<br/>&nbsp;</li>
+
+</ul>
+
+<b>Debugging Checklist</b><br/>
+
+Recuring theme: <i>Ask your local expert</i>.  Rsync is an advanced
+feature that requires more work on your side to set up and maintain.
+
+<ol>
+<li><i>Review your sshd and password implementations.</i>  There are a
+large number of bots out there that attempt brute force attacks to
+guess passwords via ssh.  Consider using the DenyUsers and AllowUsers
+parameters in your sshd_config file to limit who can log in.  Consider
+forcing the use of ssh key pairs instead of passwords.  <br/> There
+are programs that monitor sshd and block machines that are running
+these ssh bots.  You should consider using such a program.  Discuss
+with your local expert.</li>
+<br/>
+
+<li><i>sshd running?</i><br/>  Linux: <tt>ps -elf | grep
+sshd</tt><br/> Mac: <tt>ps aux | grep sshd</tt><br/> If this returns
+nothing or just your <tt>grep</tt> process then you need to start up
+sshd.  Ask your local expert for help.
+</li>
+<br/>
+
+<li><i>sshd running on port 22 on a publicly accessable IP
+address?</i><br>  Linux: <tt>netstat -taun | grep 22 | grep
+LISTEN</tt><br/> Mac: <tt>netstat -f inet -an | grep 22 | grep
+LISTEN</tt><br/> This should show that sshd is listening on the correct IP
+address and port.  A line that includes "0.0.0.0:22" (Linux) or "*.22"
+(Mac) means that sshd is listening on all the IP addresses your
+machine uses.  Check with your local expert if you don't understand
+the results.
+</li>
+<br/>
+
+<li><i>Does ssh work locally?</i><br/>Keep it simple.  Try to log in
+from the computer sshd is running on (<tt>ssh -v localhost</tt>).
+This should catch file permission problems.  Then try another machine
+on the same network.  Problems?  Ask your local expert.
+</li>
+<br/>
+
+<li><i>Does ssh work remotely?</i><br/>Try it from home.  If you
+cannot connect to your computer via ssh from a remote computer then we
+probably cannot either.  There is probably a firewall rule that
+prevents access on port 22.  You'll need your network administrators
+to allow access from 164.54.252.0/23 for trouble free operation.  Some
+network adminstrators will want to narrow it down to a few machines in
+the 164.54.252.0/23 network.  Contact us for the current list of active
+servers.  Note this list will change without notice.
+</li>
+<br/>
+
+<li><i>Rsync installed?</i><br/>You need to have rsync installed.
+Type "<tt>whereis rsync</tt>" to see if it is in one of the normal
+places.
+</li>
+<br/>
+<li><i>Rsync working?</li><br/>Try using rsync to transfer a few files
+by hand.  Type "<tt>man rsync</tt>" for help.
+</li>
+
+</ol>
+
+</td></tr>
+</table>
+
+</div>
+
+<!--#include virtual="tailer.html" -->
+

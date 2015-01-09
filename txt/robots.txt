@@ -1,0 +1,3 @@
+# robots.txt for http://ls-cat.org
+User-agent: *
+Disallow:

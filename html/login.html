@@ -1,0 +1,86 @@
+<!--#include virtual="header.html" -->
+
+<style type="text/css">
+<!--
+   #loggedIn td {
+     text-align: right;
+   }
+   #loggedIn table {
+      border: 4px solid #b7babc;
+      background-color: #eeeeee;
+      -moz-border-radius: 10px;
+      padding: 10px;
+    }
+-->
+</style>
+
+<div class="talkyText">
+<p>&nbsp;</p>
+<p>
+Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retreive username, and/or reset password</a>.
+</p>
+<p>
+<!--
+<b>Heartbleed bug statement:</b>
+<a href="https://rmt.ls-cat.org/reset.html">Although we have no evidence that any user accounts have been compromised, resetting your password would be prudent.</a>
+</p>
+-->
+  <span id="loggedIn">
+    <span id="loginError"></span>
+
+    <form name="subbie" action="javascript: submitlogin();">
+      <table>
+	<tr><td>
+	    <label>Username: </label><input type="text" id="u" name="u" autofocus="autofocus" autocomplete="on" required="required"/>
+	</td></tr>
+	<tr><td>
+	    <label>Password: </label><input type="password" name="p" autocomplete="on" required="required"/>
+	</td></tr>
+	<tr><td>
+	    <input id="subbieb" type="submit" value="&#x25b6;"   name="subbieb"/>
+	</td></tr>
+<!--
+	<tr><td>
+	    <input id="subbiesb" type="submit" value="staff"   name="subbiesb"/>
+	</td></tr>
+-->
+      </table>
+    </form>
+  </span>
+</div>
+
+<script type="text/javascript">
+  function loadXMLDoc() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+    } else {// code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.onreadystatechange=function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+        x=xmlhttp.responseXML.documentElement.getElementsByTagName("logincheck");
+        if( x[0].attributes.getNamedItem("loggedin").value == "true") {
+          document.getElementById("loggedIn").innerHTML="<h3>Going to remote access client...</h3>"
+          window.location = "https://rmt.ls-cat.org/lsrmt.html";
+        } else {
+          document.getElementById("loginError").innerHTML="<b>Username or password incorrect, please try again:</b><br />&nbsp;";
+        }
+      }
+    }
+
+    var sobject;
+    sobject = "u="+escape(document.subbie.u.value)+"&p="+escape(document.subbie.p.value);
+    xmlhttp.open("POST","checkxml",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(sobject);
+    }
+
+    function submitlogin()
+    {
+       loadXMLDoc();
+     }
+</script>
+
+<!--#include virtual="tailer.html" -->

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LS-CAT Remote Administration</title>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dijit/themes/claro/claro.css" media="screen">
+    <style>
+    html, body {
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	font: 14px "Futura Medium", "Myriad Pro", "Gill Sans", "Helvetica", "Verdana", "Arial", "sans-serif";
+    }
+
+    .lsTitle {
+        font-size: 120%;
+	font-weight: bold;
+    }
+
+    .layoutTable {
+	padding: 0;
+        width: 100%; 
+   }
+
+    .layoutTable td {
+    }
+
+    .formLabel {
+	text-align: right;
+    }
+
+    .userStatusCell {
+	text-align: right;
+	vertical-align: top;
+    }
+
+    .errorMessage {
+	font-weight: bold;
+    }
+
+    #appLayout {
+	height: 100%;
+    }
+    #leftCol {
+    width: 14em;
+    }
+
+    .claro .demoLayout .edgePanel {
+	background-color: #d0e9fc;
+    }
+
+    #viewsChart {
+	width: 550px;
+	height: 550px;
+    }
+
+    #dialog { min-width: 200px; }
+
+    #statusTable td {
+	text-align: center;
+    }
+    #statusTable table {
+	border: 4px solid #b7babc;
+	background-color: #eeeeee;
+	padding: 10px;
+    }
+    #statusTable tr.oddRow {
+	background-color: #888888;
+    }
+
+    #statusTable th {
+	font-weight: bolder;
+    }
+
+    </style>
+  </head>
+
+  <body class="claro">
+
+    <div id="appLayout" class="demoLayout" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design: 'headline'">
+      <div class="edgePanel" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top'">
+	<div>
+	  <table class="layoutTable">
+	    <tr>
+	      <td><table>
+		  <tr>
+		    <td><img src="https://ls-cat.org/ls2.png" width="32" alt="LS-CAT Logo"/></td>
+		    <td>
+		      <div class="lsTitle">LS-CAT</div><div class="lsSubTitle">Life Sciences Collaborative Access Team</div>
+		    </td>
+		  </tr>
+	      </table></td>
+	      <td class="userStatusCell">
+		<div id="userStatus">
+		</div>
+		<div id="svrMessage">
+		</div>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+      <div class="centerPanel" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center'">
+	<table id="statusTable">
+	</table>
+      </div>
+    </div>
+    
+
+
+    <!-- Load Dojo	-->
+
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="has:{'dojo-debugging-messages':true}, foo: 'bar', async: 'true', isDebug: 1, cacheBust: 'true'"></script>
+ 
+    <script>
+      
+var esafCombo;
+var esafComboStore;
+
+// Require the registry, parser, Dialog, and wait for domReady
+
+
+//
+// combo box for ESAFs
+//
+require( ["dijit/form/ComboBox", "dojo/store/Memory", "dojo/domReady!"], function( combobox, memory) {
+	    esafComboStore = new Memory();
+	    esafCombo = new ComboBox( {store: esafComboStore, searchAttr: "name", style: "width: 350px;"});
+})    
+
+//
+// Login management
+//
+require(["dojo/request", "dojo/parser", "dojo/json", "dojo/store/Memory", "dojo/on", "dijit/form/Form", "dojo/dom-form", "dijit/form/ComboBox",
+	 "dijit/form/Button", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dojo/domReady!"]
+	, function( request, parser, JSON, Memory, on, Form, domForm, ComboBox) {
+
+	    parser.parse();
+
+
+	    var userLogOutDialog = new dijit.TooltipDialog({ id: "userLogOutDialog",
+							     content:
+							     '<form data-dojo-type="dijit/form/Form" id="userLogOutForm"><table>' +
+							     '<tr><td><button data-dojo-type="dijit/form/Button" type="submit">Logout</button></td></tr>'
+							     })
+
+	    var userLogOutButton = new dijit.form.DropDownButton( {label: "Logout", dropDown: userLogOutDialog})
+
+
+ 	    var userLogInDialog = new dijit.TooltipDialog({id: "userLogInDialog",
+						       content:
+						       '<form data-dojo-type="dijit/form/Form" id="userLogInForm"><table>' +
+						       '<tr><td style="text-align: right;"><label for="userLogInU">Username:</label></td><td><input data-dojo-type="dijit/form/TextBox" id="userLogInU" name="u"/></td></tr>' +
+						       '<tr><td style="text-align: right;"><label for="userLogInP">Password:</label></td><td><input data-dojo-type="dijit/form/TextBox" id="userLogInP" name="p" type="password"/></td></tr>' +
+						       '<tr><td colspan="2"><button data-dojo-type="dijit/form/Button" type="submit">Login</button></td></tr>' +
+						       '</table></form>'
+						      })
+
+	    var userLogInButton = new dijit.form.DropDownButton( {label: "Please Log In", dropDown: userLogInDialog})
+
+
+	    var userLogInForm = dijit.byId("userLogInForm")
+
+	    var userStatus = document.getElementById("userStatus")
+
+            // Attach the onsubmit event handler of the form
+	    on(userLogInForm, "submit", function(evt){
+ 
+		// prevent the page from navigating after submit
+		evt.stopPropagation()
+		evt.preventDefault()
+ 
+		// Post the data to the server
+		request.post("checkxml", {
+                    // Send the username and password
+                    data: domForm.toObject("userLogInForm"),
+                    // Wait 2 seconds for a response
+                    timeout: 2000,
+		    handleAs: "xml"
+		}).then(function(response){
+		    var logincheck = response.getElementsByTagName("logincheck")[0]
+
+		    // Close the dialog box and remove it from the status div
+		    //
+		    userLogInButton.closeDropDown(false)
+		    while( userStatus.firstChild) {
+			userStatus.removeChild( userStatus.firstChild);
+		    }
+
+		    // Put the appropriate login/logout button in plase
+		    //
+		    if( !logincheck.hasAttribute("uid")) {
+			userLogInButton.placeAt( userStatus, "last")
+		    } else {
+			var uid = logincheck.getAttribute("uid")
+			userLogOutButton.set('label',uid)
+			userLogOutButton.placeAt( userStatus, "last")
+		    }
+		})
+            })
+
+	    var userLogOutForm = dijit.byId("userLogOutForm")
+
+            // Attach the onsubmit event handler of the form
+	    on(userLogOutForm, "submit", function(evt){
+
+		// prevent the page from navigating after submit
+		//
+		evt.stopPropagation()
+		evt.preventDefault()
+
+
+ 
+		//
+		// Post the data to the server
+		//
+		request.post("logout", {
+                    // Wait 2 seconds for a response
+                    timeout: 2000,
+		    handleAs: "xml"
+		}).then(function(response){
+		    var lsrmt = response.getElementsByTagName("lsrmt")[0]
+		    
+		    //
+		    // Verify we've logged out
+		    //
+		    if( !lsrmt.hasAttribute("loggedin")) {
+			console.log( "Error logging out.")
+		    } else {
+			// Make sure our dialog box has closed
+			//
+			userLogOutButton.closeDropDown(false)
+
+			while( userStatus.firstChild) {
+			    userStatus.removeChild( userStatus.firstChild);
+			}
+
+			var loggedin = lsrmt.getAttribute("loggedin")
+			if( loggedin=="false") {
+			    userLogInButton.placeAt( userStatus, "first")
+			} else {
+			    //
+			    // Should never get here since the server should log us out unconditionally
+			    //
+			    userLogOutButton.placeAt( userStatus, "first")
+			}
+		    }
+		})
+            })
+
+	    //
+	    // Run the initial checkxml to see if we are logged in already
+	    //
+	    request.post("checkxml", {
+		timeout: 2000,
+		handleAs: "xml"
+	    }).then(function(response) {
+		var logincheck = response.getElementsByTagName("logincheck")[0]
+
+		//
+		// Remove the old contents of the userStatus div
+		//
+		while( userStatus.firstChild) {
+		    userStatus.removeChild( userStatus.firstChild);
+		}
+
+		//
+		// Replace with the appropriate button
+		//
+		if( !logincheck.hasAttribute("uid")) {
+		    userLogInButton.placeAt( userStatus, "last")
+		} else {
+		    var uid = logincheck.getAttribute("uid")
+		    userLogOutButton.set('label', uid)
+		    userLogOutButton.placeAt( userStatus, "last")
+		}
+	    })
+	})
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>LS-CAT Remote Client Login</title>
+
+    <link rel="icon" href="lsfavicon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="https://caterpie.ls-cat.org/dijit/themes/claro/claro.css"/>
+    <script>dojoConfig = {parseOnLoad: true}</script>
+
+  </head>
+  <body class="claro" style="background-color: #eeeeee;">
+
+  <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'header.html'">
+  </div>
+
+<hr />
+<p>
+Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retreive username, and/or reset password</a>.
+</p>
+
+<span id="loginError"></span>
+<div data-dojo-type="dijit/layout/ContentPane">
+  <table style="border-width:4px; border-radius:5px; border-style: solid; border-color:#d0e9fc;">
+    <tr>
+      <td>
+        <form onSubmit="return false;" name="dummy" target="dataViewer">
+	<table>
+	  <tr>
+	    <td style="text-align:right">User Name:</td>
+	    <td><input type="text" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim: true" id="u"/></td>
+	  </tr>
+	  <tr>
+	    <td style="text-align:right">Password:</td>
+	    <td><input type="password" data-dojo-type="dijit/form/TextBox" data-dojo-props="trim: true" id="p"/></td>
+	  </tr>
+          <tr>
+	    <td colspan="2" style="text-align: center;">
+	      <button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="disabled: false" id="clcButt"> Confirm Login Credentials
+		<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+		  loadXMLDoc( false);
+		</script>
+	      </button>
+	    </td>
+	  </tr>
+	</table>
+        </form>
+      </td>
+
+      <td>
+	<table>
+	  <tr><td>
+	      <form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">
+		<input id="dU" type="hidden" name="u" />
+		<input id="dP" type="hidden" name="p" />
+	      </form>
+	      <button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="disabled: true" id="dButt"> 21-ID-D
+		<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+                  gotoStation( 'dU', 'dP', 'dForm');
+		</script>
+	      </button>
+	  </td></tr>
+	  <tr><td>
+	      <form id="fForm" method="post" action="https://f.ls-cat.org" target="id21f">
+		<input id="fU" type="hidden" name="u" />
+		<input id="fP" type="hidden" name="p" />
+	      </form>
+	      <button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="disabled: true" id="fButt"> 21-ID-F
+		<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+                  gotoStation( 'fU', 'fP', 'fForm');
+		</script>
+	      </button>
+	  </td></tr>
+	  <tr><td>
+	      <form id="gForm" method="post" action="https://g.ls-cat.org" target="id21g">
+		<input id="gU" type="hidden" name="u" />
+		<input id="gP" type="hidden" name="p" />
+	      </form>
+	      <button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="disabled: true" id="gButt"> 21-ID-G
+		<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+                  gotoStation( 'gU', 'gP', 'gForm');
+		</script>
+	      </button>
+	  </td></tr>
+	  <tr><td>
+	      <form id="vForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">
+		<input id="vU" type="hidden" name="u" />
+		<input id="vP" type="hidden" name="p" />
+	      </form>
+	      <button data-dojo-type="dijit/form/Button" type="button" data-dojo-props="disabled: true" id="dvButt"> Data Viewer
+		<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+                  gotoStation( 'vU', 'vP', 'vForm');
+		</script>
+	      </button>
+	  </td></tr>
+	</table>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<hr />
+
+<p>
+<div>
+
+<script>
+
+var enableButtons = function() {
+    require( ["dijit/registry"], function( registry) {
+	registry.byId( 'clcButt').set( 'disabled', true);
+	registry.byId( 'clcButt').set( 'label', 'Login Credentials Confirmed');
+	registry.byId( 'dButt').set( 'disabled', false);
+	registry.byId( 'fButt').set( 'disabled', false);
+	registry.byId( 'gButt').set( 'disabled', false);
+	registry.byId( 'dvButt').set( 'disabled', false);
+    });
+};
+
+var gotoStation = function( uID, pID, fID) {
+    require( ["dojo/dom", "dojo/dom-attr", "dijit/registry"], function( dom, domAttr, registry) {
+        var frm = dom.byId( fID);
+        var ufield = dom.byId( uID);
+        var pfield = dom.byId( pID);
+        domAttr.set( ufield, 'value', registry.byId('u').get( 'value'));
+        domAttr.set( pfield, 'value', registry.byId('p').get( 'value'));
+	frm.submit();
+    });
+};
+
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.3/dojo/dojo.js" data-dojo-config="async: true"></script>
+<script>
+  require(["dojo/parser", "dijit/layout/ContentPane", "dijit/form/Button"]);
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+var loadXMLDoc = function( gotoViewer) {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+	xmlhttp=new XMLHttpRequest();
+    } else {// code for IE6, IE5
+	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    
+    xmlhttp.onreadystatechange = function() {
+	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("logincheck");
+            if( x[0].attributes.getNamedItem("loggedin").value == "true") {
+		enableButtons();
+		if( gotoViewer)
+		    window.location = "https://rmt.ls-cat.org/flashDataViewer.swf";
+		else
+		    document.getElementById("loginError").innerHTML="";
+            } else {
+		document.getElementById("loginError").innerHTML="<b>Username or password incorrect, please try again:</b><br />&nbsp;";
+            }
+	}
+    }
+    
+    var sobject;
+    sobject = "u="+escape(document.dummy.u.value)+"&p="+escape(document.dummy.p.value);
+    xmlhttp.open("POST","checkxml",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send(sobject);
+}
+
+var dvLogin = function() {
+    loadXMLDoc( true);
+}
+
+</script>
+</body>
+</html>

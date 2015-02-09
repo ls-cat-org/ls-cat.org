@@ -19,12 +19,34 @@
 <p>
 Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retreive username, and/or reset password</a>.
 </p>
-<p>
-<!--
-<b>Heartbleed bug statement:</b>
-<a href="https://rmt.ls-cat.org/reset.html">Although we have no evidence that any user accounts have been compromised, resetting your password would be prudent.</a>
+
+<p> Please choose one of the experimental stations below:</p>
+
+<div>
+<a href="https://d.ls-cat.org">21-ID-D</a>
+</div>
+<div>
+<a href="https://f.ls-cat.org">21-ID-F</a>
+</div>
+<div>
+<a href="https://g.ls-cat.org">21-ID-G</a>
+</div>
+
+<div>
+<p>Or, for advanced users, choose the multiple station version: 
+
+<span>
+<a href="https://r.ls-cat.org">All LS-CAT Stations</a>
+</span>
 </p>
--->
+</div>
+<hr />
+
+<p>
+<div>
+<p>
+Log in here to use the data viewer and rsync:
+</p>
   <span id="loggedIn">
     <span id="loginError"></span>
 
@@ -62,8 +84,8 @@ Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to regi
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
         x=xmlhttp.responseXML.documentElement.getElementsByTagName("logincheck");
         if( x[0].attributes.getNamedItem("loggedin").value == "true") {
-          document.getElementById("loggedIn").innerHTML="<h3>Going to remote access client...</h3>"
-          window.location = "https://rmt.ls-cat.org/lsrmt.html";
+          document.getElementById("loggedIn").innerHTML="<h3>Going to data viewer...</h3>"
+          window.location = "https://rmt.ls-cat.org/flashDataViewer.swf";
         } else {
           document.getElementById("loginError").innerHTML="<b>Username or password incorrect, please try again:</b><br />&nbsp;";
         }

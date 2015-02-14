@@ -1,108 +1,297 @@
-<!--#include virtual="header.html" -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>LS-CAT Remote Client Login</title>
 
-<style type="text/css">
-<!--
-   #loggedIn td {
-     text-align: right;
-   }
-   #loggedIn table {
-      border: 4px solid #b7babc;
-      background-color: #eeeeee;
-      -moz-border-radius: 10px;
-      padding: 10px;
-    }
--->
-</style>
+    <link rel="icon" href="lsfavicon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="https://caterpie.ls-cat.org/dijit/themes/claro/claro.css"/>
+    <script>
+      dojoConfig = {
+	  parseOnLoad: true
+      }
+    </script>
 
-<div class="talkyText">
-<p>&nbsp;</p>
+  </head>
+  <body class="claro" style="background-color: #eeeeee;">
+
+  <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'header.html'"></div>
+
+<hr />
 <p>
 Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retreive username, and/or reset password</a>.
 </p>
 
-<p> Please choose one of the experimental stations below:</p>
+<div id="loginAppDiv"></div>
 
-<div>
-<a href="https://d.ls-cat.org">21-ID-D</a>
-</div>
-<div>
-<a href="https://f.ls-cat.org">21-ID-F</a>
-</div>
-<div>
-<a href="https://g.ls-cat.org">21-ID-G</a>
-</div>
+<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'tailer.html'"></div>
 
-<div>
-<p>Or, for advanced users, choose the multiple station version: 
 
-<span>
-<a href="https://r.ls-cat.org">All LS-CAT Stations</a>
-</span>
-</p>
-</div>
-<hr />
+<script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
 
-<p>
-<div>
-<p>
-Log in here to use the data viewer and rsync:
-</p>
-  <span id="loggedIn">
-    <span id="loginError"></span>
+<script> require( ["dijit/layout/ContentPane"]);</script>
 
-    <form name="subbie" action="javascript: submitlogin();">
-      <table>
-	<tr><td>
-	    <label>Username: </label><input type="text" id="u" name="u" autofocus="autofocus" autocomplete="on" required="required"/>
-	</td></tr>
-	<tr><td>
-	    <label>Password: </label><input type="password" name="p" autocomplete="on" required="required"/>
-	</td></tr>
-	<tr><td>
-	    <input id="subbieb" type="submit" value="&#x25b6;"   name="subbieb"/>
-	</td></tr>
-<!--
-	<tr><td>
-	    <input id="subbiesb" type="submit" value="staff"   name="subbiesb"/>
-	</td></tr>
--->
-      </table>
-    </form>
-  </span>
-</div>
+<script>
+var activeColor   = '#0167be';
+var inactiveColor = '#b6b6b6';
+var loggedIn = false;
 
-<script type="text/javascript">
-  function loadXMLDoc() {
-    var xmlhttp;
-    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-      xmlhttp=new XMLHttpRequest();
-    } else {// code for IE6, IE5
-      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
+var _myHTML = '';
+_myHTML += '<table>';
+_myHTML +=   '<tr><td>';
+_myHTML +=     '<table id="loginTable" style="width: 280px; border: 5px solid '+activeColor+'; border-radius: 10px;">';
+_myHTML +=       '<tr><td><span id="usernameDiv"></span></td></tr>';
+_myHTML +=       '<tr><td><span id="passwordDiv"></span></td></tr>';
+_myHTML +=       '<tr><td><span id="messageDiv"></span></td></tr>';
+_myHTML +=       '<tr><td><span id="loginButtonDiv"></span><span id="logoutButtonDiv"></span></td></tr>';
+_myHTML +=       '<tr><td>Confirming your login credentials <br />means you agree to our <a href="termsOfService.html">Terms of Service</a>';
+_myHTML +=     '</table>';
+_myHTML +=   '</td><td>';
+_myHTML +=      '<table id="stationTable" style="width: 100px; border: 5px solid '+inactiveColor+'; border-radius: 10px;">';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="iddButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idfButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idgButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="dvButtonDiv"></span></td></tr>';
+_myHTML +=      '</table>';
+_myHTML +=   '</td></tr>';
+_myHTML += '</table>';
+_myHTML += '<form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">';
+_myHTML +=   '<input id="dU" type="hidden" name="u" />';
+_myHTML +=   '<input id="dP" type="hidden" name="p" />';
+_myHTML += '</form>';
+_myHTML += '<form id="fForm" method="post" action="https://f.ls-cat.org" target="id21f">';
+_myHTML +=   '<input id="fU" type="hidden" name="u" />';
+_myHTML +=   '<input id="fP" type="hidden" name="p" />';
+_myHTML += '</form>';
+_myHTML += '<form id="gForm" method="post" action="https://g.ls-cat.org" target="id21g">';
+_myHTML +=   '<input id="gU" type="hidden" name="u" />';
+_myHTML +=   '<input id="gP" type="hidden" name="p" />';
+_myHTML += '</form>';
+_myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
+_myHTML +=   '<input id="dvU" type="hidden" name="u" />';
+_myHTML +=   '<input id="dvP" type="hidden" name="p" />';
+_myHTML += '</form>';
 
-    xmlhttp.onreadystatechange=function() {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-        x=xmlhttp.responseXML.documentElement.getElementsByTagName("logincheck");
-        if( x[0].attributes.getNamedItem("loggedin").value == "true") {
-          document.getElementById("loggedIn").innerHTML="<h3>Going to data viewer...</h3>"
-          window.location = "https://rmt.ls-cat.org/flashDataViewer.swf";
-        } else {
-          document.getElementById("loginError").innerHTML="<b>Username or password incorrect, please try again:</b><br />&nbsp;";
-        }
-      }
-    }
+require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
+	  "dijit/form/ValidationTextBox", "dijit/form/Button",
+	  "dojox/validate/web",
+	  "dojo/domReady!"],
+	function( dom, domAttr, domStyle, request,
+		  ValidationTextBox, Button,
+		  web
+		) {
+	    dom.byId('loginAppDiv').innerHTML = _myHTML;
 
-    var sobject;
-    sobject = "u="+escape(document.subbie.u.value)+"&p="+escape(document.subbie.p.value);
-    xmlhttp.open("POST","checkxml",true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send(sobject);
-    }
+	    var setEnables = function() {
+		if( loggedIn) {
+		    domStyle.set( "loginTable", 'border-color',   activeColor);
+		    domStyle.set( "stationTable", 'border-color', activeColor);
+		    loginButton.set( 'disabled', true);
+		    iddButton.set( 'disabled', false);
+		    idfButton.set( 'disabled', false);
+		    idgButton.set( 'disabled', false);
+		    dvButton.set(  'disabled', false);
+		    logoutButton.set( 'disabled', false);
+		} else {
+		    domStyle.set( "loginTable", 'border-color',   activeColor);
+		    domStyle.set( "stationTable", 'border-color', inactiveColor);
+		    iddButton.set( 'disabled', true);
+		    idfButton.set( 'disabled', true);
+		    idgButton.set( 'disabled', true);
+		    dvButton.set(  'disabled', true);
+		    logoutButton.set( 'disabled', true);
+		}
+	    };
+	    var maybeEnableLoginButton = function() {
+		dom.byId( 'messageDiv').innerHTML = '';
+		if( usernameBox.isValid() && passwordBox.isValid()) {
+		    loginButton.set( 'disabled', loggedIn);
+		} else {
+		    loginButton.set( 'disabled', true);
+		}
+	    };
 
-    function submitlogin()
-    {
-       loadXMLDoc();
-     }
+	    var usernameBox = new ValidationTextBox({
+		tabIndex: 1,
+		validator: web.isText,
+		constraints: { minlength: 2, maxlength: 32},
+		promptMessage: 'Your <a href="reset.html">LS-CAT username</a>',
+		placeHolder: 'User Name',
+		intermediateChanges: true,
+		required: true,
+		onInput: function( evt) {
+		    if( evt.keyIdentifier == 'Enter') {
+			maybeEnableLoginButton();
+			maybeLogin();
+		    }
+		},
+		onChange: function( v) {
+		    maybeEnableLoginButton();
+		}
+	    }, "usernameDiv");
+	    usernameBox.startup();
+
+	    var passwordBox = new ValidationTextBox({
+		tabIndex: 2,
+		validator: web.isText,
+		constraints: { minlength: 8},
+		type: 'password',
+		promptMessage: 'Your <a href="reset.html">LS-CAT password</a>',
+		placeHolder: 'Password',
+		intermediateChanges: true,
+		required: true,
+		onInput: function( evt) {
+		    if( evt.keyIdentifier == 'Enter') {
+			maybeEnableLoginButton();
+			maybeLogin();
+		    }
+		},
+		onChange: function( v) {
+		    maybeEnableLoginButton();
+		}
+	    }, "passwordDiv");
+	    passwordBox.startup();
+	    
+
+	    var maybeLogin = function() {
+		if( !usernameBox.isValid() || !passwordBox.isValid())
+		    return;
+
+		request( "checkxml", {
+		    preventCache: true,
+		    handleAs: "xml",
+		    query: {
+			u: usernameBox.get( 'value'),
+			p: passwordBox.get( 'value')
+		    },
+		    method: "POST"
+		}).then(
+		    function( data) {
+			var rmt = data.childNodes[0];
+			var success = rmt.children[0].attributes['success'].value == 'true';
+			if( success) {
+			    loggedIn = true;
+			    setEnables();
+			} else {
+			    dom.byId( "messageDiv").innerHTML = 'Failed: check credentials or <a href="reset.html">reset here</a>';
+			}
+		    },
+		    function( err) {
+			console.log( 'login request error', err);
+		    },
+		    function( evt) {
+			console.log( 'login request event', evt);
+		    }
+		);
+	    };
+
+
+	    var loginButton = new Button({
+		disabled: true,
+		label: "Confirm Login Credentials",
+		onClick: function() {
+		    maybeLogin();
+		}
+	    }, "loginButtonDiv");
+	    loginButton.startup();
+
+	    var logoutButton = new Button({
+		disabled: true,
+		label: "Log Out",
+		onClick: function() {
+		    // Yeah, one needs to logout of the individual window
+		    window.location.reload( true);
+		}
+	    }, "logoutButtonDiv");
+	    logoutButton.startup();
+
+	    var gotoStation = function( uID, pID, fID) {
+		if( !loggedIn || !usernameBox.isValid() || !passwordBox.isValid())
+		    return;
+
+		var frm = dom.byId( fID);
+		var ufield = dom.byId( uID);
+		var pfield = dom.byId( pID);
+		domAttr.set( ufield, 'value', usernameBox.get( 'value'));
+		domAttr.set( pfield, 'value', passwordBox.get( 'value'));
+		frm.submit();
+	    };
+
+	    var iddButton = new Button( {
+		tabIndex: 3,
+		disabled: true,
+		label: "21-ID-D",
+		onClick: function() {
+		    gotoStation( 'dU', 'dP', 'dForm');
+		}
+	    }, "iddButtonDiv");
+	    iddButton.startup();
+
+	    var idfButton = new Button( {
+		tabIndex: 4,
+		disabled: true,
+		label: "21-ID-F",
+		onClick: function() {
+		    gotoStation( 'fU', 'fP', 'fForm');
+		}
+	    }, "idfButtonDiv");
+	    idfButton.startup();
+
+	    var idgButton = new Button( {
+		tabIndex: 5,
+		disabled: true,
+		label: "21-ID-G",
+		onClick: function() {
+		    gotoStation( 'gU', 'gP', 'gForm');
+		}
+	    }, "idgButtonDiv");
+	    idgButton.startup();
+
+	    var loginDataViewer = function() {
+		if( !loggedIn || !usernameBox.isValid() || !passwordBox.isValid())
+		    return;
+
+		request( "checkxml", {
+		    preventCache: true,
+		    handleAs: "xml",
+		    query: {
+			u: usernameBox.get( 'value'),
+			p: passwordBox.get( 'value')
+		    },
+		    method: 'POST',
+		}).then(
+		    function( data) {
+			console.log( 'loginDataViewer', data);
+
+			var rmt = data.childNodes[0];
+			var success = rmt.children[0].attributes['success'].value == 'true';
+
+			if( success)
+			    gotoStation( 'dvU', 'dvP', 'dvForm');
+		    },
+		    function( err) {
+			console.log( 'loginDataViewer Error', err);
+		    },
+		    function( evt) {
+			console.log( 'loginDataViewer Event', evt);
+		    }
+		);
+	    };
+
+	    var dvButton = new Button( {
+		tabIndex: 6,
+		disabled: true,
+		label: "Data Viewer",
+		onClick: function() {
+		    loginDataViewer();
+		}
+	    }, "dvButtonDiv");
+	    dvButton.startup();
+
+	    setEnables();
+	});
+
+
 </script>
-
-<!--#include virtual="tailer.html" -->
+</body>
+</html>

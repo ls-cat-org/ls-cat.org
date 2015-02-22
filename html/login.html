@@ -21,13 +21,18 @@
 <p>
 Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retreive username, and/or reset password</a>.
 </p>
+<p>
+ Note: Most Tuesdays LS-CAT remote services are unavailable for a few hours to perform routine maintenance.
+</p>
 
 <div id="loginAppDiv"></div>
 
 <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'tailer.html'"></div>
 
 
-<script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
+<!-- <script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script> -->
+
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.3/dojo/dojo.js" data-dojo-config="async: true"></script>
 
 <script> require( ["dijit/layout/ContentPane"]);</script>
 
@@ -72,13 +77,13 @@ _myHTML +=   '<input id="dvU" type="hidden" name="u" />';
 _myHTML +=   '<input id="dvP" type="hidden" name="p" />';
 _myHTML += '</form>';
 
-require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
+require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query",
 	  "dijit/form/ValidationTextBox", "dijit/form/Button",
-	  "dojox/validate/web",
+	  "dojox/validate/web", "dojox/xml/DomParser",
 	  "dojo/domReady!"],
-	function( dom, domAttr, domStyle, request,
+	function( dom, domAttr, domStyle, request, query,
 		  ValidationTextBox, Button,
-		  web
+		  web, DomParser
 		) {
 	    dom.byId('loginAppDiv').innerHTML = _myHTML;
 
@@ -167,8 +172,12 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
 		    method: "POST"
 		}).then(
 		    function( data) {
-			var rmt = data.childNodes[0];
-			var success = rmt.children[0].attributes['success'].value == 'true';
+			var success = false;
+			var xdoc = query( 'logincheck', data);
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			}
+
 			if( success) {
 			    loggedIn = true;
 			    setEnables();
@@ -180,7 +189,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
 			console.log( 'login request error', err);
 		    },
 		    function( evt) {
-			console.log( 'login request event', evt);
+			// console.log( 'login request event', evt);
 		    }
 		);
 	    };
@@ -189,9 +198,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
 	    var loginButton = new Button({
 		disabled: true,
 		label: "Confirm Login Credentials",
-		onClick: function() {
-		    maybeLogin();
-		}
+		onClick: maybeLogin
 	    }, "loginButtonDiv");
 	    loginButton.startup();
 
@@ -209,7 +216,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
 		if( !loggedIn || !usernameBox.isValid() || !passwordBox.isValid())
 		    return;
 
-		var frm = dom.byId( fID);
+		var frm    = dom.byId( fID);
 		var ufield = dom.byId( uID);
 		var pfield = dom.byId( pID);
 		domAttr.set( ufield, 'value', usernameBox.get( 'value'));
@@ -247,43 +254,12 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
 	    }, "idgButtonDiv");
 	    idgButton.startup();
 
-	    var loginDataViewer = function() {
-		if( !loggedIn || !usernameBox.isValid() || !passwordBox.isValid())
-		    return;
-
-		request( "checkxml", {
-		    preventCache: true,
-		    handleAs: "xml",
-		    query: {
-			u: usernameBox.get( 'value'),
-			p: passwordBox.get( 'value')
-		    },
-		    method: 'POST',
-		}).then(
-		    function( data) {
-			console.log( 'loginDataViewer', data);
-
-			var rmt = data.childNodes[0];
-			var success = rmt.children[0].attributes['success'].value == 'true';
-
-			if( success)
-			    gotoStation( 'dvU', 'dvP', 'dvForm');
-		    },
-		    function( err) {
-			console.log( 'loginDataViewer Error', err);
-		    },
-		    function( evt) {
-			console.log( 'loginDataViewer Event', evt);
-		    }
-		);
-	    };
-
 	    var dvButton = new Button( {
 		tabIndex: 6,
 		disabled: true,
 		label: "Data Viewer",
 		onClick: function() {
-		    loginDataViewer();
+		    gotoStation( 'dvU', 'dvP', 'dvForm');
 		}
 	    }, "dvButtonDiv");
 	    dvButton.startup();

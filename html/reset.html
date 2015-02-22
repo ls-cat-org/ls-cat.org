@@ -16,8 +16,13 @@
   <h3>Password Reset, Select Username, and Alternative Login Page</h3>
   <p>To register: receive your badge number from the <a href="https://beam.aps.anl.gov/pls/apsweb/ufr_main_pkg.usr_start_page">APS User office</a>
     AND be named on an approved, recent, LS-CAT <a href="https://beam.aps.anl.gov/pls/apsweb/esaf0001.start_page">safety form (ESAF)</a></p>
-  <p>Unfortunately your APS and/or Argonne password is unrelated to your LS-CAT password.  Click the Reset Password button below to discover your LS-CAT password.</p>
-  <p> Using this page means you are agreeing to our <a href="termsOfService.html">Terms of Service</a>.</p>
+  <p>Unfortunately your APS and/or Argonne password is unrelated to your LS-CAT password.  Click the Reset Password button below to discover your LS-CAT password.</p> 
+
+<p>
+Note: Most Tuesdays LS-CAT remote services are unavailable for a few hours to perform routine maintenance.
+</p>
+
+
   <hr />
   <div id="thisVeryAppDiv"></div>
 
@@ -49,6 +54,7 @@ _myHTML +=           '<tr><td><hr /></td></tr>';
 _myHTML +=           '<tr><td><div id="passwordDiv"></div></td></tr>';
 _myHTML +=           '<tr><td><span id="successDiv"></span></tr>';
 _myHTML +=           '<tr><td style="text-align: center;"><span id="loginButtonDiv"></span><span id="logoutButtonDiv"></span></td></tr>';
+_myHTML +=           '<tr><td style="text-align: center;">Confirming your log in credentials means you are agreeing to our <a href="termsOfService.html">Terms of Service</a>.</td></tr>';
 _myHTML +=         '</table>';
 _myHTML +=       '</td></tr>';
 _myHTML +=       '<tr><td>';
@@ -95,11 +101,11 @@ _myHTML +=   '<input id="dvP" type="hidden" name="p" />';
 _myHTML += '</form>';
 
 require([
-    "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request",
+    "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query",
     "dijit/form/TextBox", "dijit/form/NumberTextBox", "dijit/form/ValidationTextBox", "dijit/form/Button",
     "dojox/validate/web",
     "dojo/domReady!"],
-	function( dom, domAttr, domStyle, request,
+	function( dom, domAttr, domStyle, request, query,
 		  TextBox, NumberTextBox, ValidationTextBox, Button,
 		  web) {
 	    
@@ -180,7 +186,12 @@ require([
 		    method: 'GET',
 		}).then(
 		    function( data) {
-			var success = data.childNodes[0].attributes['success'].value == 'true';
+			var success = false;
+			var xdoc = query( 'ui', data);
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			}
+
 			if( success) {
 			    pwdSuccessDiv.innerHTML = "Password Changed Successfully";
 			    passwordBox.set( 'value', newPWD1Box.get( 'value'));
@@ -195,7 +206,6 @@ require([
 		    function( err)  {
 		    },
 		    function( evt)  {
-			console.log( 'change password event:', evt);
 		    }
 		);
 	    };
@@ -217,7 +227,12 @@ require([
 		    method: 'GET'
 		}).then(
 		    function( data) {
-			var success = data.childNodes[0].attributes['success'].value == 'true';
+			var success = false;
+			var xdoc    = query( 'ui', data);
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			}
+
 			if( success) {
 			    uidSuccessDiv.innerHTML = '';
 			    uid = data.childNodes[0].attributes['userid'].value;
@@ -230,9 +245,9 @@ require([
 			}
 		    },
 		    function( err) {
+			console.log( "failure", err);
 		    },
 		    function( evt) {
-			console.log( 'changeUID Event', evt);
 		    }
 		);
 	    };
@@ -253,8 +268,12 @@ require([
 		}).then(
 		    function( data) {
 			
-			console.log( "login response ", data);
-			var success = data.childNodes[0].attributes['success'].value == 'true';
+			var success = false;
+			var xdoc    = query( 'ui', data);
+			
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			}
 
 			if( success) {
 			    successDiv.innerHTML = '';
@@ -274,7 +293,6 @@ require([
 			console.log( "login request error", err);
 		    },
 		    function( evt) {
-			console.log( "login event", evt);
 		    }
 		);
 	    };
@@ -304,11 +322,14 @@ require([
 		}).then(
 		    function( data) {
 			
-			console.log( "success", data);
-			console.debug( data.childNodes[0].attributes);
-
-			var success = data.childNodes[0].attributes['success'].value == 'true';
-			var msg     = data.childNodes[0].attributes['message'].value;
+			var success = false;
+			var msg     = '';
+			var xdoc = query( 'rstpwd', data);
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			    msg     = domAttr.get( xdoc[0], 'message');
+			}
+			
 			if( success) {
 			    successDiv.innerHTML = "Success!  Check your inbox and spam folder.";
 			} else {
@@ -321,7 +342,6 @@ require([
 			console.log( "failure", err);
 		    },
 		    function( evt) {
-			// console.log( "event", evt);
 		    }
 		);
 	    };
@@ -402,7 +422,7 @@ require([
 
 	    var loginButton = new Button( {
 		disabled: true,
-		label: "Check Login Credentials",
+		label: "Confirm Login Credentials",
 		onClick: function() {
 		    maybeLogin();
 		}
@@ -504,7 +524,6 @@ require([
 		disabled: true,
 		label: "Change Password",
 		onKeyDown: function( evt) {
-		    console.log( 'changePasswordButton KeyDown event', evt);
 		    if( evt.keyIdentifier == 'Enter') {
 			maybeRequestPasswordChange();
 		    }
@@ -516,11 +535,10 @@ require([
 	    changeUserNameButton.startup();
 	    
 	    var gotoStation = function( uID, pID, fID) {
-		console.log( 'gotoStation', uID, pID, fID, loggedIn, uid, passwordBox.isValid());
 		if( !loggedIn || !uid || !passwordBox.isValid())
 		    return;
 
-		var frm = dom.byId( fID);
+		var frm    = dom.byId( fID);
 		var ufield = dom.byId( uID);
 		var pfield = dom.byId( pID);
 		domAttr.set( ufield, 'value', uid);
@@ -558,43 +576,12 @@ require([
 	    }, "idgButtonDiv");
 	    idgButton.startup();
 
-	    var loginDataViewer = function() {
-		if( !loggedIn || !uid || !passwordBox.isValid())
-		    return;
-
-		request( "checkxml", {
-		    preventCache: true,
-		    handleAs: "xml",
-		    query: {
-			u: uid,
-			p: passwordBox.get( 'value')
-		    },
-		    method: 'POST',
-		}).then(
-		    function( data) {
-			console.log( 'loginDataViewer', data);
-
-			var rmt = data.childNodes[0];
-			var success = rmt.children[0].attributes['success'].value == 'true';
-
-			if( success)
-			    gotoStation( 'dvU', 'dvP', 'dvForm');
-		    },
-		    function( err) {
-			console.log( 'loginDataViewer Error', err);
-		    },
-		    function( evt) {
-			console.log( 'loginDataViewer Event', evt);
-		    }
-		);
-	    };
-
 	    var dvButton = new Button( {
 		tabIndex: 10,
 		disabled: true,
 		label: "Data Viewer",
 		onClick: function() {
-		    loginDataViewer();
+		    gotoStation( 'dvU', 'dvP', 'dvForm');
 		}
 	    }, "dvButtonDiv");
 	    dvButton.startup();

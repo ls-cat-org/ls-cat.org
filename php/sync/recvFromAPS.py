@@ -129,7 +129,11 @@ class ReceiveFromAPS:
         """Create a time zone with the correct information and apply it
         to the datetime.  For some reason SOAP screws up the timestamps
         without this bit of a kludge."""
-    
+
+        # this bug appears to be fixed 150827
+        #
+        return dateTime
+
         dateTime = dateTime.replace(tzinfo=self.chicago)
         dateTime = self.chicago.normalize(dateTime)
     

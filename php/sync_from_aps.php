@@ -24,7 +24,7 @@ function sendStatus( $progress, $message="",  $label=null, $done=false, $error=n
   global $boundary;
 
   if( $label == null) {
-    if( $message != none)
+    if( $message != null)
       $label = $progress . "% " . $message;
     else
       $label = $progress . "%";
@@ -94,7 +94,7 @@ if( !isset($thePassword)) {
  }
 
 if( !isset($theRun)) {
-  $theRun = "2015-1";
+  $theRun = "2016-1";
  }
 
 header( 'Expires: Mon, 18 Apr 2005 17:30:00 GMT');

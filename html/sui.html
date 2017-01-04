@@ -14,7 +14,7 @@
 
   <td width="508" height="680" valign="top" align="center">
 
-  <!--#if expr="$HTTP_HOST==ls-cat.org || $HTTP_HOST==www.ls-cat.org" -->
+  <!--#if expr = "%{HTTP_HOST} == 'ls-cat.org' || %{HTTP_HOST} == 'www.ls-cat.org'" -->
     <!--#include virtual="html/sui2.html" -->
   <!--#else -->
     <h3>The page you really want is <a href="https://ls-cat.org/sui.html">https://ls-cat.org/sui.html</a></h3>

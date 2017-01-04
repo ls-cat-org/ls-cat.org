@@ -67,18 +67,22 @@ _myHTML += '</table>';
 _myHTML += '<form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">';
 _myHTML +=   '<input id="dU" type="hidden" name="u" />';
 _myHTML +=   '<input id="dP" type="hidden" name="p" />';
+_myHTML +=   '<input id="dA" type="hidden" name="a" />';
 _myHTML += '</form>';
 _myHTML += '<form id="fForm" method="post" action="https://f.ls-cat.org" target="id21f">';
 _myHTML +=   '<input id="fU" type="hidden" name="u" />';
 _myHTML +=   '<input id="fP" type="hidden" name="p" />';
+_myHTML +=   '<input id="fA" type="hidden" name="a" />';
 _myHTML += '</form>';
 _myHTML += '<form id="gForm" method="post" action="https://g.ls-cat.org" target="id21g">';
 _myHTML +=   '<input id="gU" type="hidden" name="u" />';
 _myHTML +=   '<input id="gP" type="hidden" name="p" />';
+_myHTML +=   '<input id="gA" type="hidden" name="a" />';
 _myHTML += '</form>';
 _myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
 _myHTML +=   '<input id="dvU" type="hidden" name="u" />';
 _myHTML +=   '<input id="dvP" type="hidden" name="p" />';
+_myHTML +=   '<input id="dvA" type="hidden" name="a" />';
 _myHTML += '</form>';
 
 require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query",
@@ -216,15 +220,17 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 	    }, "logoutButtonDiv");
 	    logoutButton.startup();
 
-	    var gotoStation = function( uID, pID, fID) {
+	    var gotoStation = function( uID, pID, aID, fID) {
 		if( !loggedIn || !usernameBox.isValid() || !passwordBox.isValid())
 		    return;
 
 		var frm    = dom.byId( fID);
 		var ufield = dom.byId( uID);
 		var pfield = dom.byId( pID);
+                var afield = dom.byId( aID);
 		domAttr.set( ufield, 'value', usernameBox.get( 'value'));
 		domAttr.set( pfield, 'value', passwordBox.get( 'value'));
+                domAttr.set( afield, 'value', navigator.userAgent);
 		frm.submit();
 	    };
 
@@ -233,7 +239,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		disabled: true,
 		label: "21-ID-D",
 		onClick: function() {
-		    gotoStation( 'dU', 'dP', 'dForm');
+		    gotoStation( 'dU', 'dP', 'dA', 'dForm');
 		}
 	    }, "iddButtonDiv");
 	    iddButton.startup();
@@ -243,7 +249,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		disabled: true,
 		label: "21-ID-F",
 		onClick: function() {
-		    gotoStation( 'fU', 'fP', 'fForm');
+		    gotoStation( 'fU', 'fP', 'fA', 'fForm');
 		}
 	    }, "idfButtonDiv");
 	    idfButton.startup();
@@ -253,7 +259,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		disabled: true,
 		label: "21-ID-G",
 		onClick: function() {
-		    gotoStation( 'gU', 'gP', 'gForm');
+		    gotoStation( 'gU', 'gP', 'gA', 'gForm');
 		}
 	    }, "idgButtonDiv");
 	    idgButton.startup();
@@ -263,7 +269,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		disabled: true,
 		label: "Data Viewer",
 		onClick: function() {
-		    gotoStation( 'dvU', 'dvP', 'dvForm');
+		    gotoStation( 'dvU', 'dvP', 'dvA', 'dvForm');
 		}
 	    }, "dvButtonDiv");
 	    dvButton.startup();

@@ -93,7 +93,7 @@ class Xmit2APS:
 
         # Make a SOAP client
         bc = Client(beamlineScheduleServiceURL)
-        bc.options.cache.setduration(seconds=10)
+        #bc.options.cache.setduration(seconds=10)
         self.setSoapHeader(bc, self.username, self.password)
 
         expStations = [{"beamlineName" : "21-ID-D", "stationName" : "D", "stnKey" : 1, "cal" : "id21d.cal"},

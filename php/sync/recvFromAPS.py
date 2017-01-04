@@ -201,7 +201,7 @@ class ReceiveFromAPS:
 
         # Make a SOAP client
         self.bc = Client(beamlineScheduleServiceURL)
-        self.bc.options.cache.setduration(seconds=10)
+        #self.bc.options.cache.setduration(seconds=10)
         self.setSoapHeader(self.bc, username, password)
 
         self.percentDone = 2

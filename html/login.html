@@ -17,7 +17,8 @@
 
   <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'header.html'"></div>
 
-<hr />
+<hr width="1024" align="left"/>
+
 <p>
 Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retrieve username, and/or reset password</a>.
 </p>
@@ -28,6 +29,24 @@ Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to regi
 <p>
 <a href="https://docs.google.com/document/d/1OrrKCY2Tw2cq5C9wSiGuKbh49mi0iJT_NCqmakaFOmw/edit?usp=sharing">Here are lists of the LS-CAT User Interface changes and known bugs.</a>
 </p>
+
+  <p>
+    Don't want to deal with yet another username and password?  Use <i>CILogon</i> if you've used your institutional email address on the ESAF.
+  </p>
+  <p>
+    <form action="https://caterpie.ls-cat.org/oidc/login" method="get">
+      <input type="image" name="cisubmit2" id="cisubmit2"
+	     src="https://cilogon.org/images/cilogon-ci-32-g.png"
+	     alt="CILogon Service"
+	     title="Click to get a certificate via the CILogon Service."
+	     style="cursor:help;" />
+      </form>
+  </p>
+
+  <p>
+    Otherwise enter your LS-CAT username and password below.
+  </p>
+<hr width="1024" align="left"/>
 
 <div id="loginAppDiv"></div>
 

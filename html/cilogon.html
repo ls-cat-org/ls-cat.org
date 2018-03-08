@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>LS-CAT Remote Client Login</title>
+    
+    <link rel="icon" href="lsfavicon.png?v=3" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="https://caterpie.ls-cat.org/dijit/themes/claro/claro.css"/>
+    <script>
+      dojoConfig = {
+	      parseOnLoad: true
+      }
+    </script>
+    
+    <style>
+      body {
+          class: claro;
+          font: 14px "Futura Medium", "Myriad Pro", "Gill Sans", Helvetica, Verdana, Arial, sans-serif;
+          margin: 10px;
+          background-color: #eeeeee;
+          width: 1024px;
+      }
+    a:link     { margin: 0; text-decoration: none; color: blue; }
+    a:visited  { margin: 0; text-decoration: none; color: purple; }
+
+</style>
+  </head>
+  <body class="claro" style="background-color: #eeeeee;" width="1024px">
+    <table cellpadding="0" cellspacing="0" width="1024">
+      <tr>
+        <td style="text-decoration: none; color: blue;">
+          <a href="https://ls-cat.org/index.html"><img border="0" src="ls2.png"/></a>
+        </td>
+        <td>
+    <h1><a href="https://ls-cat.org/index.html">LS-CAT</a></h1>
+    <h3><a href="https://ls-cat.org/index.html">Life Sciences Collaborative Access Team</a></h3>
+        </td>
+        
+        <td align="right" width="512">
+          <table border="0">
+            <tr><td colspan="1" align="right">
+                9700 S. Cass Ave, Bldg 436A<br/>
+                Argonne, IL  60439
+            </td></tr>
+            <tr><td align="right">Main Office: &nbsp;&nbsp; 630-252-0627</td></tr>
+            <tr><td colspan="1" align="right"><table border="1" cellpadding="5">
+                  <tr><td align="right">21-ID-D: &nbsp;&nbsp; 630-343-6851</td>
+                    <td align="right">21-ID-E: &nbsp;&nbsp; 630-343-6852</td></tr>
+                  <tr><td align="right">21-ID-F: &nbsp;&nbsp; 630-343-6853</td>
+                    <td align="right">21-ID-G: &nbsp;&nbsp; 630-343-6854</td></tr>
+            </table></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+
+    <hr />
+    <p style="background-color: pink;">
+      Note: Most Mondays LS-CAT remote services are unavailable for a few hours to perform routine maintenance.
+    </p>
+
+    <p>
+      <a href="https://docs.google.com/document/d/1OrrKCY2Tw2cq5C9wSiGuKbh49mi0iJT_NCqmakaFOmw/edit?usp=sharing">Here are lists of the LS-CAT User Interface changes and known bugs.</a>
+    </p>
+    <p>
+
+      We encourage you to use your institutional account to log into
+      LS-CAT via the CILogon service.  Although you may use a Google
+      account or an ORCID account to collect data you will not be able
+      to use them to retrieve your images using Globus.
+    </p>
+    <p>
+      Note: For this to work the email address returned by CILogon
+      must match your email address listed in a current ESAF.
+    </p>
+    <p>
+      If this does not work you can always use your
+      <a href="https://ls-cat.org/login.html">LS-CAT Account</a>
+    </p>
+
+    <div id="loginAppDiv"></div>
+    
+    <script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
+
+    <!--<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.3/dojo/dojo.js" data-dojo-config="async: true"></script>-->
+
+    <script> require( ["dijit/layout/ContentPane"]);</script>
+
+<script>
+var activeColor   = '#0167be';
+var inactiveColor = '#b6b6b6';
+var loggedIn = false;
+
+
+var _myHTML = '';
+_myHTML += '<table>';
+_myHTML +=   '<tr><td>';
+_myHTML +=     '<table id="loginTable" style="width: 280px; border: 5px solid '+activeColor+'; border-radius: 10px;">';
+_myHTML +=       '<tr><td><span id="loginButtonDiv"></span><span id="logoutButtonDiv"></span></td></tr>';
+_myHTML +=     '</table>';
+_myHTML +=   '</td><td>';
+_myHTML +=      '<table id="stationTable" style="width: 100px; border: 5px solid '+inactiveColor+'; border-radius: 10px;">';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="iddButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idfButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idgButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="dvButtonDiv"></span></td></tr>';
+_myHTML +=      '</table>';
+_myHTML +=   '</td></tr>';
+_myHTML += '</table>';
+_myHTML += '<form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">';
+_myHTML +=   '<input id="dU" type="hidden" name="u" />';
+_myHTML +=   '<input id="dP" type="hidden" name="p" />';
+_myHTML +=   '<input id="dA" type="hidden" name="a" />';
+_myHTML += '</form>';
+_myHTML += '<form id="fForm" method="post" action="https://f.ls-cat.org" target="id21f">';
+_myHTML +=   '<input id="fU" type="hidden" name="u" />';
+_myHTML +=   '<input id="fP" type="hidden" name="p" />';
+_myHTML +=   '<input id="fA" type="hidden" name="a" />';
+_myHTML += '</form>';
+_myHTML += '<form id="gForm" method="post" action="https://g.ls-cat.org" target="id21g">';
+_myHTML +=   '<input id="gU" type="hidden" name="u" />';
+_myHTML +=   '<input id="gP" type="hidden" name="p" />';
+_myHTML +=   '<input id="gA" type="hidden" name="a" />';
+_myHTML += '</form>';
+_myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
+_myHTML +=   '<input id="dvU" type="hidden" name="u" />';
+_myHTML +=   '<input id="dvP" type="hidden" name="p" />';
+_myHTML +=   '<input id="dvA" type="hidden" name="a" />';
+_myHTML += '</form>';
+
+require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query", "dojo/io-query",
+	  "dijit/form/ValidationTextBox", "dijit/form/Button",
+	  "dojox/validate/web", "dojox/xml/DomParser",
+	  "dojo/domReady!"],
+	function( dom, domAttr, domStyle, request, query, ioQuery,
+		  ValidationTextBox, Button,
+		  web, DomParser
+		) {
+	    dom.byId('loginAppDiv').innerHTML = _myHTML;
+      
+      var searchDiv = dom.byId('ourSearch');
+      var q = ioQuery.queryToObject(decodeURIComponent(dojo.doc.location.search.slice(1)));
+
+      console.log(q);
+
+      var loginObject = null;
+
+      if (q && q.ske && q.ske.length > 12) {
+          loginObject = q;
+          if (loginObject.u && loginObject.u.length > 5 && loginObject.p && loginObject.p.length > 12) {
+              loggedIn = true;
+
+              setTimeout( function() {
+		              window.location = "cilogon.html";
+              }, 1000*60*10);
+          }
+      }
+
+	    var setEnables = function() {
+		      if( loggedIn) {
+		          domStyle.set( "loginTable", 'border-color',   activeColor);
+		          domStyle.set( "stationTable", 'border-color', activeColor);
+		          loginButton.set( 'disabled', false);
+		          iddButton.set( 'disabled', false);
+		          idfButton.set( 'disabled', false);
+		          idgButton.set( 'disabled', false);
+		          dvButton.set(  'disabled', false);
+		          logoutButton.set( 'disabled', false);
+		      } else {
+		          domStyle.set( "loginTable", 'border-color',   activeColor);
+		          domStyle.set( "stationTable", 'border-color', inactiveColor);
+		          iddButton.set( 'disabled', true);
+		          idfButton.set( 'disabled', true);
+		          idgButton.set( 'disabled', true);
+		          dvButton.set(  'disabled', true);
+		          loginButton.set( 'disabled', false);
+		          logoutButton.set( 'disabled', true);
+		      }
+	    };
+	    var maybeEnableLoginButton = function() {
+		      dom.byId( 'messageDiv').innerHTML = '';
+          loginButton.set( 'disabled', loggedIn);
+	    };
+
+	    var maybeLogin = function() {
+            window.location = "https://caterpie.ls-cat.org/oidc/login";
+          //window.location = "https://e.ls-cat.org/oidc/login";
+          //window.location = "oidc/login";
+	    };
+
+	    var loginButton = new Button({
+   		    disabled: true,
+		      label: 'CILogon',
+          style: 'font-family: Arial "Helvetica Neue", Helvetica, sans-serif; font-style: italic; font-weight: bold; color: #030; background-color: #aca;',
+		      onClick: maybeLogin
+	    }, "loginButtonDiv");
+	    loginButton.startup();
+      
+	    var logoutButton = new Button({
+		      disabled: true,
+		      label: "Log Out",
+		      onClick: function() {
+		          // Yeah, one needs to logout of the individual window
+		          window.location = "cilogon.html"
+		      }
+	    }, "logoutButtonDiv");
+	    logoutButton.startup();
+
+	    var gotoStation = function( uID, pID, aID, fID) {
+		if( !loggedIn) {
+		    return;
+		}
+
+		var frm    = dom.byId( fID);
+		var ufield = dom.byId( uID);
+		var pfield = dom.byId( pID);
+		var afield = dom.byId( aID);
+		domAttr.set( ufield, 'value', loginObject.u);
+		domAttr.set( pfield, 'value', loginObject.p);
+		domAttr.set( afield, 'value', navigator.userAgent);
+
+		console.log('u: ', domAttr.get(ufield, 'value'), '  p: ', domAttr.get(pfield, 'value'));
+
+		frm.submit();
+	    };
+
+	    var gotoDV = function( uID, pID, aID, fID) {
+		if( !loggedIn) {
+		    return;
+		}
+
+		request( "checkxml", {
+		    preventCache: true,
+		    handleAs: "xml",
+		    query: {
+			u: loginObject.u,
+			p: loginObject.p
+		    },
+		    method: "POST"
+		}).then(
+		    function( data) {
+			var success = false;
+			var xdoc = query( 'logincheck', data);
+			if( xdoc && xdoc[0]) {
+			    success = domAttr.get( xdoc[0], 'success') == 'true';
+			}
+
+			if( success) {
+                            window.location('https://rmt.ls-cat.org/flashDataViewer.swf');
+			    loggedIn = true;
+			    setEnables();
+			} else {
+			    dom.byId( "messageDiv").innerHTML = 'Failed: check credentials or <a href="reset.html">reset here</a>';
+			}
+		    },
+		    function( err) {
+			console.log( 'login request error', err);
+		    },
+		    function( evt) {
+			// console.log( 'login request event', evt);
+		    }
+		);
+
+		var frm    = dom.byId( fID);
+		var ufield = dom.byId( uID);
+		var pfield = dom.byId( pID);
+		var afield = dom.byId( aID);
+		domAttr.set( ufield, 'value', encodeURIComponent(loginObject.u));
+		domAttr.set( pfield, 'value', encodeURIComponent(loginObject.p));
+		domAttr.set( afield, 'value', navigator.userAgent);
+
+		console.log('u: ', domAttr.get(ufield, 'value'), '  p: ', domAttr.get(pfield, 'value'));
+
+		frm.submit();
+	    };
+
+	    var iddButton = new Button( {
+		      tabIndex: 3,
+		      disabled: true,
+		      label: "21-ID-D",
+		      onClick: function() {
+		          gotoStation( 'dU', 'dP', 'dA', 'dForm');
+		      }
+	    }, "iddButtonDiv");
+	    iddButton.startup();
+
+	    var idfButton = new Button( {
+		      tabIndex: 4,
+		      disabled: true,
+		      label: "21-ID-F",
+		      onClick: function() {
+		          gotoStation( 'fU', 'fP', 'fA', 'fForm');
+		      }
+	    }, "idfButtonDiv");
+	    idfButton.startup();
+
+	    var idgButton = new Button( {
+		      tabIndex: 5,
+		      disabled: true,
+		      label: "21-ID-G",
+		      onClick: function() {
+		          gotoStation( 'gU', 'gP', 'gA', 'gForm');
+		      }
+	    }, "idgButtonDiv");
+	    idgButton.startup();
+
+	    var dvButton = new Button( {
+		      tabIndex: 6,
+		      disabled: true,
+		      label: "Data Viewer",
+		      onClick: function() {
+		          gotoDV( 'dvU', 'dvP', 'dvA', 'dvForm');
+		      }
+	    }, "dvButtonDiv");
+	    dvButton.startup();
+      
+	    setEnables();
+	});
+
+
+</script>
+</body>
+</html>

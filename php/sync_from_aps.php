@@ -94,7 +94,7 @@ if( !isset($thePassword)) {
  }
 
 if( !isset($theRun)) {
-  $theRun = "2018-2";
+  $theRun = "2018-3";
  }
 
 header( 'Expires: Mon, 18 Apr 2005 17:30:00 GMT');
@@ -113,7 +113,6 @@ echo "All rights reserved.\r\n";
 echo "--".$boundary."\r\n";
 flush();
 
-
 $l = ldap_connect( "ldap://ldap.ls-cat.org");
 $lsearch = ldap_search( $l, "dc=people,dc=ls-cat,dc=org","uid=".$theUserName, array("apsBadgeNo"));
 $rslt = ldap_get_entries( $l, $lsearch);
@@ -122,7 +121,6 @@ if( $rslt["count"] != 1 || $rslt[0]["apsbadgeno"]["count"] != 1) {
   sendStatus( -1, "count: ".$rslt["count"], "Bad Username Or Password", true, "Badge Number Not Found");
   exit();
  }
-
 
 $apsUserName = $rslt[0]["apsbadgeno"][0];
 if( strlen( $apsUserName) <= 4) {

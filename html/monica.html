@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>LS-CAT Monica&#39;s Page</title>
+
+    <link rel="icon" href="lsfavicon.png" type="image/png" />
+    <link rel="stylesheet" type="text/css" href="https://caterpie.ls-cat.org/dijit/themes/claro/claro.css"/>
+    <script>
+      dojoConfig = {
+          parseOnLoad: true
+      }
+    </script>
+
+  </head>
+  <body class="claro" style="background-color: #eeeeee;">
+
+  <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'header.html'"></div>
+
+<hr width="1024" align="left"/>
+
+<span class="navie"><table width="1024" cellpadding="0" cellspacing="0"><tr><td><p><a href="index.html">Home</a> > <a href="monica.html">Monica&#39;s Page</a> </p></td></tr></table></span>
+
+<table width="1024" cellpadding="0" border="0"><tr width="1024">
+
+<tr>
+<td width="1024">
+<div class="talkyText">
+
+
+<ul>
+  <li><a href="http://contrabass.ls-cat.org/whoscoming.html">Who&#39;s coming? (or who came)</a></li>
+  <li><a href="http://contrabass.ls-cat.org/trips.php">List of trips</a></li>
+</ul>
+
+</td>
+</tr>
+
+<tr><td>
+    <div id="syncCalAppDiv"></div>
+</object>
+</td></tr>
+</table>
+
+<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="href: 'tailer.html'"></div>
+<script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
+<script> require( ["dijit/layout/ContentPane"]);</script>
+<script>
+var activeColor   = '#0167be';
+var inactiveColor = '#b6b6b6';
+var loggedIn = false;
+
+var myHTML = '';
+myHTML += '<table style="border: 1px dashed black;">';
+myHTML +=   '<tr><th colspan="2">Synchronize LS-CAT Calendar to the APS</th></tr>';
+myHTML +=   '<tr><td style="text-align: right;">LS-CAT User Name</td><td><span id="lscatUserNameDiv"></span></td></tr>';
+myHTML +=   '<tr><td style="text-align: right;">LS-CAT Password</td><td><span id="lscatPasswordDiv"></span></td></tr>';
+myHTML +=   '<tr><td colspan="2"><span id="messageDiv"></span></td></tr>';
+myHTML +=   '<tr><td colspan="2" style="text-align: center;"><span id="lscatLoginButtonDiv"></span></tr>';
+myHTML +=   '<tr><td style="text-align: right;">APS Password</td><td><span id="apsPasswordDiv"></span></td></tr>';
+myHTML +=   '<tr><td colspan="2" style="text-align: center;"><span id="startButtonDiv"></span></tr>';
+myHTML +=   '<tr><td colspan="2" style="text-align: center;"><span id="progressBarDiv"></span></tr>';
+myHTML += '</table>';
+myHTML += '<hr />';
+
+require(['dojo/dom', 'dojo/dom-attr', 'dojo/dom-style', 'dojo/request', 'dojo/request/xhr', 'dojo/query',
+         'dijit/form/ValidationTextBox', 'dijit/form/Button', 'dijit/ProgressBar',
+         'dojox/validate/web', 'dojox/xml/DomParser',
+         'dojo/domReady!'],
+        function(dom, domAttr, domStyle, request, xhr, query,
+                 ValidationTextBox, Button, ProgressBar,
+                 web, DomParser) {
+            dom.byId('syncCalAppDiv').innerHTML = myHTML;
+
+            const setEnables = () => {
+                if (loggedIn) {
+                    lscatUserNameBox.set('disabled', true);
+                    lscatPasswordBox.set('disabled', true);
+                    lscatLoginButton.set('disabled', true);
+                    apsPasswordBox.set('disabled', false);
+                    if (apsPasswordBox.isValid()) {
+                        startButton.set('disabled', false);
+                    } else {
+                        startButton.set('disabled', true);
+                    }
+                } else {
+                    lscatUserNameBox.set('disabled', false);
+                    lscatPasswordBox.set('disabled', false);
+                    startButton.set('disabled', true);
+                    apsPasswordBox.set('disabled', true);
+                    if (lscatUserNameBox.isValid() && lscatPasswordBox.isValid()) {
+                        lscatLoginButton.set('disabled', false);
+                    } else {
+                        lscatLoginButton.set('disabled', true);
+                    }
+                }
+            };
+
+	    const runSync = () => {
+                if( !lscatUserNameBox.isValid() || !lscatPasswordBox.isValid() || !apsPasswordBox.isValid()) {
+                    return;
+		}
+		var os = {};
+
+		xhr('sync_from_aps.php', {
+		    preventCache: true,
+		    handleAs: "xml",
+		    query: {
+			theUserName: lscatUserNameBox.get('value').trim(),
+			thePassword: apsPasswordBox.get('value').trim()
+		    },
+		    method: 'POST',
+		    sync: true
+		}).then(
+		    // new data
+		    function(data) {
+			console.log('sync request data:', data);
+		    },
+		    // an error
+		    function(err) {
+			console.log('sync request error:', err);
+		    },
+		    //an unknown event?
+		    function(evt) {
+			console.log('sync request event:', evt);
+		    }
+		)
+	    };
+
+            var maybeLogin = function() {
+                if( !lscatUserNameBox.isValid() || !lscatPasswordBox.isValid())
+                    return;
+
+                request( "https://rmt.ls-cat.org/checkxml", {
+                    preventCache: true,
+                    handleAs: "xml",
+                    query: {
+                        u: lscatUserNameBox.get( 'value'),
+                        p: lscatPasswordBox.get( 'value'),
+                        newRole: 'Scheduler'
+                    },
+                    method: "POST"
+                }).then(
+                    function( data) {
+                        var success = false;
+                        var xdoc = query( 'logincheck', data);
+                        if( xdoc && xdoc[0]) {
+                            success = domAttr.get( xdoc[0], 'success') == 'true';
+                        }
+
+                        if( success) {
+                            loggedIn = true;
+                            setEnables();
+                        } else {
+                            dom.byId( "messageDiv").innerHTML = 'Failed: check credentials or <a href="reset.html">reset here</a>';
+                        }
+                    },
+                    function( err) {
+                        console.log( 'login request error', err);
+                    },
+                    function( evt) {
+                        // console.log( 'login request event', evt);
+                    }
+                );
+            };
+
+            const lscatUserNameBox = new ValidationTextBox({
+                tabIndex: 1,
+                validator: web.isText,
+                constraints: {minlength: 2, maxlength: 32},
+                placeHolder: 'User Name',
+                intermediateChanges: true,
+                required: true,
+                onInput: function( evt) {
+                    if( evt.keyIdentifier == 'Enter') {
+                        maybeEnableLoginButton();
+                        maybeLogin();
+                    }
+                },
+            }, 'lscatUserNameDiv');
+            lscatUserNameBox.startup();
+
+            const lscatPasswordBox = new ValidationTextBox({
+                tabIndex: 2,
+                validator: web.isText,
+                constraints: {minlength: 8},
+                type: 'password',
+                placeHolder: 'LS-CAT Password',
+                intermediateChanges: true,
+                required: true,
+                onInput: function( evt) {
+                    if( evt.keyIdentifier == 'Enter') {
+                        maybeEnableLoginButton();
+                        maybeLogin();
+                    }
+                },
+                onChange: (v) => {
+                    setEnables();
+                }
+            }, 'lscatPasswordDiv');
+            lscatPasswordBox.startup();
+
+
+            var lscatLoginButton = new Button({
+                tabIndex: 3,
+                label: 'Login to LS-CAT',
+                onClick: maybeLogin
+            }, 'lscatLoginButtonDiv');
+            lscatLoginButton.startup();
+
+            const apsPasswordBox = new ValidationTextBox({
+                tabIndex: 4,
+                validator: web.isText,
+                constraints: {minlength: 8},
+                type: 'password',
+                placeHolder: 'APS Password',
+                intermediateChanges: true,
+                required: true,
+                onInput: setEnables,
+                onChange: (v) => {
+                }
+            }, 'apsPasswordDiv');
+            apsPasswordBox.startup();
+
+            const startButton = new Button({
+                tabIndex: 5,
+                label: 'Sart',
+		onClick: runSync
+            }, 'startButtonDiv');
+            startButton.startup();
+
+            const progressBar = new ProgressBar({
+                label: 'Press Start'
+            }, 'progressBarDiv');
+            progressBar.startup();
+
+            setEnables();
+
+        });
+</script>
+</body>
+</html>

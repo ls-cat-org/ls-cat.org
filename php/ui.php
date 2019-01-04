@@ -32,7 +32,7 @@ while( list( $key, $val) = each( $_REQUEST)) {
 
 
 if( isset($subbieReset) && $subbieReset=='true') {
-  $url = "http://10.1.0.3/rstpwd.php";
+  $url = "https://contrabass.ls-cat.org/rstpwd.php";
   $zz = '?badge=".urlencode($badge)."&email=".urlencode($email)';
   $cr = curl_init( $url) or die('<ui success="false" message="Connection to password reset server failed" url="'.htmlspecialchars($url).'"/>');
   curl_setopt( $cr, CURLOPT_POST, true);
@@ -46,7 +46,7 @@ if( isset($subbieReset) && $subbieReset=='true') {
 
 
 if( isset($subbieNewUid) && $subbieNewUid=='true') {
-  $url = "http://10.1.0.3/rstpwd.php";
+  $url = "https://contrabass.ls-cat.org/rstpwd.php";
   $cr = curl_init( $url) or die('<ui success="false" message="Connection to password reset server failed" url="'.htmlspecialchars($url).'"/>');
   curl_setopt( $cr, CURLOPT_POST, true);
   $pf =  array( "badge" => rawurlencode($badge), "email" => rawurlencode($email), "pwdold" => rawurlencode($pwdold), "ldapUid" => rawurlencode($ldapUid), "subbieNewUid" => "true");

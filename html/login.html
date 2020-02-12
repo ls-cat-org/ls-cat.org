@@ -79,6 +79,7 @@ _myHTML +=      '<table id="stationTable" style="width: 100px; border: 5px solid
 _myHTML +=        '<tr><td style="text-align: center;"><span id="iddButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="idfButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="idgButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idaButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="dvButtonDiv"></span></td></tr>';
 _myHTML +=      '</table>';
 _myHTML +=   '</td></tr>';
@@ -97,6 +98,11 @@ _myHTML += '<form id="gForm" method="post" action="https://g.ls-cat.org" target=
 _myHTML +=   '<input id="gU" type="hidden" name="u" />';
 _myHTML +=   '<input id="gP" type="hidden" name="p" />';
 _myHTML +=   '<input id="gA" type="hidden" name="a" />';
+_myHTML += '</form>';
+_myHTML += '<form id="aForm" method="post" action="https://a.ls-cat.org" target="id21a">';
+_myHTML +=   '<input id="aU" type="hidden" name="u" />';
+_myHTML +=   '<input id="aP" type="hidden" name="p" />';
+_myHTML +=   '<input id="aA" type="hidden" name="a" />';
 _myHTML += '</form>';
 _myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
 _myHTML +=   '<input id="dvU" type="hidden" name="u" />';
@@ -132,6 +138,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		    domStyle.set( "loginTable", 'border-color',   activeColor);
 		    domStyle.set( "stationTable", 'border-color', activeColor);
 		    loginButton.set( 'disabled', true);
+		    idaButton.set( 'disabled', false);
 		    iddButton.set( 'disabled', false);
 		    idfButton.set( 'disabled', false);
 		    idgButton.set( 'disabled', false);
@@ -140,6 +147,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		} else {
 		    domStyle.set( "loginTable", 'border-color',   activeColor);
 		    domStyle.set( "stationTable", 'border-color', inactiveColor);
+		    idaButton.set( 'disabled', true);
 		    iddButton.set( 'disabled', true);
 		    idfButton.set( 'disabled', true);
 		    idgButton.set( 'disabled', true);
@@ -303,10 +311,20 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 	    }, "idgButtonDiv");
 	    idgButton.startup();
 
+	    var idaButton = new Button( {
+		tabIndex: 6,
+		disabled: true,
+		label: "Beta Data Viewer",
+		onClick: function() {
+		    gotoStation( 'aU', 'aP', 'aA', 'aForm');
+		}
+	    }, "idaButtonDiv");
+	    idaButton.startup();
+
 	    var dvButton = new Button( {
 		tabIndex: 6,
 		disabled: true,
-		label: "Data Viewer",
+		label: "Obsolete Flash Data Viewer<br />(Browser support ending in 2020)",
 		onClick: function() {
 		    gotoStation( 'dvU', 'dvP', 'dvA', 'dvForm');
 		}

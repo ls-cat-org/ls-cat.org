@@ -78,10 +78,15 @@ _myHTML +=      '<table id="stationTable" style="width: 100px; border: 5px solid
 _myHTML +=        '<tr><td><span id="iddButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td><span id="idfButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td><span id="idgButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td><span id="idaButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td><span id="dvButtonDiv"></span></td></tr>';
 _myHTML +=      '</table>';
 _myHTML +=   '</td></tr>';
 _myHTML += '</table>';
+_myHTML += '<form id="aForm" method="post" action="https://a.ls-cat.org" target="id21a">';
+_myHTML +=   '<input id="aU" type="hidden" name="u" />';
+_myHTML +=   '<input id="aP" type="hidden" name="p" />';
+_myHTML += '</form>';
 _myHTML += '<form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">';
 _myHTML +=   '<input id="dU" type="hidden" name="u" />';
 _myHTML +=   '<input id="dP" type="hidden" name="p" />';
@@ -124,6 +129,7 @@ require([
 		    newUserNameBox.set( 'disabled', false);
 		    newPWD1Box.set( 'disabled', false);
 		    newPWD2Box.set( 'disabled', false);
+		    idaButton.set(  'disabled', false);
 		    iddButton.set(  'disabled', false);
 		    idfButton.set(  'disabled', false);
 		    idgButton.set(  'disabled', false);
@@ -137,6 +143,8 @@ require([
 		    newUserNameBox.set( 'disabled', true);
 		    newPWD1Box.set( 'disabled', true);
 		    newPWD2Box.set( 'disabled', true);
+		    idaButton.set(  'disabled', true);
+		    iddButton.set(  'disabled', true);
 		    idfButton.set(  'disabled', true);
 		    idgButton.set(  'disabled', true);
 		    dvButton.set(   'disabled', true);
@@ -575,10 +583,20 @@ require([
 	    }, "idgButtonDiv");
 	    idgButton.startup();
 
+	    var idaButton = new Button( {
+		tabIndex: 7,
+		disabled: true,
+		label: "Beta Data Viewer",
+		onClick: function() {
+		    gotoStation( 'aU', 'aP', 'aForm');
+		}
+	    }, "idaButtonDiv");
+	    idaButton.startup();
+
 	    var dvButton = new Button( {
 		tabIndex: 10,
 		disabled: true,
-		label: "Data Viewer",
+		label: "Obsolete Flash Data Viewer<br />(Browser support ending in 2020)",
 		onClick: function() {
 		    gotoStation( 'dvU', 'dvP', 'dvForm');
 		}

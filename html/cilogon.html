@@ -104,10 +104,16 @@ _myHTML +=      '<table id="stationTable" style="width: 100px; border: 5px solid
 _myHTML +=        '<tr><td style="text-align: center;"><span id="iddButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="idfButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="idgButtonDiv"></span></td></tr>';
+_myHTML +=        '<tr><td style="text-align: center;"><span id="idaButtonDiv"></span></td></tr>';
 _myHTML +=        '<tr><td style="text-align: center;"><span id="dvButtonDiv"></span></td></tr>';
 _myHTML +=      '</table>';
 _myHTML +=   '</td></tr>';
 _myHTML += '</table>';
+_myHTML += '<form id="aForm" method="post" action="https://a.ls-cat.org" target="id21a">';
+_myHTML +=   '<input id="aU" type="hidden" name="u" />';
+_myHTML +=   '<input id="aP" type="hidden" name="p" />';
+_myHTML +=   '<input id="aA" type="hidden" name="a" />';
+_myHTML += '</form>';
 _myHTML += '<form id="dForm" method="post" action="https://d.ls-cat.org" target="id21d">';
 _myHTML +=   '<input id="dU" type="hidden" name="u" />';
 _myHTML +=   '<input id="dP" type="hidden" name="p" />';
@@ -162,6 +168,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		          domStyle.set( "loginTable", 'border-color',   activeColor);
 		          domStyle.set( "stationTable", 'border-color', activeColor);
 		          loginButton.set( 'disabled', false);
+		          idaButton.set( 'disabled', false);
 		          iddButton.set( 'disabled', false);
 		          idfButton.set( 'disabled', false);
 		          idgButton.set( 'disabled', false);
@@ -170,6 +177,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		      } else {
 		          domStyle.set( "loginTable", 'border-color',   activeColor);
 		          domStyle.set( "stationTable", 'border-color', inactiveColor);
+		          idaButton.set( 'disabled', true);
 		          iddButton.set( 'disabled', true);
 		          idfButton.set( 'disabled', true);
 		          idgButton.set( 'disabled', true);
@@ -185,8 +193,6 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 
 	    var maybeLogin = function() {
             window.location = "https://caterpie.ls-cat.org/oidc/login";
-          //window.location = "https://e.ls-cat.org/oidc/login";
-          //window.location = "oidc/login";
 	    };
 
 	    var loginButton = new Button({
@@ -303,12 +309,21 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		          gotoStation( 'gU', 'gP', 'gA', 'gForm');
 		      }
 	    }, "idgButtonDiv");
+
+	    var idaButton = new Button( {
+		      tabIndex: 5,
+		      disabled: true,
+		      label: "Beta Data Viewer",
+		      onClick: function() {
+		          gotoStation( 'aU', 'aP', 'aA', 'aForm');
+		      }
+	    }, "idaButtonDiv");
 	    idgButton.startup();
 
 	    var dvButton = new Button( {
 		      tabIndex: 6,
 		      disabled: true,
-		      label: "Data Viewer",
+		      label: "Obsolete Data Viewer<br />(Browser support ending in 2020)",
 		      onClick: function() {
 		          gotoDV( 'dvU', 'dvP', 'dvA', 'dvForm');
 		      }

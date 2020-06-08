@@ -216,6 +216,8 @@ class Xmit2APS:
 
             ael = []
             for r in qr.dictresult():
+                if r["cend"] == None or r["cbegin"] == None:
+                   continue;
                 ae = bc.factory.create('activityElement')
 
                 ae.clientFkId = int( r["ckey"])     # an id for use to reference the LS-CAT schedule

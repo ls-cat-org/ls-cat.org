@@ -206,8 +206,8 @@ class Xmit2APS:
             # Now walk through the calender and add activities
             #
             activityElements = bc.factory.create('activityElementArray')
-            
-            qs = "select * from %s where crunname='%s' order by cbegin asc" % (cal, self.theRun)
+            # qs = "select * from %s where crunname='%s' order by cbegin asc" % (cal, self.theRun)
+            qs = "select * from %s where crunname='%s' and cbegin >= '2020-10-1 08:00:00' order by cbegin asc" % (cal, self.theRun)            
             qr = self.db.query( qs)
 
             doneIncrement = 80.0 / nstns / (qr.ntuples() + 1.0)

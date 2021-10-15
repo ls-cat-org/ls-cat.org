@@ -2,13 +2,13 @@
 
 $addrs = array(
        "",
-       "k-brister@northwestern.edu",
+       "",
        "",
        "spencer-anderson@northwestern.edu",
        "m-bolbat@northwestern.edu",
        "j-brunzelle@northwestern.edu",
        "monica.green@northwestern.edu",
-       "e-kondrashkina@northwestern.edu",
+       "",
        "z-wawrzak@northwestern.edu",
        "j-vonosinski@northwestern.edu",
        ""

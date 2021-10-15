@@ -97,14 +97,17 @@ require(['dojo/dom', 'dojo/dom-attr', 'dojo/dom-style', 'dojo/request', 'dojo/re
             };
 
 	    const runSync = () => {
-                if( !lscatUserNameBox.isValid() || !lscatPasswordBox.isValid() || !apsPasswordBox.isValid()) {
+
+		console.log("in runSync");
+		if( !lscatUserNameBox.isValid() || !lscatPasswordBox.isValid() || !apsPasswordBox.isValid()) {
                     return;
 		}
 		var os = {};
 
+		console.log("starting sync_from_aps");
 		xhr('sync_from_aps.php', {
 		    preventCache: true,
-		    handleAs: "xml",
+		    handleAs: "json",
 		    query: {
 			theUserName: lscatUserNameBox.get('value').trim(),
 			thePassword: apsPasswordBox.get('value').trim()

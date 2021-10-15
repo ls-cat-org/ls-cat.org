@@ -99,10 +99,6 @@ _myHTML += '<form id="gForm" method="post" action="https://g.ls-cat.org" target=
 _myHTML +=   '<input id="gU" type="hidden" name="u" />';
 _myHTML +=   '<input id="gP" type="hidden" name="p" />';
 _myHTML += '</form>';
-_myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
-_myHTML +=   '<input id="dvU" type="hidden" name="u" />';
-_myHTML +=   '<input id="dvP" type="hidden" name="p" />';
-_myHTML += '</form>';
 
 require([
     "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query",
@@ -586,22 +582,12 @@ require([
 	    var idaButton = new Button( {
 		tabIndex: 7,
 		disabled: true,
-		label: "Beta Data Viewer",
+		label: "Data Viewer",
 		onClick: function() {
 		    gotoStation( 'aU', 'aP', 'aForm');
 		}
 	    }, "idaButtonDiv");
 	    idaButton.startup();
-
-	    var dvButton = new Button( {
-		tabIndex: 10,
-		disabled: true,
-		label: "Obsolete Flash Data Viewer<br />(Browser support ending in 2020)",
-		onClick: function() {
-		    gotoStation( 'dvU', 'dvP', 'dvForm');
-		}
-	    }, "dvButtonDiv");
-	    dvButton.startup();
 	});
 </script>
 </html>

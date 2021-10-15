@@ -129,11 +129,6 @@ _myHTML +=   '<input id="gU" type="hidden" name="u" />';
 _myHTML +=   '<input id="gP" type="hidden" name="p" />';
 _myHTML +=   '<input id="gA" type="hidden" name="a" />';
 _myHTML += '</form>';
-_myHTML += '<form id="dvForm" method="post" action="https://rmt.ls-cat.org/flashDataViewer.swf" target="dataViewer">';
-_myHTML +=   '<input id="dvU" type="hidden" name="u" />';
-_myHTML +=   '<input id="dvP" type="hidden" name="p" />';
-_myHTML +=   '<input id="dvA" type="hidden" name="a" />';
-_myHTML += '</form>';
 
 require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/query", "dojo/io-query",
 	  "dijit/form/ValidationTextBox", "dijit/form/Button",
@@ -313,23 +308,13 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 	    var idaButton = new Button( {
 		      tabIndex: 5,
 		      disabled: true,
-		      label: "Beta Data Viewer",
+		      label: "Data Viewer",
 		      onClick: function() {
 		          gotoStation( 'aU', 'aP', 'aA', 'aForm');
 		      }
 	    }, "idaButtonDiv");
 	    idgButton.startup();
 
-	    var dvButton = new Button( {
-		      tabIndex: 6,
-		      disabled: true,
-		      label: "Obsolete Data Viewer<br />(Browser support ending in 2020)",
-		      onClick: function() {
-		          gotoDV( 'dvU', 'dvP', 'dvA', 'dvForm');
-		      }
-	    }, "dvButtonDiv");
-	    dvButton.startup();
-      
 	    setEnables();
 	});
 

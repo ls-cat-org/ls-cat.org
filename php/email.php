@@ -1,14 +1,14 @@
 <?php
 
 $addrs = array(
-       "",
+       "a-mondragon@northwestern.edu",
        "",
        "",
        "spencer-anderson@northwestern.edu",
        "m-bolbat@northwestern.edu",
        "j-brunzelle@northwestern.edu",
        "monica.green@northwestern.edu",
-       "",
+       "focia@northwestern.edu",
        "z-wawrzak@northwestern.edu",
        "j-vonosinski@northwestern.edu",
        "",

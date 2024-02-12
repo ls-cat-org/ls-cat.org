@@ -5,7 +5,7 @@
     <title>LS-CAT Remote Client Login</title>
     
     <link rel="icon" href="lsfavicon.png?v=3" type="image/png" />
-    <link rel="stylesheet" type="text/css" href="https://caterpie.ls-cat.org/dijit/themes/claro/claro.css"/>
+    <link rel="stylesheet" type="text/css" href="https://lsnode.ls-cat.org/dijit/themes/claro/claro.css"/>
     <script>
       dojoConfig = {
 	      parseOnLoad: true
@@ -81,7 +81,7 @@
 
     <div id="loginAppDiv"></div>
     
-    <script src="https://caterpie.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
+    <script src="https://lsnode.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
 
     <!--<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.3/dojo/dojo.js" data-dojo-config="async: true"></script>-->
 
@@ -187,7 +187,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 	    };
 
 	    var maybeLogin = function() {
-            window.location = "https://caterpie.ls-cat.org/oidc/login";
+            window.location = "https://lsnode.ls-cat.org/oidc/login";
 	    };
 
 	    var loginButton = new Button({
@@ -248,7 +248,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 			}
 
 			if( success) {
-                            window.location('https://rmt.ls-cat.org/flashDataViewer.swf');
+                            window.location('https://lsnode.ls-cat.org');
 			    loggedIn = true;
 			    setEnables();
 			} else {

@@ -19,20 +19,20 @@
 
 <hr width="1024" align="left"/>
 
-<p>
-Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to register, retrieve username, and/or reset password</a>.
-</p>
-<p style="background-color: pink;">
- Note: Most Mondays LS-CAT remote services are unavailable for a few hours to perform routine maintenance.
-</p>
-
-<p>
-<a href="https://docs.google.com/document/d/1OrrKCY2Tw2cq5C9wSiGuKbh49mi0iJT_NCqmakaFOmw/edit?usp=sharing">Here are lists of the LS-CAT User Interface changes and known bugs.</a>
-</p>
+  <p style="background-color: pink;">
+    Note: Most Mondays LS-CAT remote services are unavailable for a few hours to perform
+    routine maintenance.
+  </p>
 
   <p>
-    Don't want to deal with yet another username and password?  Use <i>CILogon</i> if you've used your institutional email address on the ESAF.
+    Please use your CILogon account to access the remote interface.
+    <br><br>
+    <i>
+      Note: Your CILogon account must use the same institutional email address
+      you provided for your Experimental Safety Assessment Form (ESAF).
+    </i>
   </p>
+  
   <p>
     <form action="https://lsnode.ls-cat.org/oidc/login" method="get">
       <input type="image" name="cisubmit2" id="cisubmit2"
@@ -54,8 +54,6 @@ Please log in  <a href="https://rmt.ls-cat.org/reset.html">or click here to regi
 
 
 <script src="https://lsnode.ls-cat.org/dojo/dojo.js" data-dojo-config="async: true"></script>
-
-<!--<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.3/dojo/dojo.js" data-dojo-config="async: true"></script>-->
 
 <script> require( ["dijit/layout/ContentPane"]);</script>
 
@@ -239,7 +237,7 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 			console.log( 'login request error', err);
 		    },
 		    function( evt) {
-			// console.log( 'login request event', evt);
+			console.log( 'login request event', evt);
 		    }
 		);
 	    };
@@ -256,8 +254,8 @@ require([ "dojo/dom", "dojo/dom-attr", "dojo/dom-style", "dojo/request", "dojo/q
 		disabled: true,
 		label: "Log Out",
 		onClick: function() {
-		    // Yeah, one needs to logout of the individual window
-		    window.location='login.html';
+		    // Leaving the web page ends the login session.
+		    window.location="login.html";
 		}
 	    }, "logoutButtonDiv");
 	    logoutButton.startup();

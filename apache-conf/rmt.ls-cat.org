@@ -1,0 +1,12 @@
+<IfModule mod_ssl.c>
+  <VirtualHost *:80>
+      ServerName rmt.ls-cat.org
+      Redirect permanent "/" "https://ls-cat.org/login.html"
+  </VirtualHost>
+
+  <VirtualHost *:443>
+    SSLEngine on
+    ServerName rmt.ls-cat.org
+    Redirect permanent "/" "https://ls-cat.org/login.html"
+  </VirtualHost>
+</IfModule>

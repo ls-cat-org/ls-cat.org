@@ -4,7 +4,7 @@ error() {
 }
 
 no_go=
-if [ $PWD != "/var/www/ls-cat.org" ]; then
+if [ $PWD != "/var/www/ls-cat.org/install" ]; then
     error "Error: Please clone this repo under /var/www and install from" \
 	  "there. To do so, please run the following commands:"
     error
@@ -13,25 +13,26 @@ if [ $PWD != "/var/www/ls-cat.org" ]; then
     error "cd ls-cat.org"
     error "sudo ./install.sh"
     error
+    no_go=true
 fi
 
 if [ $UID -ne 0 ]; then
     error "Error: Please run this script with elevated privileges using sudo."
     error
+    no_go=true
 fi
 
 cert='/etc/ssl/certs/ls-cat.org.crt'
 key='/etc/ssl/private/ls-cat.org.key'
-chain='/etc/ssl/certs/ls-cat.org.chain.crt'
-if [ ! -f $cert ] || [ ! -f $key ] || [ ! -f $chain ]; then
+if [ ! -f $cert ] || [ ! -f $key ]; then
     error "Error: The TLS certificate has not been properly installed. Please" \
 	  "obtain the certificate, private key file, and certificate chain," \
 	  "then install them to the following locations, respectively:"
     error
     error "  $cert"
     error "  $key"
-    error "  $chain"
     error
+    no_go=true
 fi
 
 if [ -n "$no_go" ]; then

@@ -7,7 +7,7 @@ installer script as shown below:
 ```
 cd /var/www
 git clone <this repo>
-cd <the clone>
+cd <the clone>/install
 sudo ./install.sh
 ```
 

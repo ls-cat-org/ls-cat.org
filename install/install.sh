@@ -10,7 +10,7 @@ if [ $PWD != "/var/www/ls-cat.org/install" ]; then
     error
     error "cd /var/www"
     error "sudo git clone git@github.com:ls-cat-org/ls-cat.org.git"
-    error "cd ls-cat.org"
+    error "cd ls-cat.org/install"
     error "sudo ./install.sh"
     error
     no_go=true
@@ -46,7 +46,7 @@ for site_config in *; do
     a2ensite $site_config
     systemctl restart apache2 || fail=true
 done
-cd -
+cd - >/dev/null
 
 if [ -n "$fail" ]; then
     error "Error: ls-cat.org has been installed, but apache2 is not running." \

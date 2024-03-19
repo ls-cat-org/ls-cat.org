@@ -3,10 +3,6 @@
         margin: 10px;
 	background-color: #eeeeee;
       }
-      .navie p		{ margin: 0; text-decoration: none; color: brown; background-color: #cccccc; }
-      .navie a:link	{ margin: 0; text-decoration: none; color: brown; }
-      .navie a:visited	{ margin: 0; text-decoration: none; color: brown; }
-
       div.lhs a:link    { text-decoration: none; color: blue;   }
       div.lhs a:visited { text-decoration: none; color: purple; }
       div.lhs ul        { padding-left: 1em; margin-left: 0.5em;}

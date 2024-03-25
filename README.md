@@ -11,20 +11,6 @@ cd <the clone>/install
 sudo ./install.sh
 ```
 
-# Contributing
-Please do not do development directly off of the production environment. Instead, changes should be made and
-tested on your local machine.
-
-Good, working, tested changes should then be pushed from your local machine into the github repo, and then
-pulled from the github repo onto the production server.
-
-For development, you likely do not want to be forced to work directly under /var/www and do everything as root
-on your local machine. Instead, it suffices to clone this repository under your home directory and to rsync
-your clone to /var/www as follows:
-```
-sudo rsync /my/dir/ls-cat.org /var/www/ls-cat.org
-```
-
 # Updating the Production Environment
 This repository currently runs on tomato.ls-cat.org, a virtual machine running on wheat.ls-cat.org (the public
 APS-visible name for asn.ls-cat.org) under /var/www/ls-cat.org (owned by lsadmin).
@@ -41,5 +27,27 @@ Note: For changes to HTML, CSS, Javascript, PHP, and any assets (images or audio
 restarted. However, when installing a new TLS certificate or making any changes to apache config files, please
 run the following command after pulling down the latest changes:
 ```
-systemctl restart apache2
+sudo systemctl restart apache2
+```
+
+# Contributing
+Please read the following document for LS-CAT's rules before making a commit:
+https://docs.google.com/document/d/19kHNF1ftZzzbU9xP23YgZaCSBp3vcEQdH6kL8HE0L4k/edit?usp=drive_link
+
+Good, working, tested changes should then be pushed from the local machine into the github repo, and then
+pulled from the github repo onto the production server.
+
+For development, install.sh copies assets to /var/www and installs the necessary dependencies. Please run the
+following command to perform first-time setup:
+
+```
+cd install
+sudo ./install.sh
+```
+
+Upon making changes, apply them to the running apache2 server by running update.sh as follows:
+
+```
+cd install
+sudo ./update.sh
 ```

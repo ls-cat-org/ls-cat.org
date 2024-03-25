@@ -1,4 +1,14 @@
 #!/bin/bash
+
+usage() {
+    echo "install.sh [--update]"
+    echo "  --update : For development/debugging use only. If set, skip" \
+	 "    fetching dependencies and certificates, and do not restart the" \
+	 "    server. Copy the website assets to /var/www, and nothing else." \
+	 "    Do not use this option for updating the apache config file."
+    exit 1
+}
+
 error() {
     echo $@ >&2
 }
@@ -22,6 +32,20 @@ abort() {
     exit $fail_status
 }
 
+incremental=
+while [ $# -gt 0 ]; do
+    case $1 in
+	--update|--incremental)
+	    incremental=true;
+	    shift;
+	    ;;
+	*)
+	    
+	    break
+	    ;;
+    esac
+done
+
 if [ $UID -ne 0 ]; then
     error "Error: Please run this script with elevated privileges using sudo."
     error
@@ -29,11 +53,40 @@ if [ $UID -ne 0 ]; then
 fi
 
 if [ $PWD != "/var/www/ls-cat.org/install" ]; then
-    mkdir -p /var/www/ls-cat.org
-    rm -rf /var/www/ls-cat.org/*
+    # Copy all the site assets to /var/www all at once. This is slightly faster
+    # and accounts for deletions.
     cd ../
-    cp -Rf ./* /var/www/ls-cat.org
-    cd -
+    rm -rf /var/www/ls-cat.org.new
+    cp -Rf ./ /var/www/ls-cat.org.new
+    cd - >/dev/null
+    if [ -e /var/www/ls-cat.org ]; then
+	rm -rf /var/www/ls-cat.org.old
+	mv -f /var/www/ls-cat.org /var/www/ls-cat.org.old
+    fi
+    mv -f /var/www/ls-cat.org.new /var/www/ls-cat.org
+    if [ "$incremental" = true ]; then
+	cd apache-conf
+	cfgdir=/etc/apache2/sites-available
+	conf_update=
+	for site_config in *; do
+	    if [ ! -f $cfgdir/$site_config ] ||
+	       [ $site_config -nt $cfgdir/$site_config ]; then
+		
+		echo "$site_config was changed since the last update," \
+		     "installing to $cfgdir now"
+		cp -f $site_config /etc/apache2/sites-available/
+		try a2ensite $site_config 
+		conf_update=true
+	    fi
+	done
+	if [ "$conf_update" = true ]; then
+	    echo "Restarting apache2 to apply config changes now."
+	    try systemctl restart apache2
+	fi
+	cd - >/dev/null
+	echo "Update succeeded."
+	exit
+    fi
 fi
 
 fail=
@@ -68,13 +121,14 @@ if [ ! -f $cert ] || [ ! -f $key ]; then
     error
     exit 1
 fi
+fi
 
 cd apache-conf
 for site_config in *; do
     try cp -f $site_config /etc/apache2/sites-available/
     try a2ensite $site_config
-    try systemctl restart apache2
 done
+try systemctl restart apache2
 cd - >/dev/null
 if [ -n "$fail" ]; then
     abort "Error: ls-cat.org has been installed, but apache2 is not running." \

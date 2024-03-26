@@ -91,7 +91,8 @@ fi
 
 fail=
 try apt update
-try apt install libapache2-mod-php libapache2-mod-python
+try apt install php$php_version php$php_version-gd \
+    libapache2-mod-php libapache2-mod-python
 php_version=$(ls -l /etc/apache2/mods-available/ | awk '/php[0-9]+/{print $9;}' |
 		  sed 's/php//g;s/\.conf//g;s/\.load//g' | sort -Vr | head -1)
 echo "Note: using php version $php_version"

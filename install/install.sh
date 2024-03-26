@@ -122,7 +122,6 @@ if [ ! -f $cert ] || [ ! -f $key ]; then
     error
     exit 1
 fi
-fi
 
 cd apache-conf
 for site_config in *; do

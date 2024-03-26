@@ -148,15 +148,6 @@ a .menu-right {
 	text-decoration: none;
 	line-height: normal;
 }
-/*IE*/
-.nav li li a:hover,
-.nav li li a:hover {
-	color: #fff;
-	background: #165B9F !important;
-	text-decoration: none;
-	line-height: normal;
-}
-/**/
 .nav .btm-bg {
 	background: url(images/submenu_bottom.png) no-repeat;
 	width: 205px;

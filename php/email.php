@@ -29,3 +29,4 @@ $px     = 5;
 imagestring($im, 5, $px, 2, $string, $black);
 imagepng($im);
 imagedestroy($im);
+?>

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ue
 
 usage() {
     echo "install.sh [--update]"
@@ -13,23 +14,21 @@ error() {
     echo $@ >&2
 }
 
-fail=
-fail_status=0
-try() {
-    echo ">$@"
-    $@
-    status=$?
-    if [ $status -ne 0 ]; then
-	error "\"$@\" failed, see log above for details"
-	fail_status=$?
-    fi
-    echo
-    return $status
+abort() {
+    echo "$@" >&2
+    exit $fail_status
 }
 
-abort() {
-    echo "Error: $@" >&2
-    exit $fail_status
+# update SRC_DIR DEST_DIR
+# return 0 if no changes, 1 if any files were updated
+update() {
+    status=0
+    cd $1
+    rsync -ruv . $2 | \
+	awk '!/(sending |sent |total size is |$^)/{print updating $1;}' \
+	    >/tmp/changes.txt
+    [ $(wc -l /tmp/changes.txt) -eq 0 ]
+    cd - >/dev/null
 }
 
 incremental=
@@ -53,17 +52,14 @@ if [ $UID -ne 0 ]; then
 fi
 
 if [ $PWD != "/var/www/ls-cat.org/install" ]; then
-    # Copy all the site assets to /var/www all at once. This is slightly faster
-    # and accounts for deletions.
-    cd ../
-    rm -rf /var/www/ls-cat.org.new
-    cp -Rf ./ /var/www/ls-cat.org.new
-    cd - >/dev/null
-    if [ -e /var/www/ls-cat.org ]; then
-	rm -rf /var/www/ls-cat.org.old
+    cd ..
+    rm -rf /var/www/ls-car.org.new
+    cp -Rf . /var/www/ls-cat.org.new
+    [ ! -e /var/www/ls-cat.org ] || \
 	mv -f /var/www/ls-cat.org /var/www/ls-cat.org.old
-    fi
     mv -f /var/www/ls-cat.org.new /var/www/ls-cat.org
+    cd - >/dev/null
+    
     if [ "$incremental" = true ]; then
 	cd apache-conf
 	cfgdir=/etc/apache2/sites-available
@@ -74,48 +70,49 @@ if [ $PWD != "/var/www/ls-cat.org/install" ]; then
 		
 		echo "$site_config was changed since the last update," \
 		     "installing to $cfgdir now"
-		cp -f $site_config /etc/apache2/sites-available/
-		try a2ensite $site_config 
+		cp -f $site_config $cfgdir
+		a2ensite $site_config
 		conf_update=true
 	    fi
 	done
+	cd - >/dev/null
+	
 	if [ "$conf_update" = true ]; then
 	    echo "Restarting apache2 to apply config changes now."
-	    try systemctl restart apache2
+	    systemctl restart apache2
 	fi
-	cd - >/dev/null
 	echo "Update succeeded."
 	exit
     fi
 fi
 
-fail=
-try apt update
-try apt install php$php_version php$php_version-gd \
-    libapache2-mod-php libapache2-mod-python
-php_version=$(ls -l /etc/apache2/mods-available/ | awk '/php[0-9]+/{print $9;}' |
-		  sed 's/php//g;s/\.conf//g;s/\.load//g' | sort -Vr | head -1)
+# Install apache2 w/ the prerequisite modules and their dependencies.
+apt update
+apt install apache2 libapache2-mod-php libapache2-mod-auth-openidc
+php_version=$(ls -l /etc/apache2/mods-available/ | \
+		  awk '/php[0-9]+/{print $9;}' | \
+		  sed 's/php//g;s/\.conf//g;s/\.load//g' | \
+		  sort -Vr | head -1)
 echo "Note: using php version $php_version"
-try a2enmod ssl
-try a2enmod headers
-try a2enmod include
-try a2enmod php$php_version
-try a2enmod proxy
-try a2enmod proxy_http
-try a2enmod python
-try a2enmod rewrite
-if [ -n "$fail" ]; then
-    abort "Error: failed to fetch and install all of the necessary" \
-	  "dependencies. Please see the error messages above for more" \
-	  "information."
-fi
+apt install php$php_version php$php_version-gd
+
+# Enable the prerequisite modules.
+a2enmod ssl \
+	auth_openidc \
+	headers \
+	include \
+	php$php_version \
+	proxy \
+	proxy_http \
+	proxy_connect \
+	rewrite
 
 cert='/etc/ssl/certs/ls-cat.org.crt'
 key='/etc/ssl/private/ls-cat.org.key'
 if [ ! -f $cert ] || [ ! -f $key ]; then
-    error "Error: The TLS certificate has not been properly installed. Please" \
-	  "obtain the certificate, private key file, and certificate chain," \
-	  "then install them to the following locations, respectively:"
+    error "Error: The TLS certificate has not been properly installed." \
+	  "Please obtain the certificate, private key file, and certificate" \
+	  "chain, then install them to the following locations, respectively:"
     error
     error "  $cert"
     error "  $key"
@@ -123,17 +120,17 @@ if [ ! -f $cert ] || [ ! -f $key ]; then
     exit 1
 fi
 
+# Install the website and enable it.
 cd apache-conf
 for site_config in *; do
-    try cp -f $site_config /etc/apache2/sites-available/
-    try a2ensite $site_config
+    cp -f $site_config /etc/apache2/sites-available/
+    a2ensite $site_config
 done
-try systemctl restart apache2
 cd - >/dev/null
-if [ -n "$fail" ]; then
+
+systemctl restart apache2 ||  \
     abort "Error: ls-cat.org has been installed, but apache2 is not running." \
 	  "Please see the error messages above for more information."
-fi
 
 echo
 echo "ls-cat.org has been successfully installed and is now running" \

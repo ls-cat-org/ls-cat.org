@@ -12,12 +12,12 @@ sudo ./install.sh
 ```
 
 # Updating the Production Environment
-This repository currently runs on ile.ls-cat.org.
+This repository currently runs on ile (accessible through SSH via its private address: ile.ls-cat.net).
 
 To pull the latest version of the website into production from the git
 repository, please run the following commands:
 ```
-ssh ile.ls-cat.org
+ssh ile.ls-cat.net
 cd /var/www/ls-cat.org
 sudo git pull
 cd install

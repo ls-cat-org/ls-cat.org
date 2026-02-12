@@ -105,6 +105,18 @@
     @media (max-width: 600px) {
         .info-grid { grid-template-columns: 1fr; }
     }
+	
+	header, footer {
+    display: flex;
+    justify-content: center; /* Centers the content block */
+    width: 100%;
+    }
+
+    .header-content, .footer-content {
+    width: 100%;
+    max-width: 1100px; /* Matches your .ls-container width */
+    padding: 0 15px;
+    }
 </style>
 
 <div class="ls-container">

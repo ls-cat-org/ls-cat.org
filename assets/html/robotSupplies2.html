@@ -60,6 +60,18 @@
   .card-content h4 { margin-top: 0; color: var(--ls-blue); }
 
   @media (max-width: 600px) { .kit-grid { grid-template-columns: 1fr; } }
+  
+  header, footer {
+    display: flex;
+    justify-content: center; /* Centers the content block */
+    width: 100%;
+    }
+
+    .header-content, .footer-content {
+    width: 100%;
+    max-width: 1100px; /* Matches your .ls-container width */
+    padding: 0 15px;
+    }
 </style>
 
 <main class="page-container">

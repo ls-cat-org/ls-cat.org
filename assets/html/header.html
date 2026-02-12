@@ -5,60 +5,68 @@
 <head>
     <title>Life Sciences Collaborative Access Team</title>
     <link rel="icon" href="lsfavicon.png" type="image/png" />
-    <!-- Ensure this path points to your updated CSS folder -->
     <link rel="stylesheet" href="ls-cat.css" type="text/css" />
-	<style media="all" type="text/css">@import "all.css";</style>
+    <style media="all" type="text/css">@import "all.css";</style>
 </head>
 <body>
 
-<header class="main-header">
-    <div class="header-top">
-        <div class="logo-area">
-            <a href="index.html">
-                <img src="ls-cat_logo.svg" alt="LS-CAT Logo" width="80" height="100">
-            </a>
-            <div class="title-text">
-                <h1><a href="index.html">LS-CAT</a></h1>
-                <h3>Life Sciences Collaborative Access Team</h3>
-            </div>
-        </div>
-        <div class="contact-info">
+<!-- We use "wrapper" here because your all.css sets this to 1024px -->
+<div class="wrapper">
+    
+    <!-- 1. Top Section: Logo and Contacts -->
+    <!-- We use a simple table here to match your old layout style within the 1024px width -->
+    <table cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px;">
+      <tr>
+        <td width="100"><a href="index.html"><img border="0" width="96" height="120" src="ls-cat_logo.svg"/></a></td>
+        <td>
+          <h1 style="margin:0;"><a href="index.html" style="text-decoration:none; color:#003366;">LS-CAT</a></h1>
+          <h3 style="margin:0; font-weight:normal; color:#666;">Life Sciences Collaborative Access Team</h3>
+        </td>
+        <td align="right" style="font-size: 0.9rem; line-height: 1.4;">
             9700 S. Cass Ave, Bldg 436A<br/>
             Argonne, IL 60439<br/>
             <strong>Main:</strong> 630-252-0222<br/>
             <strong>Help:</strong> administrator@ls-cat.org
+        </td>
+      </tr>
+    </table>
+
+    <!-- 2. Navigation Section -->
+    <!-- We keep the "nav-wrapper" and "nav" classes so all.css can style them -->
+    <div class="nav-wrapper">
+        <div class="nav">
+            <ul id="navigation">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contacts.html">Staff</a></li>
+                
+                <li>
+                    <a href="request.html">Beamtime</a>
+                    <div class="sub">
+                        <ul>
+                            <li><a href="darkperiodtime.html">Dark Period</a></li>
+                            <li><a href="members.html">Members</a></li>
+                            <li><a href="generalusers.html">General Users</a></li>
+                        </ul>
+                        <div class="btm-bg"></div>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="using.html">Using LS-CAT</a>
+                    <div class="sub">
+                        <ul>
+                            <li><a href="safety.html">Safety</a></li>
+                            <li><a href="pinsCapsVials.html">Pins & Caps</a></li>
+                            <li><a href="Test2.html">Data Collection</a></li>
+                        </ul>
+                        <div class="btm-bg"></div>
+                    </div>
+                </li>
+
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="login.html">Remote Access</a></li>
+            </ul>
         </div>
     </div>
-
-    <nav class="nav-wrapper">
-        <ul class="nav-main">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contacts.html">Staff</a></li>
-            <li class="has-sub">
-                <a href="request.html">Beamtime ▾</a>
-                <div class="sub">
-                    <ul>
-                        <li><a href="darkperiodtime.html">Dark Period</a></li>
-                        <li><a href="members.html">Members</a></li>
-                        <li><a href="generalusers.html">General Users</a></li>
-                        <li><a href="industrialusers.html">Industrial</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="has-sub">
-                <a href="using.html">Using LS-CAT ▾</a>
-                <div class="sub">
-                    <ul>
-                        <li><a href="safety.html">Safety</a></li>
-                        <li><a href="pinsCapsVials.html">Pins & Caps</a></li>
-                        <li><a href="Test2.html">Data Collection</a></li>
-                        <li><a href="data_retention.html">Data Retention</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li><a href="feedback.html">Feedback</a></li>
-            <li><a href="login.html">Remote Access</a></li>
-        </ul>
-    </nav>
-</header>
+</div>

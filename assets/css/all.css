@@ -1,115 +1,130 @@
-/* Modernized all.css */
+/* --- Modernized LS-CAT Global Styles --- */
 
-/* Fix: added the dot to the selector */
-.wrapper a {
-    color: #E5F2FB;
-    text-decoration: none;
-    transition: color 0.2s;
+:root {
+    --ls-dark-blue: #003366;   /* Primary Brand Blue */
+    --ls-med-blue: #165B9F;    /* Hover/Active Blue */
+    --ls-light-blue: #E5F2FB;  /* Text/Highlight Blue */
+    --ls-border: #C1D9F0;
 }
 
-.wrapper a:hover {
-    color: #09548B;
+/* 1. Base Elements */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
 }
 
 p {
     margin: 0 0 17px;
     padding: 0;
-    line-height: 1.6; /* Increased for better readability */
+    line-height: 1.6;
+    color: #333;
 }
 
-/* 1. Responsive Wrapper */
+/* 2. Responsive Wrapper - Now 1100px to match your table */
 .wrapper {
     width: 100%;
-    max-width: 1100px; /* Matches your Data Collection table */
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 0;
 }
 
-/* 2. The Navigation Bar (CSS3 instead of images) */
+.wrapper a {
+    color: var(--ls-light-blue);
+    text-decoration: none;
+}
+
+.wrapper a:hover {
+    color: #fff;
+}
+
+/* 3. Navigation Bar (Replaces nav_bg.png) */
 .nav-wrapper {
     width: 100%;
-    background: #003366; /* Base dark blue */
-    background: linear-gradient(to bottom, #165B9F 0%, #003366 100%);
+    background: var(--ls-dark-blue);
+    background: linear-gradient(to bottom, var(--ls-med-blue) 0%, var(--ls-dark-blue) 100%);
     border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    overflow: visible;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
     display: flex;
 }
 
-.nav ul {
+.nav {
+    width: 100%;
+}
+
+.nav ul#navigation {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%;
 }
 
 .nav li {
     position: relative;
-}
-
-/* Vertical divider */
-.nav > ul > li {
     border-right: 1px solid rgba(255,255,255,0.1);
 }
 
 .nav li a {
     display: block;
     padding: 0 20px;
-    line-height: 41px; /* Matches your old nav height */
-    color: #E5F2FB;
+    line-height: 42px; /* Standard nav height */
+    color: var(--ls-light-blue);
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
+    text-decoration: none;
 }
 
-/* 3. Hover Effects (Simulating the sprite shift) */
-.nav li a:hover, 
+/* 4. Hover Effects (Replaces image sprite shifts) */
 .nav li:hover > a, 
 .nav li.active > a {
-    color: #fff;
     background: rgba(255,255,255,0.15);
+    color: #fff;
 }
 
-/* 4. The Dropdown Submenus */
+/* 5. Dropdown Menus (Replaces submenu_bg.png) */
 .nav li .sub {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     background: #fff;
-    width: 200px;
-    padding: 5px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 200px;
+    padding: 8px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border-radius: 0 0 6px 6px;
-    z-index: 999;
+    z-index: 1000;
 }
 
 .nav li:hover .sub {
     display: block;
 }
 
-.nav li .sub ul {
-    flex-direction: column;
+.nav .sub ul {
+    display: block !important; /* Stack vertically */
     width: 100%;
 }
 
-.nav li .sub li {
+.nav .sub li {
     border-bottom: 1px solid #eee;
     border-right: none;
+    width: 100%;
 }
 
-.nav li .sub li a {
-    color: #003366;
+.nav .sub li a {
+    color: var(--ls-dark-blue);
     line-height: 1.4;
-    padding: 10px 15px;
+    padding: 10px 20px;
     font-size: 14px;
+    background: none;
 }
 
-.nav li .sub li a:hover {
-    background: #E5F2FB !important;
-    color: #09548B !important;
+.nav .sub li a:hover {
+    background: var(--ls-light-blue) !important;
+    color: var(--ls-hover-blue) !important;
 }
 
-/* Cleanup for old span elements if they are still in HTML */
-.menu-left, .menu-mid, .menu-right, .btm-bg {
+/* 6. Cleanup of legacy image tags (No longer needed) */
+.menu-left, .menu-mid, .menu-right, .btm-bg, .nav-left, .nav-right {
     display: none !important;
 }

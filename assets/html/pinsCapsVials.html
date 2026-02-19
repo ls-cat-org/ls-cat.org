@@ -21,6 +21,7 @@
         font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         color: #333;
         line-height: 1.6;
+        text-align: left; /* Ensures global left alignment */
     }
 
     /* Section Headers */
@@ -28,19 +29,30 @@
         color: var(--ls-blue);
         border-bottom: 3px solid var(--ls-blue);
         padding-bottom: 8px;
-        margin-top: 40px;
+        margin: 40px 0 20px 0;
+        text-align: left; /* Explicitly left-aligned */
+        display: block;
+        width: 100%;
     }
 
     /* Pin Section Layout */
     .pin-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.2fr 0.8fr;
         gap: 30px;
-        align-items: center;
+        align-items: start; /* Align text to top of image */
         background: white;
         border: 1px solid var(--border-color);
-        padding: 20px;
+        padding: 25px;
         border-radius: 8px;
+        text-align: left;
+    }
+	
+	/* Ensure sub-headings are also left-aligned */
+	.pin-grid h3 {
+        margin-top: 0;
+        text-align: left;
+        color: var(--ls-blue);
     }
 
     /* Status Table Styling */
@@ -107,9 +119,9 @@
 </style>
 
 <div class="ls-container">
+    <!-- Main Header now explicitly left-aligned -->
     <h2 class="section-title">Pins, Caps, and Vials for LS-CAT</h2>
     
-    <!-- Pins Section -->
     <div class="pin-grid">
         <div>
             <h3>Pins</h3>

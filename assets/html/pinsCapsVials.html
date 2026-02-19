@@ -1,85 +1,120 @@
 <!--#include virtual="header.html" -->
-<table width="1024" cellpadding="0" cellspacing="0"><tr>
 
-<td colspan="2">
-<div class="talkyText">
-<h3>Pins, Caps, and Vials for use at LS-CAT</h3>
+<style>
+    .lscat-container { max-width: 1024px; margin: 0 auto; font-family: sans-serif; line-height: 1.6; color: #333; }
+    .section-header { border-bottom: 2px solid #2a5a8a; color: #2a5a8a; margin-top: 30px; }
+    .status-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .status-table th, .status-table td { border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: top; }
+    .status-table th { background-color: #f4f4f4; }
+    
+    .good { background-color: #e6ffed; color: #22863a; font-weight: bold; }
+    .warn { background-color: #fff9db; color: #856404; font-weight: bold; }
+    .bad { background-color: #ffeef0; color: #cb2431; font-weight: bold; }
+    
+    .img-box img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; }
+    .info-box { background: #f8f9fa; border-left: 5px solid #2a5a8a; padding: 15px; margin: 20px 0; }
+    .product-link { display: block; margin-bottom: 8px; text-decoration: none; color: #0056b3; font-weight: bold; }
+    .product-link:hover { text-decoration: underline; }
+</style>
 
-<b>Pins</b>
-<p>We support <b>18mm</b> pins for both robotic and manual mounting.
-This makes the distance from the bottom of the base to the
-sample <b>22mm</b>.  If your pins are too long or too short you will
-not be able to position your sample in the cryostream or into the
-x-ray beam.</p>  <img src="Pin_Length.png"/>
+<div class="lscat-container">
+    <h2 class="section-header">Pins, Caps, and Vials for use at LS-CAT</h2>
 
-</td>
-</tr><tr>
-<td><hr /><b>Caps</b></td>
-</tr><tr>
-<td align="center">
-<table border="1" cellpadding="4">
-  <tr><th width="20%">GOOD</th><th width="20%">Expect Problems with SPINE Gripper</th><th width="20%">Expect Problems with SPINE Gripper</th><th width="20%">BAD</th><th width="20%">BAD Always</th></tr>
-  <tr><td align="center"><img src="IMG_2752.jpg"/></td><td align="center"><img src="IMG_2767.jpg"/></td><td align="center"><img src="IMG_2505.jpg"/></td><td align="center"><img src="IMG_2508.jpg"/><img src="IMG_2776.jpg"/></td><td align="center"><img src="IMG_2769.jpg"/></td></tr>
-  <tr><td><a href="https://hamptonresearch.com/product_detail.aspx?cid=24&sid=152&pid=445">Hampton CrystalCap HT (SPINE)</a> (Paint on Hampton barcode can cause failures)
-    <hr /><a href="https://www.moleculardimensions.com/products/3819-CryoCaps-with-Data-Matrix/">Molecular Dimensions MD7-401</a>
-    <hr />Mitegen <a href="https://www.mitegen.com/mic_catalog.php?c=goniometerB5"> B5</a> or <a href="https://www.mitegen.com/mic_catalog.php?c=goniometerB5R"> B5-R </a>(SPINE)</td>
-  <td><a href="https://hamptonresearch.com/product_detail.aspx?cid=24&sid=152&pid=689">Hampton CrystalCap Magnetic&nbsp;<b>ALS</b> HR4-779</a><br /> <hr />Some batches do not dismount correctly with SPINE gripper</td>
-    <td><a href="https://hamptonresearch.com/product_detail.aspx?cid=24&sid=152&pid=570">Hampton CrystalCap Copper Magnetic <b>ALS</b> HT</a><br /><hr />Some batches do not dismount correctly with SPINE gripper.</td>
-   <td>Hampton CrystalCap Copper Magnetic HT<hr/>Hampton CrystalCap Magnetic<hr /><small>You can mount these manually but they will always crash with cryotong gripper.</small></td>
-   <td>Plastic Screw Caps<br/><small>You cannot use these with the robot at all.  We do not support them for manual mounting either: expect problems and some sample loss.</small></td>
-</tr>
-</table>
-</td>
-</tr><tr>
-<td>
-<p/>
-<p>Any of the "GOOD" caps work in either SPINE Baskets or ACTOR
-Magazines at LS-CAT.  Vials are required in SPINE Baskets and
-forbidden in ACTOR Magazines.
-</p>
-<p />
-<p>Hampton rule of thumb: The cap style should have "SPINE". Note that
-the "ALS" style of Hampton caps will sometimes fail to dismount when
-using the SPINE gripper.  This problem appears to come in batches: one
-user might have problems with most of their samples while the next
-user with the same style cap has no problems</p>
+    <div class="talkyText">
+        <h3>Pins</h3>
+        <p>We support <strong>18mm pins</strong> for both robotic and manual mounting. This makes the distance from the bottom of the base to the sample <strong>22mm</strong>. If your pins are too long or too short, you will not be able to position your sample in the cryostream or into the x-ray beam.</p>
+        <div class="img-box"><img src="Pin_Length.png" alt="Pin Length Diagram"/></div>
+    </div>
 
-<img width="400" src="goodBadCaps.png"/>
-<p>The Hampton "ALS" style caps (shown on the left) work with our
-cryotong grippers and most of the time with our SPINE grippers.
-Hampton also markets a non-ALS version of the same caps (shown on the
-right) that have a small lip which cause our robots to crash with the
-cryotong gripper 100% of the time.  You will be required to mount
-these manually.</p>  <p />
-<p><b>Cap Materials:</b> We rely on the magnetic properties of the
-caps to mount, collect data, and dismount your samples.  Caps that
-have too little magnetic material or are magnetized opposite to our
-diffractometers will cause your samples to slip or fall off during
-transfer or data collection. Likewise, caps that have been strongly
-magnetized may fail to mount or dismount.  Your best bet is to use the
-recommended caps and <b>REMOVE RUSTY or DAMAGED CAPS FROM SERVICE</b>.
-</p>
+    <h3 class="section-header">Caps</h3>
+    <table class="status-table">
+        <thead>
+            <tr>
+                <th class="good">GOOD</th>
+                <th class="warn">Caution (SPINE Gripper)</th>
+                <th class="warn">Caution (SPINE Gripper)</th>
+                <th class="bad">BAD</th>
+                <th class="bad">BAD ALWAYS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><div class="img-box"><img src="IMG_2752.jpg"/></div></td>
+                <td><div class="img-box"><img src="IMG_2767.jpg"/></div></td>
+                <td><div class="img-box"><img src="IMG_2505.jpg"/></div></td>
+                <td><div class="img-box"><img src="IMG_2508.jpg"/><img src="IMG_2776.jpg"/></div></td>
+                <td><div class="img-box"><img src="IMG_2769.jpg"/></div></td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="product-link" href="https://hamptonresearch.com">Hampton CrystalCap HT (SPINE)</a>
+                    <small>(Note: Paint on Hampton barcodes can cause failures)</small>
+                    <hr />
+                    <a class="product-link" href="https://www.moleculardimensions.com">MD CryoCaps (MD7-401)</a>
+                    <hr />
+                    <a class="product-link" href="https://www.mitegen.com">Mitegen B5 / B5-R</a>
+                </td>
+                <td>
+                    <a class="product-link" href="https://hamptonresearch.com">Hampton CrystalCap Magnetic ALS</a>
+                    <p><small>Some batches do not dismount correctly with SPINE gripper.</small></p>
+                </td>
+                <td>
+                    <a class="product-link" href="https://hamptonresearch.com">Hampton Copper Magnetic ALS HT</a>
+                    <p><small>Some batches do not dismount correctly with SPINE gripper.</small></p>
+                </td>
+                <td>
+                    <strong>Hampton Copper Magnetic HT</strong><br/>
+                    <strong>Hampton Magnetic</strong>
+                    <p><small>Manual mount okay, but will crash with cryotong gripper.</small></p>
+                </td>
+                <td>
+                    <strong>Plastic Screw Caps</strong>
+                    <p><small>No robot support. Manual use results in sample loss.</small></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-</td>
-</tr><tr>
-<td><hr /> <b>Vials for SPINE Robotic Sample Changer</b></td>
-</tr><tr>
-<td align="center">
-<table border="1">
-  <tr><th>GOOD</th><th>BAD</th><th>BAD</th></tr>
-  <tr><td align="center"><img src="IMG_2764.jpg"/></td><td align="center"><img src="IMG_2765.jpg"/></td><td align="center"><img src="IMG_2766.jpg"/></td></tr>
-  <tr><td><a href="https://www.moleculardimensions.com/products/3820-Magnetic-CryoVials/">Molecular
-Dimensions MD7-402</a> </td><td>Hampton SPINE Vials are too inconsistent for automation</td><td>Non-SPINE vials lack a needed metal piece</td></tr>
-</table>
-<p align="left">We do not yet have enough experience with Mitegen
-SPINE vials to say if they work 100% of the time.  So far they appear
-to be fine.  Please let us know if you are using them.</p>
-<p align="left">Although the Hampton vials are sold as SPINE standard vials, they
-are too inconsistent in size to be used.  If you bring Hampton vials
-for use with our robots we will suggest that you swap them out for
-Molecular Dimensions vials if we have them in stock.</p>
-</td>
-</tr>
-</table>
+    <div class="info-box">
+        <p><strong>Note on Compatibility:</strong> Any "GOOD" caps work in either SPINE Baskets or ACTOR Magazines. Vials are <strong>required</strong> in SPINE Baskets and <strong>forbidden</strong> in ACTOR Magazines.</p>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: center; margin-top: 20px;">
+        <img width="300" src="goodBadCaps.png" style="border:1px solid #ccc;"/>
+        <div>
+            <p>The <strong>Hampton "ALS"</strong> style caps (left) work with our cryotong grippers and most of the time with SPINE grippers. </p>
+            <p>The <strong>non-ALS version</strong> (right) has a small lip that causes robot crashes 100% of the time. These must be mounted manually.</p>
+        </div>
+    </div>
+
+    <h3 class="section-header">Vials for SPINE Robotic Sample Changer</h3>
+    <table class="status-table">
+        <thead>
+            <tr>
+                <th class="good">GOOD</th>
+                <th class="bad">BAD</th>
+                <th class="bad">BAD</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="IMG_2764.jpg" width="150"/></td>
+                <td><img src="IMG_2765.jpg" width="150"/></td>
+                <td><img src="IMG_2766.jpg" width="150"/></td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="product-link" href="https://www.moleculardimensions.com">MD Magnetic CryoVials (MD7-402)</a>
+                </td>
+                <td><strong>Hampton SPINE Vials</strong><br/><small>Size too inconsistent for automation.</small></td>
+                <td><strong>Non-SPINE Vials</strong><br/><small>Lacks internal metal piece.</small></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="talkyText">
+        <p>We rely on the <strong>magnetic properties</strong> of the caps to mount samples. Caps with weak magnets, reversed polarity, or rust will cause samples to fall. <strong>REMOVE RUSTY OR DAMAGED CAPS FROM SERVICE.</strong></p>
+    </div>
+</div>
 
 <!--#include virtual="trailer.html" -->

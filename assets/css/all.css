@@ -24,7 +24,7 @@ p {
 /* 2. Responsive Wrapper - Now 1100px to match your table */
 .wrapper {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1024px;
     margin: 0 auto;
     padding: 0;
 }

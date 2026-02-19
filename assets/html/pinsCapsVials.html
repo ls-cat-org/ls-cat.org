@@ -1,120 +1,230 @@
-<!--#include virtual="header.html" -->
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
 
 <style>
-    .lscat-container { max-width: 1024px; margin: 0 auto; font-family: sans-serif; line-height: 1.6; color: #333; }
-    .section-header { border-bottom: 2px solid #2a5a8a; color: #2a5a8a; margin-top: 30px; }
-    .status-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    .status-table th, .status-table td { border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: top; }
-    .status-table th { background-color: #f4f4f4; }
-    
-    .good { background-color: #e6ffed; color: #22863a; font-weight: bold; }
-    .warn { background-color: #fff9db; color: #856404; font-weight: bold; }
-    .bad { background-color: #ffeef0; color: #cb2431; font-weight: bold; }
-    
-    .img-box img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; }
-    .info-box { background: #f8f9fa; border-left: 5px solid #2a5a8a; padding: 15px; margin: 20px 0; }
-    .product-link { display: block; margin-bottom: 8px; text-decoration: none; color: #0056b3; font-weight: bold; }
+    :root {
+        --ls-blue: #003366;
+        --ls-accent: #e62117;
+        --bg-gray: #f8f9fa;
+        --border-color: #dee2e6;
+        --ls-success: #28a745;
+        --ls-warning: #ffc107;
+    }
+
+    .ls-container {
+        max-width: 1100px;
+        margin: 20px auto;
+        padding: 0 15px;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* Section Headers */
+    .section-title {
+        color: var(--ls-blue);
+        border-bottom: 3px solid var(--ls-blue);
+        padding-bottom: 8px;
+        margin-top: 40px;
+    }
+
+    /* Pin Section Layout */
+    .pin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: center;
+        background: white;
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    /* Status Table Styling */
+    .status-section {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    .status-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    .status-table th {
+        padding: 15px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .status-table td {
+        padding: 15px;
+        border-top: 1px solid var(--border-color);
+        vertical-align: top;
+    }
+
+    /* Color Coding */
+    .col-good { background-color: #e6ffed; color: #22863a; border-bottom: 4px solid #22863a; }
+    .col-warn { background-color: #fff9db; color: #856404; border-bottom: 4px solid #f1c40f; }
+    .col-bad { background-color: #fff3f3; color: var(--ls-accent); border-bottom: 4px solid var(--ls-accent); }
+
+    .img-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .product-link {
+        display: block;
+        color: var(--ls-blue);
+        font-weight: bold;
+        text-decoration: none;
+        margin-bottom: 5px;
+    }
+
     .product-link:hover { text-decoration: underline; }
+
+    .info-box {
+        background: var(--bg-gray);
+        border-left: 5px solid var(--ls-blue);
+        padding: 1.5rem;
+        margin: 20px 0;
+        border-radius: 0 4px 4px 0;
+    }
+
+    @media (max-width: 800px) {
+        .pin-grid { grid-template-columns: 1fr; }
+    }
 </style>
 
-<div class="lscat-container">
-    <h2 class="section-header">Pins, Caps, and Vials for use at LS-CAT</h2>
-
-    <div class="talkyText">
-        <h3>Pins</h3>
-        <p>We support <strong>18mm pins</strong> for both robotic and manual mounting. This makes the distance from the bottom of the base to the sample <strong>22mm</strong>. If your pins are too long or too short, you will not be able to position your sample in the cryostream or into the x-ray beam.</p>
-        <div class="img-box"><img src="Pin_Length.png" alt="Pin Length Diagram"/></div>
-    </div>
-
-    <h3 class="section-header">Caps</h3>
-    <table class="status-table">
-        <thead>
-            <tr>
-                <th class="good">GOOD</th>
-                <th class="warn">Caution (SPINE Gripper)</th>
-                <th class="warn">Caution (SPINE Gripper)</th>
-                <th class="bad">BAD</th>
-                <th class="bad">BAD ALWAYS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><div class="img-box"><img src="IMG_2752.jpg"/></div></td>
-                <td><div class="img-box"><img src="IMG_2767.jpg"/></div></td>
-                <td><div class="img-box"><img src="IMG_2505.jpg"/></div></td>
-                <td><div class="img-box"><img src="IMG_2508.jpg"/><img src="IMG_2776.jpg"/></div></td>
-                <td><div class="img-box"><img src="IMG_2769.jpg"/></div></td>
-            </tr>
-            <tr>
-                <td>
-                    <a class="product-link" href="https://hamptonresearch.com">Hampton CrystalCap HT (SPINE)</a>
-                    <small>(Note: Paint on Hampton barcodes can cause failures)</small>
-                    <hr />
-                    <a class="product-link" href="https://www.moleculardimensions.com">MD CryoCaps (MD7-401)</a>
-                    <hr />
-                    <a class="product-link" href="https://www.mitegen.com">Mitegen B5 / B5-R</a>
-                </td>
-                <td>
-                    <a class="product-link" href="https://hamptonresearch.com">Hampton CrystalCap Magnetic ALS</a>
-                    <p><small>Some batches do not dismount correctly with SPINE gripper.</small></p>
-                </td>
-                <td>
-                    <a class="product-link" href="https://hamptonresearch.com">Hampton Copper Magnetic ALS HT</a>
-                    <p><small>Some batches do not dismount correctly with SPINE gripper.</small></p>
-                </td>
-                <td>
-                    <strong>Hampton Copper Magnetic HT</strong><br/>
-                    <strong>Hampton Magnetic</strong>
-                    <p><small>Manual mount okay, but will crash with cryotong gripper.</small></p>
-                </td>
-                <td>
-                    <strong>Plastic Screw Caps</strong>
-                    <p><small>No robot support. Manual use results in sample loss.</small></p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="info-box">
-        <p><strong>Note on Compatibility:</strong> Any "GOOD" caps work in either SPINE Baskets or ACTOR Magazines. Vials are <strong>required</strong> in SPINE Baskets and <strong>forbidden</strong> in ACTOR Magazines.</p>
-    </div>
-
-    <div style="display: flex; gap: 20px; align-items: center; margin-top: 20px;">
-        <img width="300" src="goodBadCaps.png" style="border:1px solid #ccc;"/>
+<div class="ls-container">
+    <h2 class="section-title">Pins, Caps, and Vials for LS-CAT</h2>
+    
+    <!-- Pins Section -->
+    <div class="pin-grid">
         <div>
-            <p>The <strong>Hampton "ALS"</strong> style caps (left) work with our cryotong grippers and most of the time with SPINE grippers. </p>
-            <p>The <strong>non-ALS version</strong> (right) has a small lip that causes robot crashes 100% of the time. These must be mounted manually.</p>
+            <h3>Pins</h3>
+            <p>LS-CAT supports <strong>18mm pins</strong> for both robotic and manual mounting. This results in a distance of <strong>22mm</strong> from the bottom of the base to the sample.</p>
+            <p style="color: var(--ls-accent); font-weight: bold;">
+                Critical: If pins are too long or short, your sample cannot be positioned in the cryostream or the X-ray beam.
+            </p>
+        </div>
+        <div class="img-container">
+            <img src="Pin_Length.png" alt="Pin Length Diagram">
         </div>
     </div>
 
-    <h3 class="section-header">Vials for SPINE Robotic Sample Changer</h3>
-    <table class="status-table">
-        <thead>
-            <tr>
-                <th class="good">GOOD</th>
-                <th class="bad">BAD</th>
-                <th class="bad">BAD</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img src="IMG_2764.jpg" width="150"/></td>
-                <td><img src="IMG_2765.jpg" width="150"/></td>
-                <td><img src="IMG_2766.jpg" width="150"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <a class="product-link" href="https://www.moleculardimensions.com">MD Magnetic CryoVials (MD7-402)</a>
-                </td>
-                <td><strong>Hampton SPINE Vials</strong><br/><small>Size too inconsistent for automation.</small></td>
-                <td><strong>Non-SPINE Vials</strong><br/><small>Lacks internal metal piece.</small></td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Caps Section -->
+    <h3 class="section-title">Caps & Robotic Compatibility</h3>
+    <div class="status-section">
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th class="col-good">Good</th>
+                    <th class="col-warn">SPINE Gripper Issues</th>
+                    <th class="col-warn">SPINE Gripper Issues</th>
+                    <th class="col-bad">Bad</th>
+                    <th class="col-bad">Bad Always</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div class="img-container"><img src="IMG_2752.jpg"></div></td>
+                    <td><div class="img-container"><img src="IMG_2767.jpg"></div></td>
+                    <td><div class="img-container"><img src="IMG_2505.jpg"></div></td>
+                    <td><div class="img-container"><img src="IMG_2508.jpg"><img src="IMG_2776.jpg" style="margin-top:5px"></div></td>
+                    <td><div class="img-container"><img src="IMG_2769.jpg"></div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="product-link" href="https://hamptonresearch.com">Hampton CrystalCap HT (SPINE)</a>
+                        <a class="product-link" href="https://www.moleculardimensions.com">MD MD7-401</a>
+                        <a class="product-link" href="https://www.mitegen.com">Mitegen B5 / B5-R</a>
+                    </td>
+                    <td>
+                        <a class="product-link" href="https://hamptonresearch.com">Hampton Magnetic ALS</a>
+                        <small>Batch-dependent dismount failures.</small>
+                    </td>
+                    <td>
+                        <a class="product-link" href="https://hamptonresearch.com">Hampton Copper ALS HT</a>
+                        <small>Batch-dependent dismount failures.</small>
+                    </td>
+                    <td>
+                        <strong>Hampton Copper HT / Magnetic</strong>
+                        <p><small>Manual only. Always crashes cryotong gripper.</small></p>
+                    </td>
+                    <td>
+                        <strong>Plastic Screw Caps</strong>
+                        <p><small>Zero robot support. Significant risk of sample loss.</small></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <div class="talkyText">
-        <p>We rely on the <strong>magnetic properties</strong> of the caps to mount samples. Caps with weak magnets, reversed polarity, or rust will cause samples to fall. <strong>REMOVE RUSTY OR DAMAGED CAPS FROM SERVICE.</strong></p>
+    <div class="info-box">
+        <p><strong>Container Rules:</strong> "GOOD" caps work in both SPINE Baskets and ACTOR Magazines. Note that Vials are <strong>required</strong> in SPINE Baskets and <strong>forbidden</strong> in ACTOR Magazines.</p>
+    </div>
+
+    <!-- Magnetic Note -->
+    <div class="pin-grid" style="margin-top:20px;">
+        <div class="img-container">
+            <img src="goodBadCaps.png" alt="Cap Comparison">
+        </div>
+        <div>
+            <h3>Magnetism & Maintenance</h3>
+            <p>We rely on magnetic properties for mounting. Caps with weak or reversed magnetism will cause samples to fall during transfer.</p>
+            <p><strong>Pro Tip:</strong> Always remove rusty or damaged caps from service immediately to prevent robot failures.</p>
+        </div>
+    </div>
+
+    <!-- Vials Section -->
+    <h3 class="section-title">Vials (SPINE Robotic Changer)</h3>
+    <div class="status-section">
+        <table class="status-table">
+            <thead>
+                <tr>
+                    <th class="col-good">Good</th>
+                    <th class="col-bad">Bad (Inconsistent)</th>
+                    <th class="col-bad">Bad (Non-SPINE)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="center"><div class="img-container" style="max-width:200px;"><img src="IMG_2764.jpg"></div></td>
+                    <td align="center"><div class="img-container" style="max-width:200px;"><img src="IMG_2765.jpg"></div></td>
+                    <td align="center"><div class="img-container" style="max-width:200px;"><img src="IMG_2766.jpg"></div></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="product-link" href="https://www.moleculardimensions.com">MD Magnetic Vials (MD7-402)</a>
+                        <p><small>Mitegen SPINE vials are also currently supported.</small></p>
+                    </td>
+                    <td>
+                        <strong>Hampton SPINE Vials</strong>
+                        <p><small>Size is too inconsistent for automation.</small></p>
+                    </td>
+                    <td>
+                        <strong>Standard Vials</strong>
+                        <p><small>Lack necessary metal components.</small></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<!--#include virtual="trailer.html" -->
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>

@@ -53,7 +53,7 @@ fi
 
 if [ $PWD != "/var/www/ls-cat.org/install" ]; then
     cd ..
-    rm -rf /var/www/ls-car.org.new
+    rm -rf /var/www/ls-car.org.new /var/www/ls-cat.org.old
     cp -Rf . /var/www/ls-cat.org.new
     [ ! -e /var/www/ls-cat.org ] || \
 	mv -f /var/www/ls-cat.org /var/www/ls-cat.org.old

@@ -76,6 +76,7 @@ p {
     padding: 0 20px;
     line-height: 42px; /* Standard nav height */
     color: var(--ls-light-blue);
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
@@ -121,6 +122,7 @@ p {
     color: var(--ls-dark-blue);
     line-height: 1.4;
     padding: 10px 20px;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
     background: none;
 }

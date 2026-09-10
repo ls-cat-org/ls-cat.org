@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
+
+<link rel="stylesheet" href="synchwebGuide.css" type="text/css" />
+<script src="synchwebGuide.js" defer></script>
+
+<div class="ls-container">
+<p class="guide-kicker">SynchWeb / ISPyB Guide</p>
+<div class="guide-toc">
+  <h2>In this guide</h2>
+  <ol>
+      <li><a href="synchwebOverview.html">Guide Overview</a></li>
+      <li><a href="selectProposal.html">Select a Proposal</a></li>
+      <li><a href="addLabContact.html">Add a Lab Contact</a></li>
+      <li><a href="createShipment.html">Create a Shipment</a></li>
+      <li><a href="registeringProtein.html">Register a Protein</a></li>
+      <li><a href="registeringSamples.html">Register Samples</a></li>
+      <li class="current"><span>Assign Containers</span></li>
+      <li class="has-sub">
+        <span class="toc-group-label">Data Management</span>
+        <ul class="guide-toc-sub">
+          <li><a href="viewingData.html">Viewing Your Data</a></li>
+          <li><a href="dataProcessing.html">Automated Processing</a></li>
+        </ul>
+      </li>
+      <li><a href="mobileAccess.html">Mobile Access</a></li>
+  </ol>
+</div>
+
+<h2>Assign Containers</h2>
+
+<p>Once you're on-site (or LS-CAT staff are loading on your behalf), containers need to be assigned to positions in the beamline's sample-handling robot before data collection can start.</p>
+
+<div class="callout warning">
+  <h4>Before you start</h4>
+  <p>You'll need a shipment created and samples registered first &mdash; see
+  <a href="createShipment.html">Create a Shipment</a> and
+  <a href="registeringSamples.html">Registering Samples</a>.</p>
+</div>
+
+<ol class="step-list">
+  <li>Go to your current visit and click <strong>Assign Containers</strong> in the top left.</li>
+  <li>
+    ISPyB/Synchweb shows the beamline's sample changer alongside your available dewars and containers.
+    On 21-ID-D and 21-ID-F this is the UniPuck sample changer and 21-ID-G is being upgraded to a UniPuck sample
+    changer.
+  </li>
+  <li>Drag each container onto its intended position on the sample changer diagram.</li>
+  <li>Confirm the placement when prompted (click <strong>Ok</strong>).</li>
+  <li>
+    In MXCuBE3, click <strong>Refresh</strong> to pull your container assignments in from ISPyB/Synchweb.
+  </li>
+</ol>
+
+<div class="guide-figure placeholder">
+  <span class="placeholder-label">Screenshot needed</span>
+  The sample changer view &mdash; dragging a container onto a position
+</div>
+
+<div class="callout tip">
+  <h4>Remote sessions</h4>
+  <p>
+    For remote beamtime, your Local Contact typically handles the physical loading and container
+    assignment for you &mdash; these steps are mainly useful for double-checking assignments or for
+    on-site, self-loading visits.
+  </p>
+</div>
+<div class="guide-pager"><a href="registeringSamples.html"><span class="dir">&larr; Previous</span>Register Samples</a><a href="viewingData.html" class="next"><span class="dir">Next &rarr;</span>Viewing Your Data</a></div>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>

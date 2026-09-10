@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
+
+<link rel="stylesheet" href="synchwebGuide.css" type="text/css" />
+<script src="synchwebGuide.js" defer></script>
+
+<div class="ls-container">
+<p class="guide-kicker">SynchWeb / ISPyB Guide</p>
+<div class="guide-toc">
+  <h2>In this guide</h2>
+  <ol>
+      <li><a href="synchwebOverview.html">Guide Overview</a></li>
+      <li><a href="selectProposal.html">Select a Proposal</a></li>
+      <li><a href="addLabContact.html">Add a Lab Contact</a></li>
+      <li><a href="createShipment.html">Create a Shipment</a></li>
+      <li><a href="registeringProtein.html">Register a Protein</a></li>
+      <li><a href="registeringSamples.html">Register Samples</a></li>
+      <li class="has-sub">
+        <span class="toc-group-label">Data Management</span>
+        <ul class="guide-toc-sub">
+          <li class="current"><span>Viewing Your Data</span></li>
+          <li><a href="dataProcessing.html">Automated Processing</a></li>
+        </ul>
+      </li>
+      <li><a href="mobileAccess.html">Mobile Access</a></li>
+  </ol>
+</div>
+
+<h2>Viewing Your Data</h2>
+
+<p>
+  Once data collection starts, ISPyB/Synchweb gives you a real-time view of everything coming off the beamline
+  &mdash; images, snapshots, and the metrics that go with them.
+</p>
+
+<h3>Getting to your data</h3>
+<p>
+  You can reach data collections from the ISPyB/Synchweb home page (which shows your previous and upcoming
+  visits) or from the Visits page (which lists all visits under the current proposal). Click into a
+  visit to see its data collections.
+</p>
+
+<h3>Time use and visit statistics</h3>
+<p>
+  A progress bar at the top of the visit page shows how your beamtime has been used, color-coded by
+  activity: start-up, data collection, auto-indexing, centring, robot actions, thinking time, and time
+  remaining. A <strong>Visit Statistics</strong> button opens a fuller dashboard &mdash; timeline
+  graphs, a per-protein breakdown, beamline parameter changes over the visit, hourly collection rates,
+  robot/dewar usage, and a log of any faults or callouts during the session.
+</p>
+<div class="callout tip">
+  <h4>Making the most of your time</h4>
+  <p>
+    Spending a lot of time in "thinking" isn't automatically a problem, but if it's adding up, talk to
+    your Local Contact or LS-CAT staff about strategies &mdash; queuing up collections in advance is
+    often the biggest win.
+  </p>
+</div>
+
+<h3>The ISPyB/Synchweb toolbar</h3>
+<p>The toolbar at the top of a visit's data view gives you quick access to:</p>
+<div class="file-section">
+<table class="file-table">
+<thead><tr><th>Button</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><strong>Assign Containers</strong></td><td>Match puck positions to robot dewar positions ahead of your session.</td></tr>
+<tr><td><strong>Summary</strong></td><td>Every data collection in the visit &mdash; sample, energy, detector distance, spacegroup, unit cell, resolution, completeness, R<sub>meas</sub>/CC&frac12;/CC<sub>anom</sub>. Filterable and sortable.</td></tr>
+<tr><td><strong>Autoprocessing</strong></td><td>Which autoprocessing pipelines have run, with the option to reprocess.</td></tr>
+<tr><td><strong>Visit Status</strong></td><td>Jumps to the visit statistics summary.</td></tr>
+<tr><td><strong>Users</strong></td><td>Hover to see who's on the visit. Added via your LS-CAT proposal access.</td></tr>
+<tr><td><strong>Dewars</strong></td><td>Hover to see which dewars are assigned to the visit.</td></tr>
+<tr><td><strong>Sample Changer</strong></td><td>Visual map of pin status: grey (not loaded), red (screened only), orange (data collected, no autoprocessing), blue ring (autoprocessing not yet run), green ring (autoprocessing complete).</td></tr>
+<tr><td><strong>Reprocessing</strong></td><td>Resubmit automated processing with different parameters &mdash; see <a href="dataProcessing.html">Automated Processing</a>.</td></tr>
+<tr><td><strong>Beamline Status</strong></td><td>Current beamline status and webcams for the visit.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="guide-figure">
+  <img src="synchweb-viewingData-3.png" alt="The ISPyB/Synchweb toolbar at the top of a visit's data view, showing Assign Containers, Summary, Auto Processing, Visit Stats, Users, Dewars, Sample Changer, Reprocessing, and Beamline Status buttons">
+  <figcaption>The toolbar at the top of a visit's data view.</figcaption>
+</div>
+
+<h3>Filtering by experiment type</h3>
+<p>Buttons above the data list let you filter to a specific kind of experiment; click again to clear the filter. Available views include:</p>
+<div class="guide-figure">
+  <img src="synchweb-viewingData-2.png" alt="The experiment-type filter toolbar above the data list in SynchWeb, with the Screenings button highlighted">
+  <figcaption>Click a filter button &mdash; like <strong>Screenings</strong> &mdash; to narrow the data list to that experiment type; click it again to clear the filter.</figcaption>
+</div>
+<div class="info-grid">
+  <div class="info-card"><h4>Data Collections</h4><p>Completed collections, excluding fluorescence scans and robot loads.</p></div>
+  <div class="info-card"><h4>X-ray Centring &amp; Grid Scans</h4><p>Grid scan previews with a diffraction heatmap (spot count or Bragg-spot count from DIALS, toggleable).</p></div>
+  <div class="info-card" data-zoom-img="synchweb-viewingData-1.png" data-zoom-alt="A complete data collection's detail view in SynchWeb, showing the beamline parameters panel, diffraction image, crystal snapshot, and per-image analysis plot" data-zoom-caption="A Full Collection: the complete data-collection record, with the diffraction image, crystal snapshot, and per-image analysis plot."><h4>Full Collections</h4><p>Complete data collections only, no auxiliary measurements.</p></div>
+  <div class="info-card"><h4>Auto Integrated</h4><p>Datasets where autoprocessing successfully integrated.</p></div>
+  <div class="info-card"><h4>Phasing</h4><p>Datasets where a phasing pipeline completed successfully.</p></div>
+  <div class="info-card"><h4>Processing Errors</h4><p>Datasets where autoprocessing failed.</p></div>
+  <div class="info-card" data-zoom-img="synchweb-viewingData-4.png" data-zoom-alt="Two screening data collection records in SynchWeb, each showing collection parameters, the diffraction image, crystal snapshot, and per-image plot, with a Strategies panel below" data-zoom-caption="Screening datasets: each screening run gets its own record, with a Strategies panel for planning the full data collection."><h4>Screenings</h4><p>Screening datasets specifically.</p></div>
+  <div class="info-card"><h4>Robot Actions</h4><p>Sample loading events, with environment and loop images.</p></div>
+  <div class="info-card"><h4>Sample Actions</h4><p>Actions like washing or annealing performed on a sample.</p></div>
+  <div class="info-card"><h4>Favourites</h4><p>Items you've starred, for quick reference later.</p></div>
+</div>
+
+<h3>Sample view</h3>
+<p>
+  Clicking through to a sample from a data collection opens its summary: information supplied before
+  collection, links to view all samples from the same protein, dewar and shipment context, and the
+  option to edit sample properties (handy when preparing to reprocess). Below that you'll find every
+  data collection, grid scan, and robot load associated with that sample, using the same experiment-type
+  filters described above.
+</p>
+
+<h3>Beamline parameters</h3>
+<p>A left-hand panel on each data collection shows the collection settings that produced it:</p>
+<div class="file-section">
+<table class="file-table">
+<tbody>
+<tr><td><strong>Flux</strong></td><td>Photons per second at the sample.</td></tr>
+<tr><td><strong>&Omega; Start / &Omega; Osc</strong></td><td>Starting angle and degrees of oscillation per image.</td></tr>
+<tr><td><strong>No. Images</strong></td><td>Total images collected.</td></tr>
+<tr><td><strong>Resolution</strong></td><td>Obtainable resolution given the detector's position.</td></tr>
+<tr><td><strong>Wavelength / Exposure / Transmission</strong></td><td>Collection wavelength, exposure per image, and transmission relative to beamline maximum.</td></tr>
+<tr><td><strong>Beamsize</strong></td><td>Requested beam size (H &times; V, microns).</td></tr>
+<tr><td><strong>Comment</strong></td><td>Free-text notes relevant to the sample or collection, including any centring issues.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Diffraction images and crystal photos</h3>
+<p>
+  Click a preview image to open the interactive image viewer, which supports adjustable thresholding
+  and full-screen viewing with optional ice-ring markers. These previews are lossy JPEGs meant for a
+  quick look, not for resolution assessment &mdash; and if raw data is no longer on disk, the preview
+  may be all that's left.
+</p>
+<p>For a proper look at diffraction images, use one of the dedicated viewers on the beamline workstations: <span class="tbd">exact invocation to be confirmed for the LS-CAT environment</span></p>
+<div class="file-section">
+<table class="file-table">
+<thead><tr><th>Viewer</th><th>Good for</th></tr></thead>
+<tbody>
+<tr><td><strong>DIALS image viewer</strong></td><td><code>dials.image_viewer *master.h5</code></td></tr>
+<tr><td><strong>ADXV</strong></td><td><code>adxv *.h5</code></td></tr>
+<tr><td><strong>ALBULA</strong> (DECTRIS)</td><td>PILATUS and EIGER detector data</td></tr>
+</tbody>
+</table>
+</div>
+<p>
+  With today's fast, fine-sliced detectors, a single image often shows very few spots &mdash; viewing
+  several images together as a slab usually gives a much better sense of the diffraction.
+</p>
+<p>
+  Crystal snapshots (optical camera images) are viewable the same way, showing the centered crosshair
+  and expected beam profile. Sample actions (washing, annealing) and robot loads each get their own
+  set of documentation images too.
+</p>
+
+<h3>Per-image analysis plot</h3>
+<p>
+  This plot tracks three things across a dataset, image by image: total spots found (yellow), spots
+  identified as Bragg diffraction (blue), and an estimated resolution (red). Spot-finding uses DIALS;
+  a resolution reading of <strong>&minus;1</strong> usually means too few spots to make an estimate, or
+  a real data quality problem. A dip-and-recovery pattern often indicates sample rotation; a steady
+  decline in spot count across the full rotation is a sign of radiation damage &mdash; cross-check
+  against the <a href="dataProcessing.html">radiation damage plot</a>.
+</p>
+
+<div class="guide-figure">
+  <img src="synchweb-viewingData-1.png" alt="A data collection's detail view in SynchWeb, showing the beamline parameters panel, diffraction image, crystal snapshot, and per-image analysis plot">
+  <figcaption>A data collection's detail view: collection parameters (left), the diffraction image and crystal snapshot (center), and the per-image spot/resolution plot (right).</figcaption>
+</div>
+
+<h3>Permalinks</h3>
+<p>
+  Click the chain icon next to a dataset to generate a permanent link (it appears in your browser's
+  address bar). Unlike most links inside a visit, a permalink won't change over time, so it's the right
+  one to share with a collaborator on the same proposal or with LS-CAT staff.
+</p>
+<div class="guide-pager"><a href="registeringSamples.html"><span class="dir">&larr; Previous</span>Register Samples</a><a href="dataProcessing.html" class="next"><span class="dir">Next &rarr;</span>Automated Processing</a></div>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>

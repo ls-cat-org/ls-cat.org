@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
+
+<link rel="stylesheet" href="synchwebGuide.css" type="text/css" />
+<script src="synchwebGuide.js" defer></script>
+
+<div class="ls-container">
+<p class="guide-kicker">SynchWeb / ISPyB Guide</p>
+<div class="guide-toc">
+  <h2>In this guide</h2>
+  <ol>
+      <li><a href="synchwebOverview.html">Guide Overview</a></li>
+      <li><a href="selectProposal.html">Select a Proposal</a></li>
+      <li><a href="addLabContact.html">Add a Lab Contact</a></li>
+      <li><a href="createShipment.html">Create a Shipment</a></li>
+      <li><a href="registeringProtein.html">Register a Protein</a></li>
+      <li class="current"><span>Register Samples</span></li>
+      <li class="has-sub">
+        <span class="toc-group-label">Data Management</span>
+        <ul class="guide-toc-sub">
+          <li><a href="viewingData.html">Viewing Your Data</a></li>
+          <li><a href="dataProcessing.html">Automated Processing</a></li>
+        </ul>
+      </li>
+      <li><a href="mobileAccess.html">Mobile Access</a></li>
+  </ol>
+</div>
+
+<h2>Registering Samples</h2>
+
+<p>Registering samples ties a specific crystal, in a specific puck position, to a protein and a shipment. Before you start, make sure you have:</p>
+
+<ol class="step-list">
+  <li>A registered account and proposal access</li>
+  <li>A shipment created (see <a href="createShipment.html">Create a Shipment</a>)</li>
+  <li>A registered, approved protein (see <a href="registeringProtein.html">Registering a Protein</a>)</li>
+  <li>Then: register your samples, as described below</li>
+</ol>
+
+<h3>Container setup</h3>
+<p>
+  Choose a container type &mdash; typically a puck &mdash; and select from your registered containers
+  in the dropdown. You can optionally choose an autoprocessing pipeline for priority handling of that
+  container's data.
+</p>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>Basic fields</h3>
+    <p>
+      At minimum you need the <strong>protein acronym and name</strong> for each position. Optional
+      fields include a barcode, comments, and anomalous scatterer information for phasing pipelines.
+    </p>
+  </div>
+  <div class="info-card">
+    <h3>Extra fields</h3>
+    <p>Additional per-sample metadata beyond the basics &mdash; useful for more detailed tracking or downstream processing.</p>
+  </div>
+  <div class="info-card">
+    <h3>Unattended / automated fields</h3>
+    <p>
+      Parameters used for unattended and automated data collection with MXCuBE3, once enabled on your
+      beamline.
+    </p>
+  </div>
+</div>
+
+<div class="guide-figure placeholder">
+  <span class="placeholder-label">Screenshot needed</span>
+  The sample table for a puck, with the Basic / Extra Fields / Unattended tabs
+</div>
+
+<h3>Cloning and bulk entry</h3>
+<p>
+  You can clone an existing sample entry to speed up filling a puck with related samples, or upload a
+  larger set of samples at once via a CSV file. Validation errors show up as red text boxes next to the
+  affected field and clear automatically once corrected.
+</p>
+<div class="guide-pager"><a href="registeringProtein.html"><span class="dir">&larr; Previous</span>Register a Protein</a><a href="viewingData.html" class="next"><span class="dir">Next &rarr;</span>Viewing Your Data</a></div>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>

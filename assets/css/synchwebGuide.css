@@ -1,0 +1,519 @@
+/* ==========================================================================
+   SynchWeb / ISPyB User Guide - shared styles
+   LS-CAT | Life Sciences Collaborative Access Team
+
+   Extends the site's existing palette (ls-cat.css / all.css) and reuses the
+   card / grid / file-table pattern already introduced on dataCollection.html
+   so these pages sit natively alongside the rest of ls-cat.org.
+   Drop this file next to ls-cat.css / all.css on the web server and add
+   <link rel="stylesheet" href="synchwebGuide.css"> to each guide page.
+   ========================================================================== */
+
+:root {
+    --ls-blue: #003366;      /* primary brand blue, matches all.css --ls-dark-blue */
+    --ls-med-blue: #165B9F;  /* nav gradient / hover blue */
+    --ls-light-blue: #E5F2FB;
+    --ls-accent: #e62117;    /* used on dataCollection.html for alerts */
+    --ls-green: #2e7d32;     /* used here for "tip / all good" callouts */
+    --ls-amber: #b26a00;     /* used here for "note / heads up" callouts */
+    --bg-gray: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+.ls-container {
+    max-width: 1024px;
+    margin: 20px auto;
+    padding: 0 15px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.ls-container h2 {
+    color: var(--ls-blue);
+    margin-top: 2rem;
+}
+
+.ls-container h2:first-child { margin-top: 0.5rem; }
+
+.ls-container h3 {
+    color: var(--ls-blue);
+    margin-top: 1.75rem;
+}
+
+.ls-container h4 {
+    margin-bottom: 0.4rem;
+}
+
+.ls-container a { color: var(--ls-med-blue); }
+.ls-container a:hover { color: purple; }
+
+/* -- Breadcrumb / guide-wide intro strip --------------------------------- */
+.guide-kicker {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+/* -- Guide contents / mini table-of-contents card ------------------------ */
+.guide-toc {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 20px 0 30px;
+}
+
+.guide-toc h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+}
+
+.guide-toc ol {
+    columns: 2;
+    -webkit-columns: 2;
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.guide-toc li { break-inside: avoid; padding: 3px 0; }
+.guide-toc li.current > span { font-weight: 700; color: var(--ls-blue); }
+.guide-toc a { text-decoration: none; }
+.guide-toc a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+    .guide-toc ol { columns: 1; }
+}
+
+/* A top-level entry that groups a few related pages together (e.g. "Data
+   Management" covering Viewing Your Data + Automated Processing) instead
+   of linking straight to a page. */
+.guide-toc li.has-sub { padding-bottom: 6px; }
+
+.guide-toc .toc-group-label {
+    display: block;
+    font-weight: 600;
+    color: var(--ls-blue);
+}
+
+.guide-toc-sub {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0 0 0 12px;
+    border-left: 2px solid var(--border-color);
+}
+
+.guide-toc-sub li { padding: 2px 0; }
+.guide-toc-sub a { font-size: 0.93em; }
+
+/* -- Prev / next footer nav ---------------------------------------------- */
+.guide-pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 40px 0 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+.guide-pager a { text-decoration: none; }
+.guide-pager .dir { display: block; font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: .03em; }
+.guide-pager .next { text-align: right; margin-left: auto; }
+
+/* -- Info / grid cards (matches dataCollection.html) ---------------------- */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.info-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.info-card h3, .info-card h4 {
+    margin-top: 0;
+    color: var(--ls-blue);
+    border-bottom: 2px solid var(--bg-gray);
+    padding-bottom: 10px;
+}
+
+/* -- Numbered step list ---------------------------------------------------- */
+.step-list {
+    counter-reset: step;
+    list-style: none;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+}
+
+.step-list > li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 1.1rem 44px;
+    min-height: 30px;
+}
+
+.step-list > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ls-blue);
+    color: #fff;
+    font-weight: 700;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -- Callout boxes ---------------------------------------------------------- */
+.callout {
+    border-left: 5px solid var(--ls-med-blue);
+    background: #f3f8fd;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.callout h4 { margin: 0 0 6px 0; color: var(--ls-med-blue); font-size: 0.95rem; }
+.callout p:last-child { margin-bottom: 0; }
+
+.callout.warning {
+    border-left-color: var(--ls-amber);
+    background: #fff8ec;
+}
+.callout.warning h4 { color: var(--ls-amber); }
+
+.callout.alert {
+    border-left-color: var(--ls-accent);
+    background: #fff3f3;
+}
+.callout.alert h4 { color: var(--ls-accent); }
+
+.callout.tip {
+    border-left-color: var(--ls-green);
+    background: #f2f9f2;
+}
+.callout.tip h4 { color: var(--ls-green); }
+
+/* -- Definition / reference table ------------------------------------------- */
+.file-section {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.file-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.file-table th {
+    background: var(--ls-blue);
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+.file-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: top;
+}
+
+.file-table tr:last-child td { border-bottom: none; }
+.file-table tr:hover { background-color: #f1f4f7; }
+
+.tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    background: #eee;
+    border-radius: 10px;
+    color: #666;
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.btn-link {
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--ls-blue);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+code, .kbd {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    background: #eef2f6;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+    color: #24344d;
+}
+
+pre code {
+    display: block;
+    padding: 12px 14px;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+/* -- Placeholder marker for facts a local site editor should confirm ------- */
+.tbd {
+    background: #fff3cd;
+    border-bottom: 2px dotted #b26a00;
+    padding: 0 3px;
+}
+
+/* -- Screenshot figures ------------------------------------------------------
+   Usage:
+     <figure class="guide-figure">
+       <img src="images/synchweb/selectProposal-1.png" alt="The Proposal page in SynchWeb, showing the list of proposals">
+       <figcaption>Open <strong>Proposal</strong> from the main menu to see your proposal list.</figcaption>
+     </figure>
+
+   Two shots side by side (e.g. before/after a click):
+     <div class="guide-figure-row">
+       <figure class="guide-figure"> ... </figure>
+       <figure class="guide-figure"> ... </figure>
+     </div>
+
+   Before a real screenshot exists, mark the spot without a broken image:
+     <div class="guide-figure placeholder">
+       <span class="placeholder-label">Screenshot needed</span>
+       Assign Containers &mdash; drag-and-drop sample changer view
+     </div>
+------------------------------------------------------------------------- */
+.guide-figure {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0 0 1.5rem 0;
+}
+
+.guide-figure img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.guide-figure figcaption {
+    margin-top: 10px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.guide-figure figcaption strong { color: var(--ls-blue); }
+
+/* Two (or more) screenshots shown side by side */
+.guide-figure-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 1.5rem;
+    /* Without this, grid stretches every card to match the tallest one in
+       the row, leaving blank space below shorter screenshots that looks
+       clickable but isn't. Each card should only be as tall as its image. */
+    align-items: start;
+}
+
+.guide-figure-row .guide-figure { margin-bottom: 0; }
+
+@media (max-width: 600px) {
+    .guide-figure-row { grid-template-columns: 1fr; }
+}
+
+/* Placeholder box for a screenshot that hasn't been captured yet */
+.guide-figure.placeholder {
+    border: 2px dashed var(--border-color);
+    background: var(--bg-gray);
+    text-align: center;
+    color: #888;
+    padding: 40px 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+}
+
+.guide-figure.placeholder .placeholder-label {
+    font-weight: 600;
+    color: var(--ls-med-blue);
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* -- Clickable screenshots / lightbox --------------------------------------
+   The whole card (not just the image pixels) opens a full-size view on
+   click (see synchwebGuide.js) -- .guide-figure itself is the button, so
+   the hint badge and any padding around the screenshot are clickable too.
+   Purely progressive: without JS the image just sits there as a normal,
+   slightly larger screenshot.
+------------------------------------------------------------------------- */
+.guide-figure:not(.placeholder) {
+    position: relative;
+    cursor: zoom-in;
+}
+
+.guide-figure:not(.placeholder) img {
+    transition: opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guide-figure:not(.placeholder):hover img,
+.guide-figure:not(.placeholder):focus-visible img {
+    opacity: 0.94;
+    box-shadow: 0 0 0 3px var(--ls-light-blue);
+}
+
+.guide-figure:not(.placeholder):focus-visible {
+    outline: 2px solid var(--ls-med-blue);
+    outline-offset: 3px;
+}
+
+.zoom-hint {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+}
+
+.guide-figure:hover .zoom-hint,
+.guide-figure:focus-visible .zoom-hint {
+    opacity: 1;
+}
+
+@media (hover: none) {
+    /* Touch devices: no hover to reveal the hint, so show it faintly all the time */
+    .zoom-hint { opacity: 0.85; }
+}
+
+/* -- Clickable info-cards (filter-type examples) ---------------------------
+   An info-card that carries data-zoom-img (see synchwebGuide.js) opens the
+   same lightbox as a screenshot card, showing a real example of that
+   experiment-type filter. Cards without an example yet are left as plain,
+   non-interactive cards -- no cursor change, no hint badge.
+------------------------------------------------------------------------- */
+.info-card[data-zoom-img] {
+    position: relative;
+    cursor: zoom-in;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.info-card[data-zoom-img]:hover,
+.info-card[data-zoom-img]:focus-visible {
+    border-color: var(--ls-med-blue);
+    box-shadow: 0 0 0 3px var(--ls-light-blue);
+}
+
+.info-card[data-zoom-img]:focus-visible {
+    outline: 2px solid var(--ls-med-blue);
+    outline-offset: 2px;
+}
+
+.info-card[data-zoom-img] .zoom-hint {
+    right: 14px;
+    bottom: 14px;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+}
+
+.info-card[data-zoom-img]:hover .zoom-hint,
+.info-card[data-zoom-img]:focus-visible .zoom-hint {
+    opacity: 1;
+}
+
+.guide-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px 20px;
+}
+
+.guide-lightbox.open {
+    display: flex;
+}
+
+.guide-lightbox img {
+    max-width: 92vw;
+    max-height: 82vh;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.guide-lightbox-caption {
+    color: #fff;
+    margin: 16px 0 0;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 90vw;
+}
+
+.guide-lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 26px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 10px;
+}
+
+.guide-lightbox-close:hover,
+.guide-lightbox-close:focus-visible {
+    color: var(--ls-accent);
+}
+
+header, footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.header-content, .footer-content {
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 15px;
+}

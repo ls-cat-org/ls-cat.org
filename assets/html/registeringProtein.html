@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
+
+<link rel="stylesheet" href="synchwebGuide.css" type="text/css" />
+<script src="synchwebGuide.js" defer></script>
+
+<div class="ls-container">
+<p class="guide-kicker">SynchWeb / ISPyB Guide</p>
+<div class="guide-toc">
+  <h2>In this guide</h2>
+  <ol>
+      <li><a href="synchwebOverview.html">Guide Overview</a></li>
+      <li><a href="selectProposal.html">Select a Proposal</a></li>
+      <li><a href="addLabContact.html">Add a Lab Contact</a></li>
+      <li><a href="createShipment.html">Create a Shipment</a></li>
+      <li class="current"><span>Register a Protein</span></li>
+      <li><a href="registeringSamples.html">Register Samples</a></li>
+      <li class="has-sub">
+        <span class="toc-group-label">Data Management</span>
+        <ul class="guide-toc-sub">
+          <li><a href="viewingData.html">Viewing Your Data</a></li>
+          <li><a href="dataProcessing.html">Automated Processing</a></li>
+        </ul>
+      </li>
+      <li><a href="mobileAccess.html">Mobile Access</a></li>
+  </ol>
+</div>
+
+<h2>Registering a Protein</h2>
+
+<p>
+  Proteins have to be registered and approved before you can use them when registering samples or
+  building a shipment.
+</p>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>Registration</h3>
+    <p>
+      Register your protein <span class="tbd">through LS-CAT's protein/proposal registration
+      process</span>. Once approved, it becomes available in ISPyB/Synchweb for shipping and data collection.
+    </p>
+  </div>
+  <div class="info-card">
+    <h3>Finding it in ISPyB/Synchweb</h3>
+    <p>
+      Select <strong>Proteins</strong> from the proposal dropdown menu to see your registered proteins.
+      Approved proteins show a green label; use the filter box to search by name.
+    </p>
+  </div>
+
+<div class="guide-figure">
+  <img src="synchweb-registerProtein-1.png" alt="The proposal dropdown menu in SynchWeb with the Proteins item highlighted">
+  <figcaption>Select <strong>Proteins</strong> from the proposal menu.</figcaption>
+</div>
+</div>
+
+<div class="callout alert">
+  <h4>Names must match exactly</h4>
+  <p>
+    Protein names in your registration and in ISPyB/Synchweb have to match. If they don't, your samples won't
+    be available when you go to build a new container.
+  </p>
+</div>
+
+<h3>Add a sequence or a PDB file</h3>
+<p>Supplying extra information about your protein unlocks automated analysis after data collection:</p>
+<ul>
+  <li>
+    <strong>Sequence</strong> &mdash; enables automated molecular-replacement (MrBUMP) and lets a
+    predicted structure be generated (e.g. via AlphaFold, where enabled) ahead of your visit.
+  </li>
+  <li>
+    <strong>PDB file</strong> &mdash; enables automated refinement (DIMPLE) once data has been collected.
+  </li>
+</ul>
+
+<h3>Cloning a protein</h3>
+<p>
+  If you're working with a variant of a protein you've already registered &mdash; a selenomethionine
+  derivative or a point mutant, for example &mdash; select the approved protein, click
+  <strong>Clone Protein</strong>, edit the details, and click <strong>Add Protein</strong> to save the
+  new entry.
+</p>
+<div class="guide-pager"><a href="createShipment.html"><span class="dir">&larr; Previous</span>Create a Shipment</a><a href="registeringSamples.html" class="next"><span class="dir">Next &rarr;</span>Register Samples</a></div>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>

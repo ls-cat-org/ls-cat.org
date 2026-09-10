@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<header>
+    <div class="header-content">
+        <!--#include virtual="header.html" -->
+    </div>
+</header>
+
+<link rel="stylesheet" href="synchwebGuide.css" type="text/css" />
+<script src="synchwebGuide.js" defer></script>
+
+<div class="ls-container">
+<p class="guide-kicker">SynchWeb / ISPyB Guide</p>
+<div class="guide-toc">
+  <h2>In this guide</h2>
+  <ol>
+      <li><a href="synchwebOverview.html">Guide Overview</a></li>
+      <li><a href="selectProposal.html">Select a Proposal</a></li>
+      <li><a href="addLabContact.html">Add a Lab Contact</a></li>
+      <li><a href="createShipment.html">Create a Shipment</a></li>
+      <li><a href="registeringProtein.html">Register a Protein</a></li>
+      <li><a href="registeringSamples.html">Register Samples</a></li>
+      <li class="has-sub">
+        <span class="toc-group-label">Data Management</span>
+        <ul class="guide-toc-sub">
+          <li><a href="viewingData.html">Viewing Your Data</a></li>
+          <li class="current"><span>Automated Processing</span></li>
+        </ul>
+      </li>
+      <li><a href="mobileAccess.html">Mobile Access</a></li>
+  </ol>
+</div>
+
+<h2>Automated Processing &amp; Reprocessing</h2>
+
+<p>ISPyB automatically kicks off data reduction as your images come in, and gives you tools to dig into &mdash; or redo &mdash; that processing.</p>
+
+<h3>Autoprocessing pipelines</h3>
+<p>Several pipelines can run automatically on a completed data collection:</p>
+<ul>
+  <li>Fast_DP</li>
+  <li>Xia2 (3dii)</li>
+  <li>Xia2 (DIALS)</li>
+  <li>Xia2 (Multiplex)</li>
+  <li>autoPROC / autoPROC &amp; STARANISO</li>
+</ul>
+<p class="tbd">
+  Confirm with LS-CAT staff which of these pipelines are currently enabled on your local ISPyB
+  instance &mdash; the set deployed at LS-CAT may differ from this list.
+</p>
+<p>
+  A gear icon shows while a pipeline is running. Once finished, the results bar expands into a panel
+  with a tab per pipeline, showing resolution range, spacegroup, signal-to-noise (&lt;I/&sigma;(I)&gt;),
+  R<sub>meas</sub>, completeness, cell parameters, beam centre, multiplicity, anomalous completeness,
+  and CC&frac12;.
+</p>
+<div class="callout tip">
+  <h4>Priority processing</h4>
+  <p>
+    From a shipment or sample view, you can mark a pipeline as priority for a container &mdash; this
+    moves it higher in the cluster queue so results come back faster.
+  </p>
+</div>
+
+<h3>Phenix xtriage</h3>
+<p>
+  <code>phenix.xtriage</code> runs automatically on autoprocessed results and flags potential problems
+  with green (ok), yellow (alert), and red (serious warning) messages &mdash; useful for spotting
+  issues that might be fixed by adjusting your collection strategy or reprocessing with different
+  settings. Find the xtriage log through <strong>Logs &amp; Files</strong> for that dataset. See the
+  <a href="https://phenix-online.org/documentation/reference/xtriage.html">Phenix xtriage documentation</a>
+  for how to interpret specific warnings.
+</p>
+
+<h3>Logs and files</h3>
+<p>
+  Each autoprocessing pipeline has a <strong>Logs &amp; Files</strong> button with everything it
+  produced &mdash; HTML reports (often with embedded graphs), JSON data, and plain text logs. Files open
+  in a viewer inside the page; the xia2 report is a good example.
+</p>
+<p>
+  If you need something not shown there, click the triangle icon on a dataset to reveal the raw
+  processing path on disk, generally following a pattern like
+  <code class="tbd">/&lt;lscat-data-root&gt;/&lt;beamline&gt;/&lt;year&gt;/&lt;proposal&gt;/processed/&lt;protein&gt;/&lt;sample&gt;/&lt;dataset&gt;/&lt;pipeline&gt;/</code>
+  &mdash; confirm the exact convention with LS-CAT staff. Processed files are generally kept on disk
+  longer than raw images.
+</p>
+<p>
+  An archive button downloads a zipped copy of a pipeline's output. Result-type files can also be
+  pushed directly to <strong>CCP4 Cloud</strong>, if you've configured your CCP4 Cloud account and
+  Cloudrun ID in SynchWeb.
+</p>
+
+<h3>Data quality plots</h3>
+<p>
+  From an autoprocessing pipeline's overview, the <strong>Plots</strong> button compares resolution
+  against metrics like CC&frac12; or number of observations. You can plot multiple runs against each
+  other &mdash; different crystals, different sweeps, different pipelines (e.g. DIALS vs. xia2) &mdash;
+  and add a second parameter on its own scale for direct comparison.
+</p>
+
+<h3>Radiation damage plot</h3>
+<p>
+  Generated alongside Fast_DP results. Open a Fast_DP tab and choose <strong>radiation damage</strong>
+  from the side menu. The plot follows the method in Diederichs, <em>Acta Cryst.</em> (2006) D62,
+  96&ndash;101: a roughly flat R<sub>d</sub>-vs-frame line means minimal damage; a rising slope points to
+  progressive radiation damage, often mirrored by a falling spot count in the
+  <a href="viewingData.html">per-image analysis plot</a>.
+</p>
+
+<h3>Reciprocal space viewer</h3>
+<p>
+  From a dataset's Attachments, open the file view to launch a UglyMol-based reciprocal space viewer
+  &mdash; a quick way to sanity-check diffraction spot quality without leaving the browser.
+</p>
+
+<h3>Downstream processing</h3>
+<p>
+  Downstream processing picks up after autoprocessing hands off a scaled, merged MTZ file, and covers
+  phasing and initial model building. It needs a bit more from you first: a protein sequence,
+  anomalous scatterer information (if relevant), and/or a PDB file on the protein record.
+</p>
+<div class="info-grid">
+  <div class="info-card"><h4>DIMPLE</h4><p>Quick refinement and difference-density check against a supplied model.</p></div>
+  <div class="info-card"><h4>Fast EP</h4><p>Experimental phasing for anomalous scatterers.</p></div>
+  <div class="info-card"><h4>MrBUMP</h4><p>Automated molecular replacement from sequence or model.</p></div>
+  <div class="info-card"><h4>autoSHARP / Crank2</h4><p>Experimental phasing (SAD/MAD/MIRAS/SIRAS) and automatic structure determination.</p></div>
+  <div class="info-card"><h4>phenix.autobuild</h4><p>Automated model building into density.</p></div>
+</div>
+<p>
+  Results appear as expandable tabs per dataset with refinement graphs, heavy-atom site tables, and an
+  interactive map/model viewer (UglyMol). BigEP is a convenience wrapper that kicks off autoSHARP,
+  phenix.autobuild, and Crank2 together.
+</p>
+
+<h3>AlphaFold-assisted processing</h3>
+<p class="tbd">
+  Confirm with LS-CAT staff whether AlphaFold-assisted model generation is enabled on your local ISPyB
+  instance before pointing users to this section.
+</p>
+<p>
+  Where enabled: upload a single-chain protein sequence to ISPyB, ideally before you ship, to trigger
+  AlphaFold model generation. The resulting ranked PDB models feed into DIMPLE and MrBUMP after data
+  collection alongside any homology or user-supplied models. You can also upload your own predicted or
+  experimental models (AlphaFold/EBI, RoseTTAFold, existing PDB entries) for use in molecular
+  replacement. If you use AlphaFold results, remember to cite Jumper <em>et al.</em> (2021,
+  <em>Nature</em>), the source database, and the autoprocessing/downstream tools you used.
+</p>
+
+<h3>Reprocessing data</h3>
+<p>
+  SynchWeb lets you resubmit a dataset to LS-CAT's processing cluster with different settings.
+  Reprocessing works on data still available on disk &mdash; see LS-CAT's
+  <a href="dataCollection.html">data retention policy</a> for how long that is guaranteed. Older data
+  may need to be retrieved first; contact LS-CAT staff for help.
+</p>
+<ol class="step-list">
+  <li>Click the gear icon on a dataset to open reprocessing options.</li>
+  <li>Choose a pipeline (XDS 3dii or DIALS via xia2, Fast_DP, autoPROC).</li>
+  <li>Set a high-resolution cutoff, spacegroup, and cell parameters if needed.</li>
+  <li>
+    Pick an image range &mdash; by start/end fields or interactively on the spot-analysis view &mdash;
+    useful for cutting out radiation-damaged frames.
+  </li>
+  <li>Click <strong>Integrate</strong> to submit the job to the cluster.</li>
+</ol>
+<p>
+  Results show up as an additional tab alongside the original autoprocessing. For multiple sweeps or
+  crystals of the same protein, the multi-xia2 pipeline can process them together; results are
+  available both through the reprocessing tab and on disk.
+</p>
+<div class="guide-pager"><a href="viewingData.html"><span class="dir">&larr; Previous</span>Viewing Your Data</a><a href="mobileAccess.html" class="next"><span class="dir">Next &rarr;</span>Mobile Access</a></div>
+
+</div>
+
+<footer>
+    <div class="footer-content">
+        <!--#include virtual="trailer.html" -->
+    </div>
+</footer>
